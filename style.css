@@ -6,30 +6,69 @@ body {
     direction: rtl;
 }
 
-header {
-    background: #ffffff;
-    padding: 30px;
+/* עיצוב ראש הדף החדש */
+.main-header {
+    background-color: #1a2a6c;
+    color: white;
+    padding: 20px 0;
+    border-bottom: 4px solid #d4af37;
+}
+
+.header-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.logo-box {
+    flex: 0 0 120px;
+    margin-left: 20px;
+}
+
+.side-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid #d4af37;
+    background-color: white;
+    object-fit: cover;
+}
+
+.title-box {
+    flex: 1;
     text-align: center;
-    border-bottom: 5px solid #d4af37;
 }
 
-.main-logo {
-    max-width: 350px;
-    height: auto;
+.main-title {
+    font-size: 2.5em;
+    margin: 0;
+    color: #d4af37;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-.subtitle {
-    color: #1a2a6c;
-    font-weight: bold;
-    font-size: 1.2rem;
+.rabbi-title {
+    font-size: 1.5em;
+    margin: 5px 0;
+    font-weight: normal;
 }
 
+.legacy-title {
+    font-size: 1em;
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* תפריט ניווט */
 nav {
     background-color: #1a2a6c;
     padding: 15px;
     text-align: center;
     position: sticky;
     top: 0;
+    z-index: 1000;
 }
 
 nav a {
@@ -39,6 +78,7 @@ nav a {
     font-weight: bold;
 }
 
+/* תוכן מרכזי */
 .container {
     max-width: 1000px;
     margin: 40px auto;
@@ -54,23 +94,16 @@ nav a {
     padding: 20px;
     font-style: italic;
     margin: 20px 0;
+    color: #1a2a6c;
 }
 
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #1a2a6c;
-    color: white;
-
-}
-/* עיצוב פס הפרדה מעוטר */
+/* אלמנטים לעיצוב טקסט */
 .separator {
     height: 2px;
     background: linear-gradient(to left, transparent, #d4af37, transparent);
     margin: 30px 0;
 }
 
-/* הדגשת הטקסט בדף אודות */
 .about-content {
     line-height: 1.8;
     text-align: justify;
@@ -78,10 +111,35 @@ footer {
     font-size: 1.1em;
 }
 
-/* עיצוב כותרות משנה */
 h3 {
     color: #1a2a6c;
     border-bottom: 2px solid #d4af37;
     display: inline-block;
     padding-bottom: 5px;
 }
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #1a2a6c;
+    color: white;
+}
+
+/* התאמה לניידים */
+@media (max-width: 600px) {
+    .header-container {
+        flex-direction: column;
+    }
+    .logo-box {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+    .main-title {
+        font-size: 1.8em;
+    }
+    nav a {
+        margin: 0 10px;
+        font-size: 0.9em;
+    }
+}
+
