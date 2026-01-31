@@ -1,0 +1,64 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f7f2;
+    direction: rtl;
+}
+
+header {
+    background: #ffffff;
+    padding: 30px;
+    text-align: center;
+    border-bottom: 5px solid #d4af37;
+}
+
+.main-logo {
+    max-width: 350px;
+    height: auto;
+}
+
+.subtitle {
+    color: #1a2a6c;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+nav {
+    background-color: #1a2a6c;
+    padding: 15px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+}
+
+nav a {
+    color: #d4af37;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.rabbi-quote {
+    background-color: #fdfae6;
+    border-right: 5px solid #d4af37;
+    padding: 20px;
+    font-style: italic;
+    margin: 20px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #1a2a6c;
+    color: white;
+}
