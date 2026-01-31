@@ -3,23 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>טופס רישום - ישיבת תפארת עובדיה</title>
+    <title>רישום לישיבה - מוסדות תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .form-section {
-            background-color: #f9f9f9;
+            background: #fdfae6;
             padding: 20px;
             border-radius: 8px;
             margin-bottom: 25px;
-            border-right: 4px solid #1a2a6c;
+            border-right: 5px solid #d4af37;
         }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; color: #1a2a6c; }
-        input[type="text"], input[type="tel"], input[type="date"], select, textarea {
-            width: 100%; padding: 10px; border: 1px solid #d4af37; border-radius: 4px; box-sizing: border-box;
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
         }
-        .radio-group { display: flex; gap: 15px; flex-wrap: wrap; margin-top: 5px; }
-        .radio-item { display: flex; align-items: center; gap: 5px; font-weight: normal; }
+        .submit-btn {
+            background-color: #1a2a6c;
+            color: #d4af37;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+            width: 100%;
+            transition: 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #d4af37;
+            color: #1a2a6c;
+        }
     </style>
 </head>
 <body>
@@ -29,11 +47,9 @@
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
-        
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
-            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
         </div>
     </div>
 </header>
@@ -43,156 +59,86 @@
     <a href="about.html">אודות הישיבה</a>
     <a href="registration.html">רישום לישיבה</a>
     <a href="contact.html">צור קשר</a>
+    <a href="archive.html">לוח מודעות</a>
 </nav>
 
 <div class="container">
     <h2>טופס רישום והצטרפות לישיבה</h2>
     <p>נא למלא את הפרטים הבאים בדייקנות. כל המידע נשמר בסודיות גמורה.</p>
 
-    <form>
+    <form action="https://script.google.com/macros/s/AKfycbzbjFVoG7d8nQYG7YnEmLs27VB_dTDAwqXwPqIQLr6vmk7ymusSqRHxTORjVcbsP-Xi/exec" method="POST">
+        
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <div class="form-group" style="flex: 1; min-width: 200px;">
-                    <label>שם פרטי</label>
-                    <input type="text" required>
-                </div>
-                <div class="form-group" style="flex: 1; min-width: 200px;">
-                    <label>שם משפחה</label>
-                    <input type="text" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>כתובת מגורים</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>טלפון</label>
-                <input type="tel" required>
-            </div>
-            <div class="form-group">
-                <label>תאריך לידה</label>
-                <input type="date">
-            </div>
-            <div class="form-group">
-                <label>סטטוס אישי</label>
-                <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="status" value="רווק"> רווק</label>
-                    <label class="radio-item"><input type="radio" name="status" value="גרוש"> גרוש</label>
-                </div>
-            </div>
+            <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
+            <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
+            <input type="text" name="כתובת מגורים" placeholder="כתובת מגורים">
+            <input type="tel" name="טלפון" placeholder="טלפון" required>
+            <input type="text" name="תאריך לידה" placeholder="תאריך לידה">
+            <label>סטטוס אישי:</label>
+            <select name="סטטוס אישי">
+                <option value="רווק">רווק</option>
+                <option value="גרוש">גרוש</option>
+            </select>
         </div>
 
         <div class="form-section">
             <h3>🔹 רקע משפחתי</h3>
-            <div class="form-group">
-                <label>מצב רוחני של המשפחה המצומצמת</label>
-                <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="fam_rel" value="חילוני"> חילוני</label>
-                    <label class="radio-item"><input type="radio" name="fam_rel" value="מסורתי"> מסורתי</label>
-                    <label class="radio-item"><input type="radio" name="fam_rel" value="דתי"> דתי</label>
-                    <label class="radio-item"><input type="radio" name="fam_rel" value="חרדי"> חרדי</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>מצב ההורים</label>
-                <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="parents" value="נשואים"> נשואים</label>
-                    <label class="radio-item"><input type="radio" name="parents" value="גרושים"> גרושים</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>היכן אתה גר כיום?</label>
-                <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="living" value="הורים"> אצל ההורים</label>
-                    <label class="radio-item"><input type="radio" name="living" value="שכירות"> שוכר דירה</label>
-                </div>
-            </div>
+            <label>מצב רוחני של המשפחה:</label>
+            <select name="מצב רוחני">
+                <option value="חילוני">חילוני</option>
+                <option value="מסורתי">מסורתי</option>
+                <option value="דתי">דתי</option>
+                <option value="חרדי">חרדי</option>
+            </select>
+            <input type="text" name="מצב הורים" placeholder="מצב ההורים (נשואים/גרושים)">
+            <input type="text" name="מגורים כיום" placeholder="היכן אתה גר כיום? (הורים/דירה)">
         </div>
 
         <div class="form-section">
             <h3>🔹 רקע לימודי וצבאי</h3>
-            <div class="form-group">
-                <label>מוסדות לימוד בעבר (יסודי/תיכון)</label>
-                <input type="text" placeholder="שם וכתובת המוסד">
-            </div>
-            <div class="form-group">
-                <label>סוג מוסד אחרון</label>
-                <select>
-                    <option value="">בחר מרשימה...</option>
-                    <option value="ישיבה קטנה">ישיבה קטנה</option>
-                    <option value="ישיבה גדולה">ישיבה גדולה</option>
-                    <option value="ממלכתי">מוסד ממלכתי</option>
-                    <option value="ממ''ד">ממ"ד</option>
-                    <option value="חרדי">חרדי</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>האם עשית שירות צבאי והיכן?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>האם יש לך השכלה גבוהה?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>האם למדת בעבר במוסד תורני או במדרשה?</label>
-                <textarea rows="2"></textarea>
-            </div>
-            <div class="form-group">
-                <label>האם אתה יודע ללמוד גמרא לבד?</label>
-                <input type="text">
-            </div>
+            <input type="text" name="מוסדות עבר" placeholder="מוסדות לימוד בעבר">
+            <label>סוג מוסד אחרון:</label>
+            <select name="סוג מוסד">
+                <option value="ישיבה קטנה">ישיבה קטנה</option>
+                <option value="ישיבה גדולה">ישיבה גדולה</option>
+                <option value="מוסד ממלכתי">מוסד ממלכתי</option>
+                <option value="ממ''ד">ממ"ד</option>
+                <option value="חרדי">חרדי</option>
+            </select>
+            <input type="text" name="צבא" placeholder="האם עשית שירות צבאי והיכן?">
+            <input type="text" name="השכלה" placeholder="האם יש לך השכלה גבוהה?">
+            <input type="text" name="לימוד תורני קודם" placeholder="האם למדת בעבר במוסד תורני?">
+            <input type="text" name="גמרא" placeholder="האם אתה יודע ללמוד גמרא לבד?">
         </div>
 
         <div class="form-section">
             <h3>🔹 קשר רוחני ושאיפות</h3>
-            <div class="form-group">
-                <label>רבנים שאתה מושפע מהם (וכמה זמן)?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>האם אתה משתייך לחסידות או קהילה מסוימת?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>מה המטרה שתרצה להשיג בישיבה שלנו?</label>
-                <textarea rows="2"></textarea>
-            </div>
-            <div class="form-group">
-                <label>כיצד שמעת עלינו?</label>
-                <input type="text">
-            </div>
+            <input type="text" name="רבנים" placeholder="רבנים שאתה מושפע מהם">
+            <input type="text" name="חסידות" placeholder="האם אתה משתייך לחסידות או קהילה?">
+            <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בישיבה?" rows="3"></textarea>
+            <input type="text" name="מקור" placeholder="כיצד שמעת עלינו?">
         </div>
 
         <div class="form-section">
             <h3>🔹 אורח חיים וכלים</h3>
-            <div class="form-group">
-                <label>האם אתה מעשן/עישנת (סיגריות/סמים)?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>האם אתה צורך/צרכת אלכוהול?</label>
-                <input type="text">
-            </div>
-            <div class="form-group">
-                <label>סוג טלפון שברשותך</label>
-                <div class="radio-group">
-                    <label class="radio-item"><input type="radio" name="phone" value="כשר"> כשר</label>
-                    <label class="radio-item"><input type="radio" name="phone" value="מוגן"> מוגן</label>
-                    <label class="radio-item"><input type="radio" name="phone" value="רגיל"> רגיל</label>
-                </div>
-            </div>
+            <input type="text" name="עישון" placeholder="האם אתה מעשן/עישנת?">
+            <input type="text" name="אלכוהול" placeholder="האם אתה צורך אלכוהול?">
+            <label>סוג טלפון:</label>
+            <select name="סוג טלפון">
+                <option value="כשר">כשר</option>
+                <option value="מוגן">מוגן</option>
+                <option value="רגיל">רגיל</option>
+            </select>
         </div>
 
-        <button type="submit" style="width: 100%; padding: 15px; background-color: #1a2a6c; color: white; border: none; border-radius: 5px; font-size: 1.2em; cursor: pointer; font-weight: bold;">שלח בקשת הצטרפות</button>
+        <button type="submit" class="submit-btn">שלח בקשת הצטרפות לישיבה</button>
     </form>
 </div>
 
 <footer>
-    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה</p>
+    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
 </footer>
 
 </body>
 </html>
-
