@@ -10,15 +10,14 @@
         input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
         .submit-btn { background-color: #1a2a6c; color: #d4af37; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.2em; font-weight: bold; width: 100%; transition: 0.3s; }
         .submit-btn:hover { background-color: #d4af37; color: #1a2a6c; }
+        #thanks-msg { display: none; text-align: center; padding: 50px; }
     </style>
 </head>
 <body>
 
 <header class="main-header">
     <div class="header-container">
-        <div class="logo-box">
-            <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
-        </div>
+        <div class="logo-box"><img src="לוגו מוסדות.jpg" alt="לוגו" class="side-logo"></div>
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
@@ -26,57 +25,50 @@
     </div>
 </header>
 
-<nav>
-    <a href="index.html">דף הבית</a>
-    <a href="about.html">אודות הישיבה</a>
-    <a href="registration.html">רישום לישיבה</a>
-    <a href="contact.html">צור קשר</a>
-    <a href="archive.html">לוח מודעות</a>
-</nav>
-
-<div class="container">
-    <h2>טופס רישום והצטרפות לישיבה</h2>
-    <p>נא למלא את הפרטים הבאים בדייקנות. המידע נשמר בסודיות גמורה.</p>
-
-    <form action="https://script.google.com/macros/s/AKfycbwk8LFEMNiIdOE2b6uLIDMWBrrfL2q0BbpklE4LO02G5WMvZe8m0eY-3aP72inwfwY3/exec" method="POST">
-        
+<div class="container" id="form-container">
+    <h2>טופס רישום לישיבה</h2>
+    <form id="regForm">
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
             <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
             <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
             <input type="tel" name="טלפון" placeholder="טלפון" required>
-            <label>סטטוס אישי:</label>
-            <select name="סטטוס אישי">
-                <option value="רווק">רווק</option>
-                <option value="גרוש">גרוש</option>
-            </select>
         </div>
-
-        <div class="form-section">
-            <h3>🔹 רקע ואורח חיים</h3>
-            <label>מצב רוחני:</label>
-            <select name="מצב רוחני">
-                <option value="חילוני">חילוני</option>
-                <option value="מסורתי">מסורתי</option>
-                <option value="דתי">דתי</option>
-                <option value="חרדי">חרדי</option>
-            </select>
-            <label>סוג טלפון:</label>
-            <select name="סוג טלפון">
-                <option value="כשר">כשר</option>
-                <option value="מוגן">מוגן</option>
-                <option value="רגיל">רגיל</option>
-            </select>
-            <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בישיבה?" rows="3"></textarea>
-        </div>
-
-        <button type="submit" class="submit-btn">שלח בקשת הצטרפות</button>
+        <button type="submit" class="submit-btn" id="submitBtn">שלח בקשת הצטרפות</button>
     </form>
 </div>
 
-<footer>
-    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
-</footer>
+<div id="thanks-msg" class="container">
+    <h2 style="color: #d4af37;">✓ אשריך! פנייתך התקבלה בהצלחה</h2>
+    <p>פרטי הרישום הועברו למזכירות הישיבה. ניצור עמך קשר בהקדם בלנ"ד.</p>
+    <br>
+    <a href="index.html" style="color: #1a2a6c; font-weight: bold;">חזרה לדף הבית</a>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwk8LFEMNiIdOE2b6uLIDMWBrrfL2q0BbpklE4LO02G5WMvZe8m0eY-3aP72inwfwY3/exec';
+    const form = document.getElementById('regForm');
+    const formContainer = document.getElementById('form-container');
+    const thanksMsg = document.getElementById('thanks-msg');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.innerText = "שולח... נא להמתין";
+        
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                formContainer.style.display = 'none';
+                thanksMsg.style.display = 'block';
+            })
+            .catch(error => {
+                alert("חלה שגיאה בשליחה. נסה שוב או פנה למזכירות.");
+                btn.disabled = false;
+                btn.innerText = "שלח בקשת הצטרפות";
+            });
+    });
+</script>
 
 </body>
 </html>
