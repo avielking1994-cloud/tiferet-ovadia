@@ -3,8 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>תיעוד פרויקטים - מוסדות תפארת עובדיה</title>
+    <title>לוח מודעות - מוסדות תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .notice-board {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .notice {
+            background: #fff;
+            border: 2px solid #1a2a6c;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 5px 5px 0px #d4af37;
+        }
+        .notice h4 {
+            margin-top: 0;
+            color: #1a2a6c;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .notice-date {
+            font-size: 0.8em;
+            color: #666;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 
@@ -23,20 +51,30 @@
 </header>
 
 <nav>
-    <a href="index.html">חזרה לדף הבית</a>
+    <a href="index.html">דף הבית</a>
     <a href="about.html">אודות הישיבה</a>
     <a href="registration.html">רישום לישיבה</a>
     <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
 
-<div class="container" style="max-width: 95%;">
-    <h2>מערכת תיעוד הפרויקטים</h2>
-    <iframe src="כתובת_הדף_כאן" 
-            width="100%" 
-            height="800px" 
-            style="border: 2px solid #d4af37; border-radius: 8px;">
-    </iframe>
+<div class="container">
+    <h3>📌 לוח מודעות ועדכונים</h3>
+    <p>כאן יפורסמו שיעורי תורה, זמני תפילות והודעות מטעם הנהלת המוסדות.</p>
+
+    <div class="notice-board">
+        <div class="notice">
+            <span class="notice-date">ב' בשבט תשפ"ו</span>
+            <h4>שיעור פתיחת הזמן</h4>
+            <p>הציבור מוזמן לשיעור פתיחת זמן חורף מפי ראש הישיבה שליט"א בהיכל הישיבה.</p>
+        </div>
+
+        <div class="notice">
+            <span class="notice-date">א' בשבט תשפ"ו</span>
+            <h4>זמני תפילות</h4>
+            <p>שחרית: 07:30 <br> מנחה: 13:15 <br> ערבית: 19:30</p>
+        </div>
+    </div>
 </div>
 
 <footer>
