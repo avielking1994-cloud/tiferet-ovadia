@@ -6,38 +6,10 @@
     <title>רישום לישיבה - מוסדות תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .form-section {
-            background: #fdfae6;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 25px;
-            border-right: 5px solid #d4af37;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-        .submit-btn {
-            background-color: #1a2a6c;
-            color: #d4af37;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1.2em;
-            font-weight: bold;
-            width: 100%;
-            transition: 0.3s;
-        }
-        .submit-btn:hover {
-            background-color: #d4af37;
-            color: #1a2a6c;
-        }
+        .form-section { background: #fdfae6; padding: 20px; border-radius: 8px; margin-bottom: 25px; border-right: 5px solid #d4af37; }
+        input, select, textarea { width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-family: inherit; }
+        .submit-btn { background-color: #1a2a6c; color: #d4af37; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.2em; font-weight: bold; width: 100%; transition: 0.3s; }
+        .submit-btn:hover { background-color: #d4af37; color: #1a2a6c; }
     </style>
 </head>
 <body>
@@ -50,7 +22,6 @@
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
-            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
         </div>
     </div>
 </header>
@@ -65,17 +36,15 @@
 
 <div class="container">
     <h2>טופס רישום והצטרפות לישיבה</h2>
-    <p>נא למלא את הפרטים הבאים בדייקנות. כל המידע נשמר בסודיות גמורה.</p>
+    <p>נא למלא את הפרטים הבאים בדייקנות. המידע נשמר בסודיות גמורה.</p>
 
-    <form action="https://script.google.com/macros/s/AKfycbwIWbhp0ydS0hnfHXzVegrAWqNSFxnLIk8-BnEFV5gOPrWrG3t3ys6gi8g6UBe0VLlw/exec" method="POST">
+    <form action="https://script.google.com/macros/s/AKfycbxsZA9qZyrZkyfBbu6YuITucYewAE-j4YPifXm2oq6jO-vA00n1BKnKU6Efn6Ulc3XX/exec" method="POST">
         
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
             <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
             <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
-            <input type="text" name="כתובת מגורים" placeholder="כתובת מגורים">
             <input type="tel" name="טלפון" placeholder="טלפון" required>
-            <input type="text" name="תאריך לידה" placeholder="תאריך לידה">
             <label>סטטוס אישי:</label>
             <select name="סטטוס אישי">
                 <option value="רווק">רווק</option>
@@ -84,56 +53,24 @@
         </div>
 
         <div class="form-section">
-            <h3>🔹 רקע משפחתי</h3>
-            <label>מצב רוחני של המשפחה:</label>
+            <h3>🔹 רקע ואורח חיים</h3>
+            <label>מצב רוחני:</label>
             <select name="מצב רוחני">
                 <option value="חילוני">חילוני</option>
                 <option value="מסורתי">מסורתי</option>
                 <option value="דתי">דתי</option>
                 <option value="חרדי">חרדי</option>
             </select>
-            <input type="text" name="מצב הורים" placeholder="מצב ההורים (נשואים/גרושים)">
-            <input type="text" name="מגורים כיום" placeholder="היכן אתה גר כיום? (הורים/דירה)">
-        </div>
-
-        <div class="form-section">
-            <h3>🔹 רקע לימודי וצבאי</h3>
-            <input type="text" name="מוסדות עבר" placeholder="מוסדות לימוד בעבר">
-            <label>סוג מוסד אחרון:</label>
-            <select name="סוג מוסד">
-                <option value="ישיבה קטנה">ישיבה קטנה</option>
-                <option value="ישיבה גדולה">ישיבה גדולה</option>
-                <option value="מוסד ממלכתי">מוסד ממלכתי</option>
-                <option value="ממ''ד">ממ"ד</option>
-                <option value="חרדי">חרדי</option>
-            </select>
-            <input type="text" name="צבא" placeholder="האם עשית שירות צבאי והיכן?">
-            <input type="text" name="השכלה" placeholder="האם יש לך השכלה גבוהה?">
-            <input type="text" name="לימוד תורני קודם" placeholder="האם למדת בעבר במוסד תורני?">
-            <input type="text" name="גמרא" placeholder="האם אתה יודע ללמוד גמרא לבד?">
-        </div>
-
-        <div class="form-section">
-            <h3>🔹 קשר רוחני ושאיפות</h3>
-            <input type="text" name="רבנים" placeholder="רבנים שאתה מושפע מהם">
-            <input type="text" name="חסידות" placeholder="האם אתה משתייך לחסידות או קהילה?">
-            <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בישיבה?" rows="3"></textarea>
-            <input type="text" name="מקור" placeholder="כיצד שמעת עלינו?">
-        </div>
-
-        <div class="form-section">
-            <h3>🔹 אורח חיים וכלים</h3>
-            <input type="text" name="עישון" placeholder="האם אתה מעשן/עישנת?">
-            <input type="text" name="אלכוהול" placeholder="האם אתה צורך אלכוהול?">
             <label>סוג טלפון:</label>
             <select name="סוג טלפון">
                 <option value="כשר">כשר</option>
                 <option value="מוגן">מוגן</option>
                 <option value="רגיל">רגיל</option>
             </select>
+            <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בישיבה?" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">שלח בקשת הצטרפות לישיבה</button>
+        <button type="submit" class="submit-btn">שלח בקשת הצטרפות</button>
     </form>
 </div>
 
