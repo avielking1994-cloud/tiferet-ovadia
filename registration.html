@@ -11,6 +11,20 @@
         .submit-btn { background-color: #1a2a6c; color: #d4af37; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 1.2em; font-weight: bold; width: 100%; transition: 0.3s; margin-top: 20px; }
         .submit-btn:hover { background-color: #d4af37; color: #1a2a6c; }
         h3 { color: #1a2a6c; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 15px; }
+        
+        /* סגנון להודעת הצלחה */
+        #success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            border: 2px solid #c3e6cb;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -20,7 +34,6 @@
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
-        
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
@@ -32,22 +45,25 @@
 <nav>
     <a href="index.html">דף הבית</a>
     <a href="about.html">אודות הישיבה</a>
-    <a href="staff.html">רבני הישיבה</a> <a href="registration.html">רישום לישיבה</a>
+    <a href="staff.html">רבני הישיבה</a>
+    <a href="registration.html">רישום לישיבה</a>
     <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
 
 <div class="container">
     <h2>טופס רישום והצטרפות לישיבה</h2>
-    <p>נא למלא את הפרטים הבאים בדייקנות. כל המידע נשמר בסודיות גמורה.</p>
+    
+    <div id="success-message">
+        אשריכם! הטופס נשלח בהצלחה. <br>
+        פרטיכם התקבלו במזכירות הישיבה ונחזור אליכם בהקדם בלי נדר.
+    </div>
 
-    <form action="https://script.google.com/macros/s/AKfycbxwjejjjK7weR5ID7B8q5Bo2nstNWUlpGkSXwUFe-vkMrE9cAb9SKVYUBBT6i9QIdrP/exec">
-        
+    <form id="reg-form">
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
             <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
             <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
-            <input type="text" name="כתובת מגורים" placeholder="כתובת מגורים">
             <input type="tel" name="טלפון" placeholder="טלפון" required>
             <input type="text" name="תאריך לידה" placeholder="תאריך לידה">
             <label>סטטוס אישי:</label>
@@ -59,46 +75,45 @@
 
         <div class="form-section">
             <h3>🔹 רקע משפחתי ורוחני</h3>
-            <label>מצב רוחני של המשפחה:</label>
             <select name="מצב רוחני">
-                <option value="חילוני">חילוני</option>
                 <option value="מסורתי">מסורתי</option>
                 <option value="דתי">דתי</option>
                 <option value="חרדי">חרדי</option>
             </select>
-            <input type="text" name="מצב הורים" placeholder="מצב ההורים (נשואים/גרושים)">
-            <input type="text" name="מגורים כיום" placeholder="היכן אתה גר כיום?">
-        </div>
-
-        <div class="form-section">
-            <h3>🔹 רקע לימודי וצבאי</h3>
-            <input type="text" name="מוסדות עבר" placeholder="מוסדות לימוד בעבר">
-            <input type="text" name="צבא" placeholder="שירות צבאי (היכן ומתי)">
-            <input type="text" name="השכלה" placeholder="השכלה נוספת">
-            <input type="text" name="גמרא" placeholder="האם יודע ללמוד גמרא לבד?">
-        </div>
-
-        <div class="form-section">
-            <h3>🔹 אורח חיים וכלים</h3>
-            <label>סוג טלפון:</label>
-            <select name="סוג טלפון">
-                <option value="כשר">כשר</option>
-                <option value="מוגן">מוגן</option>
-                <option value="רגיל">רגיל</option>
-            </select>
             <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בישיבה?" rows="3"></textarea>
         </div>
 
-        <button type="submit" class="submit-btn">שלח בקשת הצטרפות לישיבה</button>
+        <button type="submit" id="submit-button" class="submit-btn">שלח בקשת הצטרפות לישיבה</button>
     </form>
 </div>
+
+<script>
+    const form = document.getElementById('reg-form');
+    const successMsg = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-button');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxwjejjjK7weR5ID7B8q5Bo2nstNWUlpGkSXwUFe-vkMrE9cAb9SKVYUBBT6i9QIdrP/exec';
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        submitBtn.disabled = true;
+        submitBtn.innerText = "שולח נתונים...";
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                form.style.display = 'none'; // מסתיר את הטופס
+                successMsg.style.display = 'block'; // מציג הודעת הצלחה
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert("חלה שגיאה בשליחה. נא לנסות שנית או ליצור קשר טלפוני.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "שלח שוב";
+            });
+    });
+</script>
 
 <footer>
     <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
 </footer>
-
 </body>
 </html>
-
-
-
