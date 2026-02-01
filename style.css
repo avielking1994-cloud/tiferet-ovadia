@@ -3,8 +3,31 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f7f2;
-    direction: rtl;
+    color: #333;
+    
+    /* רקע בצבע קרם-פנינה */
+    background-color: #fdfaf1; 
+    
+    /* הטוויסט: מרקם עדין שמזכיר קלף או בד איכותי */
+    background-image: 
+        radial-gradient(#e5e0d0 0.5px, transparent 0.5px), 
+        radial-gradient(#e5e0d0 0.5px, #fdfaf1 0.5px);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    
+    /* מוודא שהרקע לא יזוז בגלילה */
+    background-attachment: fixed;
+}
+
+/* כדי שהתוכן המרכזי יבלוט על הרקע החדש */
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95); /* לבן כמעט מלא כדי להפריד מהרקע */
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border: 1px solid #e0d9c5; /* מסגרת דקה בצבע תואם לרקע */
 }
 
 /* עיצוב ראש הדף (Header) */
@@ -162,3 +185,4 @@ footer {
         margin: 5px 10px;
     }
 }
+
