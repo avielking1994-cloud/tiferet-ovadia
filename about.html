@@ -3,8 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>אודות - ישיבת תפארת עובדיה</title>
+    <title>אודות המוסדות - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .about-content {
+            line-height: 1.8;
+            font-size: 1.15rem;
+            color: #333;
+            text-align: justify;
+        }
+        .about-section {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-right: 6px solid #d4af37;
+        }
+        .about-section h2 {
+            color: #1a2a6c;
+            margin-top: 0;
+            border-bottom: 2px solid #f0e68c;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .location-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .location-card {
+            background: #fdfae6;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #d4af37;
+        }
+        .location-card h4 {
+            margin: 0 0 10px 0;
+            color: #1a2a6c;
+            text-decoration: underline;
+        }
+        .highlight {
+            color: #1a2a6c;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -13,11 +57,9 @@
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
-        
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
-            <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
-            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
+            <h2 class="rabbi-title">אודות המוסדות</h2>
         </div>
     </div>
 </header>
@@ -25,42 +67,51 @@
 <nav>
     <a href="index.html">דף הבית</a>
     <a href="about.html">אודות הישיבה</a>
-    <a href="staff.html">רבני הישיבה</a> <a href="registration.html">רישום לישיבה</a>
+    <a href="staff.html">רבני הישיבה</a>
+    <a href="registration.html">רישום לישיבה</a>
     <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
 
 <div class="container">
-    <section class="about-content">
-        <h2>אודות המוסדות</h2>
-        <p>ישיבת <strong>"תפארת עובדיה"</strong> הוקמה מתוך חזון להמשיך את מורשתו הכבירה של מרן רבנו עובדיה יוסף זצוק"ל – מורשת המשלבת עמלה של תורה, בקיאות רחבה והעמקה בהלכה הצרופה.</p>
-        
-        <div class="separator"></div>
-
-        <h3>מטרת הישיבה</h3>
-        <p>מטרתנו היא לגדל דור חדש של תלמידי חכמים, אשר לצד הלימוד העיוני המעמיק בסוגיות הגמרא, יקנו קנין בירור ההלכה למעשה, תוך שימת דגש על מידות טובות, יראת שמיים ודבקות בתורת אבותינו.</p>
-
-        <div class="rabbi-quote">
-            "וְכָל בָּנַיִךְ לִמּוּדֵי ה' וְרַב שְׁלוֹם בָּנָיִךְ"
+    <div class="about-section">
+        <h2>סיפור המוסדות - מעט מן האור</h2>
+        <div class="about-content">
+            <p>מוסדות <span class="highlight">"תפארת עובדיה"</span> החלו את דרכם מתוך חזון בוער להפיץ את אור התורה והיהדות. ראשית הדרך הייתה צנועה, כשיסד ראש המוסדות, <span class="highlight">הגאון הרב ניר גבלר שליט"א</span>, מדרשית נוער תוססת וכולל אברכים בעיר רמת גן. המקום הפך במהרה למוקד של קירוב לבבות וצמיחה רוחנית.</p>
+            
+            <p>עם השנים, בחסדי שמיים המרובים, התרחבה הפעילות באופן משמעותי. המדרשיה גדלה והפכה לישיבה קדושה המיועדת לבעלי תשובה השואפים להעמיק בעולמה של תורה. כיום, המוסדות מהווים בית של תורה והלכה הפועל בשני מוקדים מרכזיים, תוך דבקות במסורת ובדרך הפסיקה של מרן רבנו <span class="highlight">עובדיה יוסף זצוק"ל</span>.</p>
         </div>
+    </div>
 
-        <h3>דרכי הלימוד</h3>
-        <p>הישיבה מציעה תוכנית לימודים ייחודית הכוללת:</p>
-        <ul style="list-style-type: none; padding-right: 15px;">
-            <li>📖 <strong>עיון:</strong> הקניית כלים לניתוח סוגיות הגמרא והמפרשים.</li>
-            <li>⚖️ <strong>הלכה:</strong> לימוד סדיר של שולחן ערוך ופסקי מרן זצוק"ל.</li>
-            <li>💎 <strong>מוסר:</strong> שיחות חיזוק שבועיות לבניין אישיותו של בן התורה.</li>
-        </ul>
-    </section>
+    <div class="about-section">
+        <h2>הפעילות שלנו כיום</h2>
+        <p>כיום מפעילים המוסדות מערך רוחני ענף הכולל שני כוללים לאברכים מצוינים והיכל ישיבה לבחורים:</p>
+        
+        <div class="location-box">
+            <div class="location-card">
+                <h4>סניף רמת גן</h4>
+                <p><strong>כולל "חזון עובדיה"</strong></p>
+                <p>רחוב האם 2, רמת גן.</p>
+                <p>מרכז תורני לאברכים ופעילות קירוב.</p>
+            </div>
+            <div class="location-card">
+                <h4>סניף בני ברק</h4>
+                <p><strong>ישיבת "תפארת עובדיה" וכולל אברכים</strong></p>
+                <p>רחוב הרב בר אילן 22, בני ברק.</p>
+                <p>היכל הישיבה המרכזי ומרכז השיעורים.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2>החזון שלנו</h2>
+        <p>מטרתנו היא להמשיך ולהוות כתובת לכל מבקש ה', להעניק כלים ללימוד גמרא והלכה בעיון, ולגדל דור של תלמידי חכמים יראי שמיים המאירים את סביבתם בדרכו של מרן זצוק"ל – מתוך דרכי נועם ואהבת ישראל.</p>
+    </div>
 </div>
 
 <footer>
-    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה</p>
+    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
 </footer>
 
 </body>
 </html>
-
-
-
-
