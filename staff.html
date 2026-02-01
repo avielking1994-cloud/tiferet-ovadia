@@ -6,34 +6,45 @@
     <title>רבני הישיבה - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* עיצוב ייעודי לדף הצוות */
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
         .staff-card {
             background: #fff;
             border: 1px solid #d4af37;
+            border-top: 5px solid #d4af37; /* פס זהב עליון למראה מכובד */
             border-radius: 10px;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .staff-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
         }
         .staff-card h3 {
-            color: #1e3c72;
-            margin-bottom: 5px;
-            font-size: 1.4rem;
+            color: #1a2a6c;
+            margin-bottom: 8px;
+            font-size: 1.5rem;
+            font-weight: 800;
         }
         .staff-card p {
-            color: #d4af37;
-            font-weight: bold;
+            color: #b8860b;
+            font-weight: 600;
             margin: 0;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+        }
+        .section-title {
+            color: #1a2a6c;
+            border-right: 5px solid #d4af37;
+            padding-right: 15px;
+            margin-top: 40px;
+            font-size: 1.8rem;
         }
     </style>
 </head>
@@ -63,26 +74,46 @@
 <div class="container">
     <section class="staff-intro">
         <h2>הנהגת הישיבה</h2>
-        <p>ישיבתנו מתברכת בצוות תלמידי חכמים, מורי הוראה המכוונים את התלמידים בדרך התורה והיראה.</p>
+        <p>ישיבתנו מתברכת בצוות תלמידי חכמים, מורי הוראה המכוונים את התלמידים בדרך התורה והיראה בדרכו של מרן זצוק"ל.</p>
     </section>
 
-    <div class="staff-grid">
+    <div class="staff-grid" style="grid-template-columns: 1fr; max-width: 400px; margin: 30px auto;">
         <div class="staff-card">
             <h3>הגאון הרב ניר גבלר שליט"א</h3>
             <p>ראש הישיבה</p>
         </div>
+    </div>
 
+    <h2 class="section-title">רבני השיעורים</h2>
+    <div class="staff-grid">
         <div class="staff-card">
-            <h3>הרב [שם הרב] שליט"א</h3>
-            <p>משגיח רוחני</p>
-        </div>
-
-        <div class="staff-card">
-            <h3>הרב [שם הרב] שליט"א</h3>
+            <h3>הרב נתן ג'רגי שליט"א</h3>
             <p>ר"מ שיעור א'</p>
         </div>
-        
+
+        <div class="staff-card">
+            <h3>הרב ברק רייבי שליט"א</h3>
+            <p>ר"מ שיעור ב'</p>
         </div>
+
+        <div class="staff-card">
+            <h3>הרב משה אללוף שליט"א</h3>
+            <p>ר"מ שיעור ג'</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">רבני הערב</h2>
+    <div class="staff-grid">
+        <div class="staff-card">
+            <h3>הרב משה גבאי שליט"א</h3>
+            <p>רב ערב</p>
+        </div>
+
+        <div class="staff-card">
+            <h3>הרב רחמים סמבטה שליט"א</h3>
+            <p>רב ערב</p>
+        </div>
+    </div>
 </div>
 
 <footer>
