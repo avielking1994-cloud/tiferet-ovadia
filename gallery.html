@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>גלריית תמונות - מוסדות תפארת עובדיה</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            border: 3px solid #d4af37;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            aspect-ratio: 4/3; /* שומר על תמונות בגודל אחיד */
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* חותך את התמונה שתתאים בדיוק למסגרת */
+            display: block;
+        }
+        .image-caption {
+            background: rgba(26, 42, 108, 0.8);
+            color: #d4af37;
+            text-align: center;
+            padding: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<header class="main-header">
+    <div class="header-container">
+        <div class="logo-box">
+            <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
+        </div>
+        <div class="title-box">
+            <h1 class="main-title">מוסדות תפארת עובדיה</h1>
+            <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
+            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <a href="index.html">דף הבית</a>
+    <a href="about.html">אודות הישיבה</a>
+    <a href="staff.html">רבני הישיבה</a>
+    <a href="gallery.html">גלריית תמונות</a>
+    <a href="registration.html">רישום לישיבה</a>
+    <a href="contact.html">צור קשר</a>
+</nav>
+
+<div class="container">
+    <h2 class="section-title">גלריית תמונות מהווי המוסדות</h2>
+    <p>תמונות מהיכל הישיבה, שיעורי תורה ופעילות המוסדות ברמת גן ובבני ברק.</p>
+
+    <div class="gallery-grid">
+        <div class="gallery-item">
+            <img src="pic1.jpg" alt="לימוד בישיבה">
+            <div class="image-caption">עמלה של תורה</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="pic2.jpg" alt="שיעור תורה">
+            <div class="image-caption">שיעור מפי ראש הישיבה</div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="pic3.jpg" alt="כולל חזון עובדיה">
+            <div class="image-caption">כולל חזון עובדיה - רמת גן</div>
+        </div>
+        </div>
+</div>
+
+<footer>
+    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
+</footer>
+
+</body>
+</html>
