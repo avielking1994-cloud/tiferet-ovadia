@@ -12,13 +12,13 @@
         .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; }
         
         .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .method-card { background: #fff; border-right: 5px solid #1a2a6c; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 5px; }
+        .method-card { background: #fff; border-right: 5px solid #1a2a6c; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 5px; display: flex; flex-direction: column; justify-content: space-between; }
         .method-card h4 { color: #d4af37; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         
         .highlight-gold { color: #b8860b; font-weight: bold; font-size: 1.1em; }
-        .institution-code { background: #eef2ff; padding: 5px 10px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; }
+        .institution-code { background: #eef2ff; padding: 5px 10px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; display: inline-block; margin-top: 5px; }
         
-        .donation-btn { display: inline-block; background: #1a2a6c; color: #d4af37; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .donation-btn { display: inline-block; background: #1a2a6c; color: #d4af37; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; transition: 0.3s; border: none; cursor: pointer; font-size: 1rem; width: 100%; }
         .donation-btn:hover { background: #d4af37; color: #1a2a6c; }
         
         .dedication-note { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 30px; text-align: center; border: 1px dashed #1a2a6c; }
@@ -52,7 +52,7 @@
     <div class="hero-donation">
         <h2 class="mitzvah-title">היו שותפים בזכות התורה</h2>
         <p class="quote">"עץ חיים היא למחזיקים בה ותומכיה מאושר"</p>
-        <p>תרומתכם למוסדות "תפארת עובדיה" מוקדשת כולה להחזקת אברכים עמלי תורה ולביצור עולם ההלכה. כל שותפות נושאת פרי לנצח.</p>
+        <p>זכות החזקת עמלי התורה במוסדותינו תעמוד לכם ולזרעכם להתברך בכל מילי דמיטב. תרומתכם מוקדשת כולה לפעילות התורנית והחזקת האברכים.</p>
     </div>
 
     <div class="payment-methods">
@@ -67,15 +67,17 @@
 
         <div class="method-card">
             <h4>💳 תרומה באשראי</h4>
-            <p>ניתן לתרום באופן מאובטח ומהיר דרך מערכת "נדרים פלוס".</p>
-            <p>אפשרות לתשלומים והוראות קבע למטרות צדקה.</p>
-            <a href="https://www.nedarim.co.il/" target="_blank" class="donation-btn">לתרומה מאובטחת בנדרים פלוס</a>
+            <p>תרומה מאובטחת דרך מערכת הסליקה למוסדות. ניתן לתרום חד-פעמית או בהוראת קבע.</p>
+            
+            <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                <input type="submit" value="לחץ כאן לתרומה באשראי" class="donation-btn">
+            </form>
         </div>
     </div>
 
     <div class="dedication-note">
-        <p>ניתן להקדיש יום לימוד או סדר לעילוי נשמה, לרפואה ולהצלחה.<br>
-        <strong>לעדכון המזכירות על העברה והקדשות: [הכנס טלפון כאן]</strong></p>
+        <p>ניתן להקדיש לימוד, סדר או יום לימוד לעילוי נשמה, לרפואה ולהצלחה.<br>
+        <strong>לעדכון המזכירות על העברות והקדשות: [מספר טלפון]</strong></p>
     </div>
 </div>
 
