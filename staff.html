@@ -8,42 +8,61 @@
     <style>
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
         .staff-card {
             background: #fff;
             border: 1px solid #d4af37;
-            border-top: 5px solid #d4af37; /* פס זהב עליון למראה מכובד */
+            border-top: 5px solid #1a2a6c; /* שינוי לכחול למראה סמכותי */
             border-radius: 10px;
             padding: 25px;
             text-align: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s;
         }
         .staff-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.2);
         }
         .staff-card h3 {
             color: #1a2a6c;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             font-size: 1.5rem;
-            font-weight: 800;
         }
-        .staff-card p {
+        .staff-card .role {
             color: #b8860b;
-            font-weight: 600;
-            margin: 0;
+            font-weight: bold;
+            margin-bottom: 15px;
             font-size: 1.1rem;
-            letter-spacing: 0.5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .staff-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: right;
+            display: inline-block;
+        }
+        .staff-card ul li {
+            color: #444;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+            position: relative;
+            padding-right: 18px;
+        }
+        .staff-card ul li::before {
+            content: "🔹";
+            position: absolute;
+            right: 0;
+            font-size: 0.8rem;
         }
         .section-title {
             color: #1a2a6c;
             border-right: 5px solid #d4af37;
             padding-right: 15px;
-            margin-top: 40px;
+            margin-top: 50px;
             font-size: 1.8rem;
         }
     </style>
@@ -55,7 +74,6 @@
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
-        
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
@@ -77,13 +95,18 @@
 <div class="container">
     <section class="staff-intro">
         <h2>הנהגת הישיבה והמוסדות</h2>
-        <p>ישיבתנו מתברכת בצוות תלמידי חכמים, מורי הוראה המכוונים את התלמידים והאברכים בדרך התורה והיראה בדרכו של מרן זצוק"ל.</p>
+        <p>ישיבתנו מתברכת בצוות תלמידי חכמים ומורי הוראה המכוונים את הציבור בדרך התורה וההלכה.</p>
     </section>
 
-    <div class="staff-grid" style="grid-template-columns: 1fr; max-width: 400px; margin: 30px auto;">
-        <div class="staff-card">
+    <div style="max-width: 450px; margin: 30px auto;">
+        <div class="staff-card" style="border-top-color: #d4af37;">
             <h3>הגאון הרב ניר גבלר שליט"א</h3>
-            <p>ראש הישיבה והמוסדות</p>
+            <p class="role">ראש הישיבה והמוסדות</p>
+            <ul>
+                <li>מענה לשאלות בהלכה</li>
+                <li>מורה הוראה בהלכות טהרה</li>
+                <li>סידור חופה וקידושין</li>
+            </ul>
         </div>
     </div>
 
@@ -91,12 +114,22 @@
     <div class="staff-grid">
         <div class="staff-card">
             <h3>הרב עזרא חזקיהו שליט"א</h3>
-            <p>ראש כולל "חזון עובדיה"</p>
+            <p class="role">ראש כולל "חזון עובדיה"</p>
+            <ul>
+                <li>מענה לשאלות בהלכה ובטהרה</li>
+                <li>מסדר חופה וקידושין</li>
+                <li>מוהל מוסמך</li>
+            </ul>
         </div>
 
         <div class="staff-card">
             <h3>הרב רז חזוט שליט"א</h3>
-            <p>ראש כולל "תפארת עובדיה"</p>
+            <p class="role">ראש כולל "תפארת עובדיה"</p>
+            <ul>
+                <li>מענה לשאלות בהלכה</li>
+                <li>מורה הוראה בהלכות טהרה</li>
+                <li>רב הקהילה</li>
+            </ul>
         </div>
     </div>
 
@@ -104,39 +137,22 @@
     <div class="staff-grid">
         <div class="staff-card">
             <h3>הרב נתן ג'רגי שליט"א</h3>
-            <p>ר"מ שיעור א'</p>
+            <p class="role">ר"מ שיעור א'</p>
         </div>
-
         <div class="staff-card">
             <h3>הרב ברק רייבי שליט"א</h3>
-            <p>ר"מ שיעור ב'</p>
+            <p class="role">ר"מ שיעור ב'</p>
         </div>
-
         <div class="staff-card">
             <h3>הרב משה אללוף שליט"א</h3>
-            <p>ר"מ שיעור ג'</p>
-        </div>
-    </div>
-
-    <h2 class="section-title">רבני הערב</h2>
-    <div class="staff-grid">
-        <div class="staff-card">
-            <h3>הרב משה גבאי שליט"א</h3>
-            <p>רב ערב</p>
-        </div>
-
-        <div class="staff-card">
-            <h3>הרב רחמים סמבטה שליט"א</h3>
-            <p>רב ערב</p>
+            <p class="role">ר"מ שיעור ג'</p>
         </div>
     </div>
 </div>
 
 <footer>
-    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
+    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | בני ברק</p>
 </footer>
 
 </body>
 </html>
-
-
