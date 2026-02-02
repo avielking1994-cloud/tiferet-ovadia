@@ -3,34 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>החזקת תורה - מוסדות תפארת עובדיה</title>
+    <title>שותפות בהחזקת התורה - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .donation-card {
-            background: #fff;
-            border: 2px solid #d4af37;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px auto;
-            max-width: 600px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .bank-details {
-            background: #fdfae6;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: right;
-            display: inline-block;
-        }
-        .mitzvah-quote {
-            font-style: italic;
-            color: #1a2a6c;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-        }
-        .highlight-gold { color: #b8860b; font-weight: bold; }
+        .donation-container { max-width: 800px; margin: 40px auto; padding: 20px; }
+        .hero-donation { text-align: center; background: #fdfae6; border: 2px solid #d4af37; padding: 30px; border-radius: 15px; margin-bottom: 30px; }
+        .mitzvah-title { color: #1a2a6c; font-size: 2rem; margin-bottom: 10px; }
+        .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; }
+        
+        .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .method-card { background: #fff; border-right: 5px solid #1a2a6c; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 5px; }
+        .method-card h4 { color: #d4af37; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        
+        .highlight-gold { color: #b8860b; font-weight: bold; font-size: 1.1em; }
+        .institution-code { background: #eef2ff; padding: 5px 10px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; }
+        
+        .donation-btn { display: inline-block; background: #1a2a6c; color: #d4af37; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+        .donation-btn:hover { background: #d4af37; color: #1a2a6c; }
+        
+        .dedication-note { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 30px; text-align: center; border: 1px dashed #1a2a6c; }
     </style>
 </head>
 <body>
@@ -43,7 +34,6 @@
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
-            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
         </div>
     </div>
 </header>
@@ -58,21 +48,34 @@
     <a href="contact.html">צור קשר</a>
 </nav>
 
-<div class="container">
-    <div class="donation-card">
-        <h2 class="section-title">היו שותפים בהחזקת התורה</h2>
-        <p class="mitzvah-quote">"עֵץ חַיִּים הִיא לַמַּחֲזִיקִים בָּהּ וְתֹמְכֶיהָ מְאֻשָּׁר"</p>
-        <p>הזכות לעמוד לימין עמלי התורה והאברכים במוסדותינו היא זכות נצחית. תרומתכם משמשת להחזקת הישיבה והכוללים "חזון עובדיה" ו"תפארת עובדיה".</p>
-        
-        <div class="bank-details">
-            <p><strong>פרטים להעברה בנקאית:</strong></p>
-            <p>בנק: <span class="highlight-gold">[שם הבנק]</span></p>
-            <p>סניף: <span class="highlight-gold">[מספר סניף]</span></p>
-            <p>מספר חשבון: <span class="highlight-gold">[מספר חשבון]</span></p>
-            <p>על שם: <span class="highlight-gold">מוסדות תפארת עובדיה</span></p>
+<div class="donation-container">
+    <div class="hero-donation">
+        <h2 class="mitzvah-title">היו שותפים בזכות התורה</h2>
+        <p class="quote">"עץ חיים היא למחזיקים בה ותומכיה מאושר"</p>
+        <p>תרומתכם למוסדות "תפארת עובדיה" מוקדשת כולה להחזקת אברכים עמלי תורה ולביצור עולם ההלכה. כל שותפות נושאת פרי לנצח.</p>
+    </div>
+
+    <div class="payment-methods">
+        <div class="method-card">
+            <h4>🏦 העברה בנקאית</h4>
+            <p><strong>שם המוטב:</strong> <span class="highlight-gold">תפארת נוי</span></p>
+            <p><strong>בנק:</strong> 10 (לאומי)</p>
+            <p><strong>סניף:</strong> 856</p>
+            <p><strong>מספר חשבון:</strong> <span class="highlight-gold">4967377</span></p>
+            <p><strong>קוד מוסד להעברה:</strong> <span class="institution-code">21652</span></p>
         </div>
-        
-        <p style="margin-top: 20px;">ניתן להקדיש תרומה לעילוי נשמה, להצלחה או לרפואה. <br> נא ליצור קשר לעדכון המזכירות על העברה.</p>
+
+        <div class="method-card">
+            <h4>💳 תרומה באשראי</h4>
+            <p>ניתן לתרום באופן מאובטח ומהיר דרך מערכת "נדרים פלוס".</p>
+            <p>אפשרות לתשלומים והוראות קבע למטרות צדקה.</p>
+            <a href="https://www.nedarim.co.il/" target="_blank" class="donation-btn">לתרומה מאובטחת בנדרים פלוס</a>
+        </div>
+    </div>
+
+    <div class="dedication-note">
+        <p>ניתן להקדיש יום לימוד או סדר לעילוי נשמה, לרפואה ולהצלחה.<br>
+        <strong>לעדכון המזכירות על העברה והקדשות: [הכנס טלפון כאן]</strong></p>
     </div>
 </div>
 
@@ -81,5 +84,4 @@
 </footer>
 
 </body>
-
 </html>
