@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ישיבת תפארת עובדיה - דף הבית</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* עיצוב קטן ללוח המודעות הדינמי */
+        .dynamic-board {
+            background: #fff9c4;
+            border: 2px solid #d4af37;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+    </style>
 </head>
 <body>
 
@@ -13,7 +28,6 @@
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
-        
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
@@ -32,9 +46,15 @@
     <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
+
 <div class="container">
     <section class="hero">
         <h2>ברוכים הבאים להיכל הישיבה</h2>
+        
+        <div class="dynamic-board" id="announcement-display">
+            טוען הודעה אחרונה מהמערכת...
+        </div>
+
         <div class="rabbi-quote">
             <p>"להגדיל תורה ולהאדירה - מגדל אור של תורה והלכה בדרכו של מרן"</p>
         </div>
@@ -56,10 +76,34 @@
     <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
 </footer>
 
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyCbh0K-tLnCQNPm5WFjCyRwDjCK7_wOTMU",
+        authDomain: "tiferet-admin.firebaseapp.com",
+        databaseURL: "https://tiferet-admin-default-rtdb.firebaseio.com/",
+        projectId: "tiferet-admin",
+        storageBucket: "tiferet-admin.firebasestorage.app",
+        messagingSenderId: "851897623321",
+        appId: "1:851897623321:web:3b392fbdba4ba69c025b88"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // מאזין לשינויים ב-Firebase ומעדכן את המסך מיד
+    const boardRef = ref(db, 'announcement');
+    onValue(boardRef, (snapshot) => {
+        const data = snapshot.val();
+        if (data && data.text) {
+            document.getElementById("announcement-display").innerText = data.text;
+        } else {
+            document.getElementById("announcement-display").innerText = "אין הודעות חדשות כרגע";
+        }
+    });
+</script>
+
 </body>
 </html>
-
-
-
-
-
