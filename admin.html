@@ -9,11 +9,11 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // הנתונים האישיים שלך מ-Firebase
+        // הנתונים המעודכנים שלך
         const firebaseConfig = {
             apiKey: "AIzaSyCbh0K-tLnCQNPm5WFjCyRwDjCK7_wOTMU",
             authDomain: "tiferet-admin.firebaseapp.com",
-            databaseURL: "https://tiferet-admin-default-rtdb.firebaseio.com/",
+            databaseURL: "https://tiferet-admin-default-rtdb.firebaseio.com/", // הכתובת הוכנסה כאן
             projectId: "tiferet-admin",
             storageBucket: "tiferet-admin.firebasestorage.app",
             messagingSenderId: "851897623321",
@@ -21,11 +21,9 @@
             measurementId: "G-Q53D7WT1VL"
         };
 
-        // אתחול המערכת
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // פונקציית הפרסום
         window.publishMessage = function() {
             const msg = document.getElementById("msgInput").value;
             const status = document.getElementById("status");
@@ -37,7 +35,6 @@
 
             status.innerText = "מעדכן את הלוח...";
 
-            // שמירה בנתיב 'announcement'
             set(ref(db, 'announcement'), {
                 text: msg,
                 timestamp: Date.now(),
@@ -50,6 +47,7 @@
             })
             .catch((error) => {
                 status.innerText = "שגיאה: " + error.message;
+                console.error(error);
             });
         }
     </script>
