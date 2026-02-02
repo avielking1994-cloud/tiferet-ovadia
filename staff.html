@@ -8,13 +8,14 @@
     <style>
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            /* שינוי ל-minmax קטן יותר כדי שהריבועים יהיו פחות רחבים */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 280px));
+            gap: 30px; /* רווח בין הכרטיסיות */
             margin-top: 25px;
+            justify-content: center; /* מרכז את הכרטיסיות */
             perspective: 1000px;
         }
 
-        /* הקטנת גובה הכרטיס ל-180 פיקסל במקום 250 */
         .flip-card {
             background-color: transparent;
             width: 100%;
@@ -54,6 +55,7 @@
         .flip-card-front {
             background-color: #fff;
             border-top: 4px solid #1a2a6c;
+            padding: 10px;
         }
 
         .flip-card-back {
@@ -66,14 +68,14 @@
 
         .flip-card h3 {
             margin: 0 0 5px 0;
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: #1a2a6c;
         }
 
         .flip-card .role {
             color: #b8860b;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .flip-card-back ul {
@@ -81,11 +83,7 @@
             padding: 0;
             margin: 0;
             text-align: right;
-            font-size: 0.9rem;
-        }
-
-        .flip-card-back ul li {
-            margin-bottom: 5px;
+            font-size: 0.85rem;
         }
 
         .section-title {
@@ -94,6 +92,21 @@
             padding-right: 12px;
             margin-top: 40px;
             font-size: 1.6rem;
+        }
+
+        /* עיצוב לכרטיסי הר"מים הקבועים */
+        .static-card {
+            background-color: #fff;
+            border: 1px solid #d4af37;
+            border-top: 4px solid #1a2a6c;
+            border-radius: 8px;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
         }
     </style>
 </head>
@@ -125,10 +138,10 @@
 <div class="container">
     <section class="staff-intro" style="text-align: center; margin-bottom: 30px;">
         <h2>הנהגת הישיבה והמוסדות</h2>
-        <p>ניתן להעביר את העכבר על כרטיסי הרבנים למידע נוסף.</p>
+        <p>מעבר עם העכבר על כרטיסי הרבנים יציג את תחומי המענה.</p>
     </section>
 
-    <div style="max-width: 320px; margin: 0 auto 40px auto;">
+    <div style="max-width: 280px; margin: 0 auto 40px auto;">
         <div class="flip-card">
             <div class="flip-card-inner">
                 <div class="flip-card-front" style="border-top-color: #d4af37;">
@@ -185,17 +198,29 @@
 
     <h2 class="section-title">רבני הישיבה</h2>
     <div class="staff-grid">
-        <div class="flip-card-front" style="height: 120px; position: relative; padding: 10px;">
+        <div class="static-card">
             <h3>הרב נתן ג'רגי שליט"א</h3>
             <p class="role">ר"מ שיעור א'</p>
         </div>
-        <div class="flip-card-front" style="height: 120px; position: relative; padding: 10px;">
+        <div class="static-card">
             <h3>הרב ברק רייבי שליט"א</h3>
             <p class="role">ר"מ שיעור ב'</p>
         </div>
-        <div class="flip-card-front" style="height: 120px; position: relative; padding: 10px;">
+        <div class="static-card">
             <h3>הרב משה אללוף שליט"א</h3>
             <p class="role">ר"מ שיעור ג'</p>
+        </div>
+    </div>
+
+    <h2 class="section-title">רבני הערב</h2>
+    <div class="staff-grid">
+        <div class="static-card">
+            <h3>הרב משה גבאי שליט"א</h3>
+            <p class="role">רב ערב</p>
+        </div>
+        <div class="static-card">
+            <h3>הרב רחמים סמבטה שליט"א</h3>
+            <p class="role">רב ערב</p>
         </div>
     </div>
 </div>
