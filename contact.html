@@ -12,11 +12,17 @@
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            line-height: 0; /* מונע רווח מיותר בתחתית המפה */
+            line-height: 0;
         }
         .contact-details p {
             font-size: 1.1rem;
             margin-bottom: 12px;
+        }
+        /* התאמה לניידים */
+        @media (max-width: 600px) {
+            .map-container iframe {
+                height: 300px;
+            }
         }
     </style>
 </head>
@@ -59,9 +65,9 @@
 
     <div class="map-container">
         <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3380.916843477815!2d34.83296407513231!3d32.07156901999949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b99863484f3%3A0x868b7534d075276e!2z16HXm9eV15Eg15HXqCDXkNeZ15zXnyAyMiwg15HXoNm5INeR16fXpQ!5e0!3m2!1siw!2sil!4v1700000000000!5m2!1siw!2sil" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m13!1d3380.934446522432!2d34.83151037532298!3d32.07098481971714!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151d4b687f877f8d%3A0x644c361414457224!2z16HXmteU158g15HXqSDXkNeZ15zXnyAyMiwg15HXp9mZIN5N16Y!5e0!3m2!1siw!2sil!4v1700000000000!5m2!1siw!2sil" 
             width="100%" 
-            height="400" 
+            height="450" 
             style="border:0;" 
             allowfullscreen="" 
             loading="lazy" 
