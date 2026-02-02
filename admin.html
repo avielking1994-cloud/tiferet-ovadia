@@ -7,7 +7,7 @@
     
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyCbh0K-tLnCQNPm5WFjCyRwDjCK7_wOTMU",
@@ -22,10 +22,9 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // פונקציה כללית לעדכון נתונים
         window.updateSiteData = function() {
             const status = document.getElementById("globalStatus");
-            status.innerText = "מעדכן את כל הנתונים...";
+            status.innerText = "מעדכן...";
 
             const data = {
                 announcement: document.getElementById("announcementInput").value,
@@ -54,47 +53,26 @@
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
         textarea, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         textarea { height: 100px; resize: vertical; }
-        button { background-color: #1a237e; color: white; border: none; padding: 15px; font-size: 18px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
-        button:hover { background-color: #0d1440; }
+        button { background-color: #1a237e; color: white; border: none; padding: 15px; font-size: 18px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
         #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; color: #2e7d32; }
-        .section-title { background: #e8eaf6; padding: 5px 10px; border-radius: 4px; color: #1a237e; margin-bottom: 15px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
-
     <div class="admin-box">
         <h1>פורטל ניהול - תפארת עובדיה</h1>
-        
         <div class="input-group">
-            <label>הודעה מרכזית בלוח:</label>
-            <textarea id="announcementInput" placeholder="כתוב כאן את ההודעה שתופיע בגדול..."></textarea>
+            <label>הודעה מרכזית:</label>
+            <textarea id="announcementInput"></textarea>
         </div>
-
         <div class="input-group">
-            <label>זמני תפילות (כל תפילה בשורה חדשה):</label>
-            <textarea id="prayersInput" placeholder="שחרית: 06:00&#10;מנחה: 13:30&#10;ערבית: 19:00"></textarea>
+            <label>זמני תפילות:</label>
+            <textarea id="prayersInput"></textarea>
         </div>
-
-        <div class="section-title">הקדשות ופרנסים</div>
-        
-        <div class="input-group">
-            <label>פרנס היום:</label>
-            <input type="text" id="patronDayInput" placeholder="שם התורם...">
-        </div>
-
-        <div class="input-group">
-            <label>פרנס השבוע:</label>
-            <input type="text" id="patronWeekInput" placeholder="שם התורם...">
-        </div>
-
-        <div class="input-group">
-            <label>פרנס החודש:</label>
-            <input type="text" id="patronMonthInput" placeholder="שם התורם...">
-        </div>
-
+        <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
+        <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
+        <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
         <button onclick="updateSiteData()">עדכן את כל חלקי האתר</button>
         <div id="globalStatus"></div>
     </div>
-
 </body>
 </html>
