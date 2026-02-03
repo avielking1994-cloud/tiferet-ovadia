@@ -8,16 +8,17 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
         .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 550px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
-        .token-section { background: #fffde7; border: 1px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
         textarea, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        textarea { height: 60px; resize: vertical; }
+        textarea { height: 50px; resize: vertical; }
         button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button:hover { background-color: #0d1440; }
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
         #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
-        .msg-container { border: 1px solid #d4af37; padding: 10px; border-radius: 8px; background-color: #fdfdfd; }
+        .msg-container { border: 1px solid #d4af37; padding: 15px; border-radius: 8px; background-color: #fdfdfd; margin-bottom: 20px; }
+        .small-label { font-size: 0.8rem; color: #666; font-weight: normal; }
     </style>
 </head>
 <body>
@@ -27,29 +28,24 @@
         <h1>ניהול לוח המודעות</h1>
 
         <div class="token-section">
-            <label for="ghToken">מפתח גישה (GitHub Token):</label>
+            <label for="ghToken">מפתח גישה (GitHub Token): <span class="small-label">(נשמר אוטומטית בדפדפן)</span></label>
             <input type="password" id="ghToken" placeholder="הדבק כאן את הקוד ghp_">
         </div>
 
-        <div class="input-group">
-            <label>כותרת ראשית של הלוח:</label>
-            <input type="text" id="boardTitleInput" placeholder="למשל: לוח מודעות דיגיטלי">
+        <div class="msg-container">
+            <label style="color: #1a237e; border-bottom: 1px solid #ddd; margin-bottom: 15px;">הודעות מתחלפות במרכז הלוח:</label>
+            <div class="input-group"><textarea id="msg1" placeholder="הודעה 1"></textarea></div>
+            <div class="input-group"><textarea id="msg2" placeholder="הודעה 2"></textarea></div>
+            <div class="input-group"><textarea id="msg3" placeholder="הודעה 3"></textarea></div>
+            <div class="input-group"><textarea id="msg4" placeholder="הודעה 4"></textarea></div>
+            <div class="input-group"><textarea id="msg5" placeholder="הודעה 5"></textarea></div>
         </div>
 
         <div class="msg-container">
-            <label style="color: #1a237e;">הודעות מתחלפות במרכז הלוח:</label>
-            <div class="input-group"><textarea id="msg1" placeholder="הודעה ראשונה (תופיע ראשונה)"></textarea></div>
-            <div class="input-group"><textarea id="msg2" placeholder="הודעה שנייה"></textarea></div>
-            <div class="input-group"><textarea id="msg3" placeholder="הודעה שלישית"></textarea></div>
-        </div>
-
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
-            <div class="input-group" style="flex:1;"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
-            <div class="input-group" style="flex:1;"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
-        </div>
-        <div class="input-group">
-            <label>פרנס החודש:</label>
-            <input type="text" id="patronMonthInput">
+            <label style="color: #1a237e;">פרנסי הישיבה:</label>
+            <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
+            <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
+            <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
         </div>
 
         <div class="input-group">
@@ -59,27 +55,43 @@
 
         <button onclick="updateSiteData()">עדכן את הלוח עכשיו</button>
         <div id="globalStatus"></div>
-        <div class="footer-note" style="text-align: center; font-size: 12px; color: #777; margin-top: 20px;">בסייעתא דשמיא - עדכון נתונים למוסדות</div>
+        <div style="text-align: center; font-size: 12px; color: #777; margin-top: 20px;">בסייעתא דשמיא - מוסדות תפארת עובדיה</div>
     </div>
 
     <script>
+        // בדיקת התחברות
         if (sessionStorage.getItem("isLoggedIn") !== "true") { window.location.href = "login.html"; }
+        
+        // טעינת הטוקן השמור מהדפדפן
+        window.onload = function() {
+            const savedToken = localStorage.getItem("github_token");
+            if (savedToken) {
+                document.getElementById("ghToken").value = savedToken;
+            }
+        };
+
         function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
 
         async function updateSiteData() {
             const token = document.getElementById("ghToken").value;
             const status = document.getElementById("globalStatus");
+            
             if (!token) { alert("נא להזין מפתח גישה"); return; }
+            
+            // שמירת הטוקן לשימוש הבא
+            localStorage.setItem("github_token", token);
 
             status.style.color = "#1a237e";
             status.innerText = "מעדכן נתונים בשרת...";
 
             const data = {
-                boardTitle: document.getElementById("boardTitleInput").value,
+                boardTitle: "ישיבת תפארת עובדיה", // כותרת קבועה
                 messages: [
                     document.getElementById("msg1").value,
                     document.getElementById("msg2").value,
-                    document.getElementById("msg3").value
+                    document.getElementById("msg3").value,
+                    document.getElementById("msg4").value,
+                    document.getElementById("msg5").value
                 ],
                 prayers: document.getElementById("prayersInput").value,
                 patronDay: document.getElementById("patronDayInput").value,
@@ -107,7 +119,7 @@
                     status.innerText = "הלוח עודכן בהצלחה! ✅ השינוי יופיע תוך דקה.";
                 } else {
                     status.style.color = "#c62828";
-                    status.innerText = "שגיאת עדכון. בדוק את הטוקן.";
+                    status.innerText = "שגיאת עדכון. בדוק את המפתח.";
                 }
             } catch (e) {
                 status.innerText = "שגיאת תקשורת: " + e.message;
