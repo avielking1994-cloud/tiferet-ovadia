@@ -1,143 +1,59 @@
-<!DOCTYPE html>
-<html lang="he" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ניהול מערכת - תפארת עובדיה</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; position: relative; }
-        h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
-        .token-section { background: #fffde7; border: 1px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        textarea, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        textarea { height: 80px; resize: vertical; }
-        button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
-        button:hover { background-color: #0d1440; }
-        .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; }
-        #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
-        .footer-note { text-align: center; font-size: 12px; color: #777; margin-top: 20px; }
-    </style>
-</head>
-<body>
+<div class="admin-box">
+    <button class="logout-btn" onclick="logout()">יציאה בטוחה</button>
+    <h1>ניהול לוח מודעות</h1>
 
-    <div class="admin-box">
-        <button class="logout-btn" onclick="logout()">יציאה בטוחה</button>
-        
-        <h1>ניהול תפארת עובדיה</h1>
-
-        <div class="token-section">
-            <label for="ghToken">מפתח גישה (GitHub Token):</label>
-            <input type="password" id="ghToken" placeholder="הדבק כאן את הקוד שהתחיל ב-ghp_">
-        </div>
-
-        <div class="input-group">
-            <label>הודעה מרכזית:</label>
-            <textarea id="announcementInput" placeholder="הכנס הודעה לקהילה..."></textarea>
-        </div>
-
-        <div class="input-group">
-            <label>זמני תפילות:</label>
-            <textarea id="prayersInput" placeholder="שחרית: 06:00..."></textarea>
-        </div>
-
-        <div class="input-group">
-            <label>פרנס היום:</label>
-            <input type="text" id="patronDayInput" placeholder="שם לעילוי נשמת / הצלחה...">
-        </div>
-
-        <div class="input-group">
-            <label>פרנס השבוע:</label>
-            <input type="text" id="patronWeekInput">
-        </div>
-
-        <div class="input-group">
-            <label>פרנס החודש:</label>
-            <input type="text" id="patronMonthInput">
-        </div>
-
-        <button onclick="updateSiteData()">עדכן את האתר עכשיו</button>
-        
-        <div id="globalStatus"></div>
-
-        <div class="footer-note">בסייעתא דשמיא - עדכון נתונים ישיר למערכת</div>
+    <div class="token-section">
+        <label for="ghToken">מפתח גישה (GitHub Token):</label>
+        <input type="password" id="ghToken" placeholder="הדבק כאן את הקוד שהתחיל ב-ghp_">
     </div>
 
-    <script>
-        // --- קוד הגנה: בדיקה אם המשתמש מחובר ---
-        if (sessionStorage.getItem("isLoggedIn") !== "true") {
-            window.location.href = "login.html";
-        }
+    <div class="input-group">
+        <label>כותרת הלוח (מעל השעון):</label>
+        <input type="text" id="boardTitleInput" placeholder="לוח מודעות דיגיטלי">
+    </div>
 
-        // פונקציית יציאה
-        function logout() {
-            sessionStorage.removeItem("isLoggedIn");
-            window.location.href = "index.html";
-        }
+    <div class="input-group" style="border: 1px solid #d4af37; padding: 10px; border-radius: 8px;">
+        <label style="color: #1a237e;">הודעות מתחלפות במרכז הלוח:</label>
+        <textarea id="msg1" placeholder="הודעה 1 (גדולה)"></textarea>
+        <textarea id="msg2" placeholder="הודעה 2"></textarea>
+        <textarea id="msg3" placeholder="הודעה 3"></textarea>
+    </div>
 
-        // --- פונקציית עדכון הנתונים ---
-        async function updateSiteData() {
-            const token = document.getElementById("ghToken").value;
-            const status = document.getElementById("globalStatus");
-            
-            if (!token) {
-                alert("נא להזין מפתח גישה (Token) בתיבה הצהובה");
-                return;
-            }
+    <div class="input-group">
+        <label>פרנס היום:</label>
+        <input type="text" id="patronDayInput">
+    </div>
+    <div class="input-group">
+        <label>פרנס השבוע:</label>
+        <input type="text" id="patronWeekInput">
+    </div>
+    <div class="input-group">
+        <label>פרנס החודש:</label>
+        <input type="text" id="patronMonthInput">
+    </div>
 
-            status.style.color = "#1a237e";
-            status.innerText = "מתחבר לשרת ומעדכן...";
+    <div class="input-group">
+        <label>זמני תפילות (כל שורה בנפרד):</label>
+        <textarea id="prayersInput"></textarea>
+    </div>
 
-            const data = {
-                announcement: document.getElementById("announcementInput").value,
-                prayers: document.getElementById("prayersInput").value,
-                patronDay: document.getElementById("patronDayInput").value,
-                patronWeek: document.getElementById("patronWeekInput").value,
-                patronMonth: document.getElementById("patronMonthInput").value,
-                lastUpdate: new Date().toLocaleString('he-IL')
-            };
+    <button onclick="updateSiteData()">עדכן את הלוח עכשיו</button>
+    <div id="globalStatus"></div>
+</div>
 
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-            const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
-
-            try {
-                const getFile = await fetch(url, {
-                    headers: { "Authorization": `token ${token}` }
-                });
-                
-                let sha = "";
-                if (getFile.ok) {
-                    const fileData = await getFile.json();
-                    sha = fileData.sha;
-                }
-
-                const response = await fetch(url, {
-                    method: "PUT",
-                    headers: {
-                        "Authorization": `token ${token}`,
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: "Update site data via Admin Panel",
-                        content: content,
-                        sha: sha || undefined
-                    })
-                });
-
-                if (response.ok) {
-                    status.style.color = "#2e7d32";
-                    status.innerText = "הנתונים נשלחו בהצלחה! ✅ האתר יתעדכן תוך כדקה.";
-                } else {
-                    const errData = await response.json();
-                    status.style.color = "#c62828";
-                    status.innerText = "שגיאה מהשרת: " + (errData.message || "גישה נדחתה");
-                }
-            } catch (e) {
-                status.style.color = "#c62828";
-                status.innerText = "שגיאת תקשורת: " + e.message;
-            }
-        }
-    </script>
-</body>
-</html>
+<script>
+// בתוך פונקציית updateSiteData, שנה את ה-const data לזה:
+const data = {
+    boardTitle: document.getElementById("boardTitleInput").value,
+    messages: [
+        document.getElementById("msg1").value,
+        document.getElementById("msg2").value,
+        document.getElementById("msg3").value
+    ],
+    prayers: document.getElementById("prayersInput").value,
+    patronDay: document.getElementById("patronDayInput").value,
+    patronWeek: document.getElementById("patronWeekInput").value,
+    patronMonth: document.getElementById("patronMonthInput").value,
+    lastUpdate: new Date().toLocaleString('he-IL')
+};
+</script>
