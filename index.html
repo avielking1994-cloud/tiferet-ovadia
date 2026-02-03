@@ -6,7 +6,6 @@
     <title>ישיבת תפארת עובדיה - דף הבית</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* עיצוב קטן ללוח המודעות הדינמי */
         .dynamic-board {
             background: #fff9c4;
             border: 2px solid #d4af37;
@@ -14,11 +13,12 @@
             margin: 20px 0;
             border-radius: 10px;
             text-align: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        .announcement-text { font-size: 1.4rem; font-weight: bold; color: #1a237e; margin-bottom: 15px; }
+        .patron-section { border-top: 1px solid #d4af37; padding-top: 10px; margin-top: 10px; font-size: 1.1rem; color: #333; }
+        .patron-item { margin: 5px 0; }
+        .patron-label { font-weight: bold; color: #b8860b; }
     </style>
 </head>
 <body>
@@ -51,24 +51,28 @@
     <section class="hero">
         <h2>ברוכים הבאים להיכל הישיבה</h2>
         
-        <div class="dynamic-board" id="announcement-display">
-            טוען הודעה אחרונה מהמערכת...
+        <div class="dynamic-board" id="main-board">
+            <div id="announcement-display" class="announcement-text">טוען עדכונים...</div>
+            
+            <div id="patron-display" class="patron-section" style="display:none;">
+                <div class="patron-item"><span class="patron-label">פרנס היום: </span><span id="day-p"></span></div>
+                <div class="patron-item"><span class="patron-label">פרנס השבוע: </span><span id="week-p"></span></div>
+                <div class="patron-item"><span class="patron-label">פרנס החודש: </span><span id="month-p"></span></div>
+            </div>
         </div>
 
         <div class="rabbi-quote">
             <p>"להגדיל תורה ולהאדירה - מגדל אור של תורה והלכה בדרכו של מרן"</p>
         </div>
-        <p>כאן תוכלו למצוא עדכונים, שיעורי תורה ומידע שוטף על פעילות המוסדות.</p>
     </section>
 
     <hr style="border: 0; border-top: 1px solid #d4af37; margin: 40px 0;">
 
     <section class="news">
-        <h3>עדכונים אחרונים</h3>
-        <ul>
-            <li>בקרוב: לוח זמני תפילות מעודכן לחודש הקרוב.</li>
-            <li>שיעורי השבוע בדרכו של מרן זצוק"ל יפורסמו בלוח המודעות.</li>
-        </ul>
+        <h3>זמני תפילות ושיעורים</h3>
+        <div id="prayers-display" style="white-space: pre-wrap; background: white; padding: 15px; border-radius: 8px; border-right: 4px solid #1a237e;">
+            טוען זמנים...
+        </div>
     </section>
 </div>
 
@@ -76,33 +80,36 @@
     <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
 </footer>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<script>
+    async function loadData() {
+        try {
+            // מושך את הקובץ שדף האדמין מעדכן
+            const response = await fetch('data.json?t=' + new Date().getTime());
+            if (!response.ok) throw new Error();
+            const data = await response.json();
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCbh0K-tLnCQNPm5WFjCyRwDjCK7_wOTMU",
-        authDomain: "tiferet-admin.firebaseapp.com",
-        databaseURL: "https://tiferet-admin-default-rtdb.firebaseio.com/",
-        projectId: "tiferet-admin",
-        storageBucket: "tiferet-admin.firebasestorage.app",
-        messagingSenderId: "851897623321",
-        appId: "1:851897623321:web:3b392fbdba4ba69c025b88"
-    };
+            // עדכון הודעה מרכזית
+            document.getElementById("announcement-display").innerText = data.announcement || "ברוכים הבאים למוסדות תפארת עובדיה";
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+            // עדכון פרנסים
+            if (data.patronDay || data.patronWeek || data.patronMonth) {
+                document.getElementById("patron-display").style.display = "block";
+                document.getElementById("day-p").innerText = data.patronDay || "---";
+                document.getElementById("week-p").innerText = data.patronWeek || "---";
+                document.getElementById("month-p").innerText = data.patronMonth || "---";
+            }
 
-    // מאזין לשינויים ב-Firebase ומעדכן את המסך מיד
-    const boardRef = ref(db, 'announcement');
-    onValue(boardRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data && data.text) {
-            document.getElementById("announcement-display").innerText = data.text;
-        } else {
-            document.getElementById("announcement-display").innerText = "אין הודעות חדשות כרגע";
+            // עדכון זמני תפילות
+            document.getElementById("prayers-display").innerText = data.prayers || "אין עדכון זמנים כרגע";
+
+        } catch (e) {
+            document.getElementById("announcement-display").innerText = "ברוכים הבאים לתפארת עובדיה";
+            document.getElementById("prayers-display").innerText = "המידע יעלה בקרוב בסייעתא דשמיא";
         }
-    });
+    }
+
+    // הפעלה בטעינה
+    window.onload = loadData;
 </script>
 
 </body>
