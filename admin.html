@@ -6,14 +6,14 @@
     <title>ניהול מערכת - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 600px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 800px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
+        h2 { color: #1a237e; border-bottom: 2px solid #d4af37; padding-bottom: 5px; margin-top: 30px; }
         .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
         textarea, input[type="text"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         
-        /* עיצוב שורת הודעה עם צבע */
         .msg-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .msg-row textarea { flex-grow: 1; height: 50px; }
         .color-picker { width: 50px; height: 50px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; padding: 2px; }
@@ -21,44 +21,58 @@
         button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button:hover { background-color: #0d1440; }
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
-        #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
+        #globalStatus { text-align: center; margin: 20px 0; font-weight: bold; min-height: 24px; }
         .msg-container { border: 1px solid #d4af37; padding: 15px; border-radius: 8px; background-color: #fdfdfd; margin-bottom: 20px; }
+
+        /* עיצוב טבלת נרשמים */
+        .reg-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        .reg-table th, .reg-table td { border: 1px solid #ddd; padding: 12px; text-align: right; }
+        .reg-table th { background-color: #1a237e; color: white; }
+        .reg-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .btn-view { background: #d4af37; color: #1a237e; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; width: auto; font-size: 12px; }
     </style>
 </head>
 <body>
 
     <div class="admin-box">
         <button class="logout-btn" onclick="logout()">יציאה</button>
-        <h1>ניהול לוח המודעות</h1>
+        <h1>ניהול מוסדות תפארת עובדיה</h1>
 
         <div class="token-section">
             <label>מפתח גישה (GitHub Token):</label>
             <input type="password" id="ghToken" onchange="loadCurrentData()" placeholder="הזן טוקן לטעינת נתונים">
         </div>
 
+        <div id="globalStatus"></div>
+
+        <div class="msg-container">
+            <h2>📋 בקשות רישום לישיבה</h2>
+            <div style="overflow-x: auto;">
+                <table class="reg-table">
+                    <thead>
+                        <tr>
+                            <th>תאריך</th>
+                            <th>שם המועמד</th>
+                            <th>טלפון</th>
+                            <th>פרטים</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrations-list">
+                        <tr><td colspan="4" style="text-align:center;">הזן טוקן כדי לראות נרשמים</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2>📢 ניהול לוח מודעות</h2>
         <div class="msg-container">
             <label style="color: #1a237e;">הודעות מתחלפות וצבעים:</label>
             <div id="messages-list">
-                <div class="msg-row">
-                    <textarea id="msg1" placeholder="הודעה 1"></textarea>
-                    <input type="color" id="clr1" class="color-picker" value="#001f3f" title="בחר צבע טקסט">
-                </div>
-                <div class="msg-row">
-                    <textarea id="msg2" placeholder="הודעה 2"></textarea>
-                    <input type="color" id="clr2" class="color-picker" value="#001f3f">
-                </div>
-                <div class="msg-row">
-                    <textarea id="msg3" placeholder="הודעה 3"></textarea>
-                    <input type="color" id="clr3" class="color-picker" value="#001f3f">
-                </div>
-                <div class="msg-row">
-                    <textarea id="msg4" placeholder="הודעה 4"></textarea>
-                    <input type="color" id="clr4" class="color-picker" value="#001f3f">
-                </div>
-                <div class="msg-row">
-                    <textarea id="msg5" placeholder="הודעה 5"></textarea>
-                    <input type="color" id="clr5" class="color-picker" value="#001f3f">
-                </div>
+                <div class="msg-row"><textarea id="msg1" placeholder="הודעה 1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg2" placeholder="הודעה 2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg3" placeholder="הודעה 3"></textarea><input type="color" id="clr3" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg4" placeholder="הודעה 4"></textarea><input type="color" id="clr4" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg5" placeholder="הודעה 5"></textarea><input type="color" id="clr5" class="color-picker" value="#001f3f"></div>
             </div>
         </div>
 
@@ -75,7 +89,6 @@
         </div>
 
         <button onclick="updateSiteData()">עדכן את הלוח עכשיו</button>
-        <div id="globalStatus"></div>
     </div>
 
     <script>
@@ -85,56 +98,77 @@
             const savedToken = localStorage.getItem("github_token");
             if (savedToken) {
                 document.getElementById("ghToken").value = savedToken;
-                loadCurrentData(); // טעינת נתונים אוטומטית אם יש טוקן
+                loadCurrentData();
             }
         };
 
         function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
 
-        // פונקציה חדשה: טעינת הנתונים הקיימים מהשרת
+        // טעינת כל הנתונים (לוח מודעות + נרשמים)
         async function loadCurrentData() {
             const token = document.getElementById("ghToken").value;
             const status = document.getElementById("globalStatus");
             if (!token) return;
 
             localStorage.setItem("github_token", token);
-            status.innerText = "טוען נתונים קיימים...";
+            status.innerText = "טוען נתונים מהשרת...";
+            status.style.color = "blue";
 
+            // 1. טעינת נתוני לוח המודעות
             try {
-                const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
-                const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-                
-                if (response.ok) {
-                    const fileData = await response.json();
-                    const content = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                    
-                    // מילוי השדות
+                const urlData = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
+                const resData = await fetch(urlData, { headers: { "Authorization": `token ${token}` } });
+                if (resData.ok) {
+                    const file = await resData.json();
+                    const content = JSON.parse(decodeURIComponent(escape(atob(file.content))));
                     document.getElementById("patronDayInput").value = content.patronDay || "";
                     document.getElementById("patronWeekInput").value = content.patronWeek || "";
                     document.getElementById("patronMonthInput").value = content.patronMonth || "";
                     document.getElementById("prayersInput").value = content.prayers || "";
-                    
-                    // מילוי הודעות וצבעים
                     if (content.messagesConfig) {
-                        content.messagesConfig.forEach((item, index) => {
-                            if (index < 5) {
-                                document.getElementById(`msg${index+1}`).value = item.text;
-                                document.getElementById(`clr${index+1}`).value = item.color || "#001f3f";
+                        content.messagesConfig.forEach((item, i) => {
+                            if (i < 5) {
+                                document.getElementById(`msg${i+1}`).value = item.text;
+                                document.getElementById(`clr${i+1}`).value = item.color || "#001f3f";
                             }
                         });
-                    } else if (content.messages) {
-                        // תאימות לאחור
-                        content.messages.forEach((txt, index) => {
-                            if (index < 5) document.getElementById(`msg${index+1}`).value = txt;
-                        });
                     }
-                    
-                    status.innerText = "הנתונים נטענו בהצלחה.";
-                    status.style.color = "green";
                 }
-            } catch (e) {
-                status.innerText = "שגיאה בטעינת נתונים.";
-            }
+            } catch (e) { console.log("שגיאה בטעינת לוח מודעות"); }
+
+            // 2. טעינת נתוני נרשמים
+            try {
+                const urlReg = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/registrations.json";
+                const resReg = await fetch(urlReg, { headers: { "Authorization": `token ${token}` } });
+                const regList = document.getElementById("registrations-list");
+
+                if (resReg.ok) {
+                    const file = await resReg.json();
+                    const regs = JSON.parse(decodeURIComponent(escape(atob(file.content))));
+                    window.allRegs = regs; // שמירה לצפייה בפרטים
+                    
+                    regList.innerHTML = regs.map((r, i) => `
+                        <tr>
+                            <td>${r.date || ''}</td>
+                            <td>${r['שם פרטי'] || ''} ${r['שם משפחה'] || ''}</td>
+                            <td>${r['טלפון'] || ''}</td>
+                            <td><button class="btn-view" onclick="viewReg(${i})">הצג הכל</button></td>
+                        </tr>
+                    `).reverse().join('');
+                } else {
+                    regList.innerHTML = '<tr><td colspan="4" style="text-align:center;">אין נרשמים חדשים</td></tr>';
+                }
+            } catch (e) { console.log("שגיאה בטעינת נרשמים"); }
+
+            status.innerText = "הנתונים מעודכנים.";
+            status.style.color = "green";
+        }
+
+        function viewReg(i) {
+            const r = window.allRegs[i];
+            let s = "";
+            for (let key in r) { s += `${key}: ${r[key]}\n`; }
+            alert(s);
         }
 
         async function updateSiteData() {
@@ -142,22 +176,16 @@
             const status = document.getElementById("globalStatus");
             if (!token) { alert("נא להזין טוקן"); return; }
 
-            status.style.color = "#1a237e";
-            status.innerText = "מעדכן...";
-
-            // בניית מבנה הודעות עם צבעים
+            status.innerText = "מעדכן לוח מודעות...";
             const messagesConfig = [];
             for(let i=1; i<=5; i++) {
-                messagesConfig.push({
-                    text: document.getElementById(`msg${i}`).value,
-                    color: document.getElementById(`clr${i}`).value
-                });
+                messagesConfig.push({ text: document.getElementById(`msg${i}`).value, color: document.getElementById(`clr${i}`).value });
             }
 
             const data = {
                 boardTitle: "ישיבת תפארת עובדיה",
                 messagesConfig: messagesConfig,
-                messages: messagesConfig.map(m => m.text), // לשמירה על תאימות
+                messages: messagesConfig.map(m => m.text),
                 prayers: document.getElementById("prayersInput").value,
                 patronDay: document.getElementById("patronDayInput").value,
                 patronWeek: document.getElementById("patronWeekInput").value,
@@ -179,11 +207,8 @@
                     body: JSON.stringify({ message: "Update Board Data", content: content, sha: sha || undefined })
                 });
 
-                if (response.ok) {
-                    status.innerText = "עודכן בהצלחה! ✅";
-                    status.style.color = "green";
-                }
-            } catch (e) { status.innerText = "שגיאה."; }
+                if (response.ok) { status.innerText = "עודכן בהצלחה! ✅"; status.style.color = "green"; }
+            } catch (e) { status.innerText = "שגיאה בעדכון."; }
         }
     </script>
 </body>
