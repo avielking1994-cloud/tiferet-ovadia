@@ -6,7 +6,7 @@
     <title>ניהול מערכת - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
         .token-section { background: #fffde7; border: 1px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
@@ -15,6 +15,7 @@
         textarea { height: 80px; resize: vertical; }
         button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button:hover { background-color: #0d1440; }
+        .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; }
         #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
         .footer-note { text-align: center; font-size: 12px; color: #777; margin-top: 20px; }
     </style>
@@ -22,6 +23,8 @@
 <body>
 
     <div class="admin-box">
+        <button class="logout-btn" onclick="logout()">יציאה בטוחה</button>
+        
         <h1>ניהול תפארת עובדיה</h1>
 
         <div class="token-section">
@@ -62,6 +65,18 @@
     </div>
 
     <script>
+        // --- קוד הגנה: בדיקה אם המשתמש מחובר ---
+        if (sessionStorage.getItem("isLoggedIn") !== "true") {
+            window.location.href = "login.html";
+        }
+
+        // פונקציית יציאה
+        function logout() {
+            sessionStorage.removeItem("isLoggedIn");
+            window.location.href = "index.html";
+        }
+
+        // --- פונקציית עדכון הנתונים ---
         async function updateSiteData() {
             const token = document.getElementById("ghToken").value;
             const status = document.getElementById("globalStatus");
@@ -83,12 +98,10 @@
                 lastUpdate: new Date().toLocaleString('he-IL')
             };
 
-            // הקידום ל-Base64 עבור ה-API של GitHub
             const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
             const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
 
             try {
-                // שלב 1: משיכת ה-SHA של הקובץ הקיים
                 const getFile = await fetch(url, {
                     headers: { "Authorization": `token ${token}` }
                 });
@@ -99,7 +112,6 @@
                     sha = fileData.sha;
                 }
 
-                // שלב 2: עדכון הקובץ
                 const response = await fetch(url, {
                     method: "PUT",
                     headers: {
