@@ -3,23 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ישיבת תפארת עובדיה - דף הבית</title>
+    <title>מוסדות תפארת עובדיה - דף הבית</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .dynamic-board {
-            background: #fff9c4;
-            border: 2px solid #d4af37;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-        .announcement-text { font-size: 1.4rem; font-weight: bold; color: #1a237e; margin-bottom: 15px; }
-        .patron-section { border-top: 1px solid #d4af37; padding-top: 10px; margin-top: 10px; font-size: 1.1rem; color: #333; }
-        .patron-item { margin: 5px 0; }
-        .patron-label { font-weight: bold; color: #b8860b; }
-    </style>
 </head>
 <body>
 
@@ -55,13 +40,9 @@
     <section class="hero">
         <h2>ברוכים הבאים להיכל הישיבה</h2>
         
-        <div class="dynamic-board" id="main-board">
-            <div id="announcement-display" class="announcement-text">טוען עדכונים...</div>
-            
-            <div id="patron-display" class="patron-section" style="display:none;">
-                <div class="patron-item"><span class="patron-label">פרנס היום: </span><span id="day-p"></span></div>
-                <div class="patron-item"><span class="patron-label">פרנס השבוע: </span><span id="week-p"></span></div>
-                <div class="patron-item"><span class="patron-label">פרנס החודש: </span><span id="month-p"></span></div>
+        <div style="margin: 30px 0; text-align: center;">
+            <div id="announcement-display" style="font-size: 1.6rem; font-weight: bold; color: #1a237e; background: #f9f9f9; padding: 20px; border-radius: 10px; border-right: 5px solid #d4af37;">
+                טוען הודעה...
             </div>
         </div>
 
@@ -74,7 +55,7 @@
 
     <section class="news">
         <h3>זמני תפילות ושיעורים</h3>
-        <div id="prayers-display" style="white-space: pre-wrap; background: white; padding: 15px; border-radius: 8px; border-right: 4px solid #1a237e;">
+        <div id="prayers-display" style="white-space: pre-wrap; background: white; padding: 20px; border-radius: 8px; border: 1px solid #ddd; border-right: 4px solid #1a237e; font-size: 1.2rem;">
             טוען זמנים...
         </div>
     </section>
@@ -87,21 +68,13 @@
 <script>
     async function loadData() {
         try {
-            // מושך את הקובץ שדף האדמין מעדכן
             const response = await fetch('data.json?t=' + new Date().getTime());
             if (!response.ok) throw new Error();
             const data = await response.json();
 
-            // עדכון הודעה מרכזית
-            document.getElementById("announcement-display").innerText = data.announcement || "ברוכים הבאים למוסדות תפארת עובדיה";
-
-            // עדכון פרנסים
-            if (data.patronDay || data.patronWeek || data.patronMonth) {
-                document.getElementById("patron-display").style.display = "block";
-                document.getElementById("day-p").innerText = data.patronDay || "---";
-                document.getElementById("week-p").innerText = data.patronWeek || "---";
-                document.getElementById("month-p").innerText = data.patronMonth || "---";
-            }
+            // מציג את ההודעה הראשונה מתוך מערך ההודעות או את ההודעה הכללית
+            const mainMsg = (data.messages && data.messages[0]) || data.announcement || "ברוכים הבאים למוסדות תפארת עובדיה";
+            document.getElementById("announcement-display").innerText = mainMsg;
 
             // עדכון זמני תפילות
             document.getElementById("prayers-display").innerText = data.prayers || "אין עדכון זמנים כרגע";
@@ -112,11 +85,8 @@
         }
     }
 
-    // הפעלה בטעינה
     window.onload = loadData;
 </script>
 
 </body>
 </html>
-
-
