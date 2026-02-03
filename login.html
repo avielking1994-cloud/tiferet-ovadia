@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>כניסה למערכת - תפארת עובדיה</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: #fff;
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #1a2a6c;
+            color: white;
+            padding: 10px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h3>כניסה למנהל מערכת</h3>
+        <p>נא להזין סיסמה כדי להמשיך:</p>
+        <input type="password" id="passInput" placeholder="סיסמה">
+        <br>
+        <button onclick="checkLogin()">כניסה</button>
+        <p id="errorMsg" style="color: red; display: none;">סיסמה שגויה, נסה שוב.</p>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const pass = document.getElementById('passInput').value;
+            if (pass === "admin") {
+                // שמירת מצב התחברות בדפדפן
+                sessionStorage.setItem("isLoggedIn", "true");
+                window.location.href = "admin.html"; // מעבר לפורטל
+            } else {
+                document.getElementById('errorMsg').style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
