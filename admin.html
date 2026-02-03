@@ -4,66 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ניהול מערכת - תפארת עובדיה</title>
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
+        .token-section { background: #fffde7; border: 1px solid #fbc02d; padding: 15px; border-radius: 10px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
+        textarea, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        textarea { height: 80px; resize: vertical; }
+        button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
+        button:hover { background-color: #0d1440; }
+        #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
+        .footer-note { text-align: center; font-size: 12px; color: #777; margin-top: 20px; }
+    </style>
+</head>
+<body>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyCbh0K-tLnCQNPm5WFjCyRwDjCK7_wOTMU",
-            authDomain: "tiferet-admin.firebaseapp.com",
-            databaseURL: "https://tiferet-admin-default-rtdb.firebaseio.com/",
-            projectId: "tiferet-admin",
-            storageBucket: "tiferet-admin.firebasestorage.app",
-            messagingSenderId: "851897623321",
-            appId: "1:851897623321:web:3b392fbdba4ba69c025b88"
-        };
+    <div class="admin-box">
+        <h1>ניהול תפארת עובדיה</h1>
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        <div class="token-section">
+            <label for="ghToken">מפתח גישה (GitHub Token):</label>
+            <input type="password" id="ghToken" placeholder="הדבק כאן את הקוד שהתחיל ב-ghp_">
+        </div>
 
-        window.updateSiteData = function() {
+        <div class="input-group">
+            <label>הודעה מרכזית:</label>
+            <textarea id="announcementInput" placeholder="הכנס הודעה לקהילה..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>זמני תפילות:</label>
+            <textarea id="prayersInput" placeholder="שחרית: 06:00..."></textarea>
+        </div>
+
+        <div class="input-group">
+            <label>פרנס היום:</label>
+            <input type="text" id="patronDayInput" placeholder="שם לעילוי נשמת / הצלחה...">
+        </div>
+
+        <div class="input-group">
+            <label>פרנס השבוע:</label>
+            <input type="text" id="patronWeekInput">
+        </div>
+
+        <div class="input-group">
+            <label>פרנס החודש:</label>
+            <input type="text" id="patronMonthInput">
+        </div>
+
+        <button onclick="updateSiteData()">עדכן את האתר עכשיו</button>
+        
+        <div id="globalStatus"></div>
+
+        <div class="footer-note">בסייעתא דשמיא - עדכון נתונים ישיר למערכת</div>
+    </div>
+
+    <script>
+        async function updateSiteData() {
+            const token = document.getElementById("ghToken").value;
             const status = document.getElementById("globalStatus");
-            status.innerText = "מעדכן...";
+            
+            if (!token) {
+                alert("נא להזין מפתח גישה (Token) בתיבה הצהובה");
+                return;
+            }
+
+            status.style.color = "#1a237e";
+            status.innerText = "מתחבר לשרת ומעדכן...";
+
             const data = {
                 announcement: document.getElementById("announcementInput").value,
                 prayers: document.getElementById("prayersInput").value,
                 patronDay: document.getElementById("patronDayInput").value,
                 patronWeek: document.getElementById("patronWeekInput").value,
-                patronMonth: document.getElementById("patronMonthInput").value
+                patronMonth: document.getElementById("patronMonthInput").value,
+                lastUpdate: new Date().toLocaleString('he-IL')
             };
-            set(ref(db, 'siteData'), data)
-            .then(() => {
-                status.innerText = "המערכת עודכנה בהצלחה! ✅";
-                setTimeout(() => { status.innerText = ""; }, 3000);
-            })
-            .catch((e) => { status.innerText = "שגיאה: " + e.message; });
+
+            // הקידום ל-Base64 עבור ה-API של GitHub
+            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+            const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
+
+            try {
+                // שלב 1: משיכת ה-SHA של הקובץ הקיים
+                const getFile = await fetch(url, {
+                    headers: { "Authorization": `token ${token}` }
+                });
+                
+                let sha = "";
+                if (getFile.ok) {
+                    const fileData = await getFile.json();
+                    sha = fileData.sha;
+                }
+
+                // שלב 2: עדכון הקובץ
+                const response = await fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": `token ${token}`,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: "Update site data via Admin Panel",
+                        content: content,
+                        sha: sha || undefined
+                    })
+                });
+
+                if (response.ok) {
+                    status.style.color = "#2e7d32";
+                    status.innerText = "הנתונים נשלחו בהצלחה! ✅ האתר יתעדכן תוך כדקה.";
+                } else {
+                    const errData = await response.json();
+                    status.style.color = "#c62828";
+                    status.innerText = "שגיאה מהשרת: " + (errData.message || "גישה נדחתה");
+                }
+            } catch (e) {
+                status.style.color = "#c62828";
+                status.innerText = "שגיאת תקשורת: " + e.message;
+            }
         }
     </script>
-    <style>
-        body { font-family: sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
-        h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        textarea, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
-        textarea { height: 80px; }
-        button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; margin-top: 10px; }
-        #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; color: #2e7d32; }
-    </style>
-</head>
-<body>
-    <div class="admin-box">
-        <h1>ניהול תפארת עובדיה</h1>
-        <div class="input-group"><label>הודעה מרכזית:</label><textarea id="announcementInput"></textarea></div>
-        <div class="input-group"><label>זמני תפילות:</label><textarea id="prayersInput"></textarea></div>
-        <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
-        <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
-        <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
-        <button onclick="updateSiteData()">עדכן את האתר</button>
-        <div id="globalStatus"></div>
-    </div>
 </body>
 </html>
-
-
-
