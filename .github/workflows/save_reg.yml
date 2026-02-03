@@ -1,0 +1,27 @@
+name: Save Registration
+on:
+  repository_dispatch:
+    types: [new_registration]
+
+jobs:
+  update_json:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+
+      - name: Append data to registrations.json
+        run: |
+          if [ ! -f registrations.json ]; then echo "[]" > registrations.json; fi
+          echo '${{ toJson(github.event.client_payload) }}' > entry.json
+          jq ". += [$(cat entry.json)]" registrations.json > temp.json && mv temp.json registrations.json
+          rm entry.json
+
+      - name: Commit and Push
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add registrations.json
+          git commit -m "נרשם חדש התווסף למערכת"
+          git push
