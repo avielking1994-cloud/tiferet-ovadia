@@ -6,39 +6,60 @@
     <title>ניהול מערכת - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 550px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 600px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
-        .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; font-size: 0.9rem; }
+        .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        textarea, input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
-        textarea { height: 50px; resize: vertical; }
+        textarea, input[type="text"], input[type="password"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        
+        /* עיצוב שורת הודעה עם צבע */
+        .msg-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+        .msg-row textarea { flex-grow: 1; height: 50px; }
+        .color-picker { width: 50px; height: 50px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; padding: 2px; }
+
         button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button:hover { background-color: #0d1440; }
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
         #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
         .msg-container { border: 1px solid #d4af37; padding: 15px; border-radius: 8px; background-color: #fdfdfd; margin-bottom: 20px; }
-        .small-label { font-size: 0.8rem; color: #666; font-weight: normal; }
     </style>
 </head>
 <body>
 
     <div class="admin-box">
-        <button class="logout-btn" onclick="logout()">יציאה בטוחה</button>
+        <button class="logout-btn" onclick="logout()">יציאה</button>
         <h1>ניהול לוח המודעות</h1>
 
         <div class="token-section">
-            <label for="ghToken">מפתח גישה (GitHub Token): <span class="small-label">(נשמר אוטומטית בדפדפן)</span></label>
-            <input type="password" id="ghToken" placeholder="הדבק כאן את הקוד ghp_">
+            <label>מפתח גישה (GitHub Token):</label>
+            <input type="password" id="ghToken" onchange="loadCurrentData()" placeholder="הזן טוקן לטעינת נתונים">
         </div>
 
         <div class="msg-container">
-            <label style="color: #1a237e; border-bottom: 1px solid #ddd; margin-bottom: 15px;">הודעות מתחלפות במרכז הלוח:</label>
-            <div class="input-group"><textarea id="msg1" placeholder="הודעה 1"></textarea></div>
-            <div class="input-group"><textarea id="msg2" placeholder="הודעה 2"></textarea></div>
-            <div class="input-group"><textarea id="msg3" placeholder="הודעה 3"></textarea></div>
-            <div class="input-group"><textarea id="msg4" placeholder="הודעה 4"></textarea></div>
-            <div class="input-group"><textarea id="msg5" placeholder="הודעה 5"></textarea></div>
+            <label style="color: #1a237e;">הודעות מתחלפות וצבעים:</label>
+            <div id="messages-list">
+                <div class="msg-row">
+                    <textarea id="msg1" placeholder="הודעה 1"></textarea>
+                    <input type="color" id="clr1" class="color-picker" value="#001f3f" title="בחר צבע טקסט">
+                </div>
+                <div class="msg-row">
+                    <textarea id="msg2" placeholder="הודעה 2"></textarea>
+                    <input type="color" id="clr2" class="color-picker" value="#001f3f">
+                </div>
+                <div class="msg-row">
+                    <textarea id="msg3" placeholder="הודעה 3"></textarea>
+                    <input type="color" id="clr3" class="color-picker" value="#001f3f">
+                </div>
+                <div class="msg-row">
+                    <textarea id="msg4" placeholder="הודעה 4"></textarea>
+                    <input type="color" id="clr4" class="color-picker" value="#001f3f">
+                </div>
+                <div class="msg-row">
+                    <textarea id="msg5" placeholder="הודעה 5"></textarea>
+                    <input type="color" id="clr5" class="color-picker" value="#001f3f">
+                </div>
+            </div>
         </div>
 
         <div class="msg-container">
@@ -49,50 +70,94 @@
         </div>
 
         <div class="input-group">
-            <label>זמני תפילות (כל שורה בנפרד):</label>
+            <label>זמני תפילות:</label>
             <textarea id="prayersInput" style="height: 100px;"></textarea>
         </div>
 
         <button onclick="updateSiteData()">עדכן את הלוח עכשיו</button>
         <div id="globalStatus"></div>
-        <div style="text-align: center; font-size: 12px; color: #777; margin-top: 20px;">בסייעתא דשמיא - מוסדות תפארת עובדיה</div>
     </div>
 
     <script>
-        // בדיקת התחברות
         if (sessionStorage.getItem("isLoggedIn") !== "true") { window.location.href = "login.html"; }
         
-        // טעינת הטוקן השמור מהדפדפן
         window.onload = function() {
             const savedToken = localStorage.getItem("github_token");
             if (savedToken) {
                 document.getElementById("ghToken").value = savedToken;
+                loadCurrentData(); // טעינת נתונים אוטומטית אם יש טוקן
             }
         };
 
         function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
 
+        // פונקציה חדשה: טעינת הנתונים הקיימים מהשרת
+        async function loadCurrentData() {
+            const token = document.getElementById("ghToken").value;
+            const status = document.getElementById("globalStatus");
+            if (!token) return;
+
+            localStorage.setItem("github_token", token);
+            status.innerText = "טוען נתונים קיימים...";
+
+            try {
+                const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
+                const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+                
+                if (response.ok) {
+                    const fileData = await response.json();
+                    const content = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
+                    
+                    // מילוי השדות
+                    document.getElementById("patronDayInput").value = content.patronDay || "";
+                    document.getElementById("patronWeekInput").value = content.patronWeek || "";
+                    document.getElementById("patronMonthInput").value = content.patronMonth || "";
+                    document.getElementById("prayersInput").value = content.prayers || "";
+                    
+                    // מילוי הודעות וצבעים
+                    if (content.messagesConfig) {
+                        content.messagesConfig.forEach((item, index) => {
+                            if (index < 5) {
+                                document.getElementById(`msg${index+1}`).value = item.text;
+                                document.getElementById(`clr${index+1}`).value = item.color || "#001f3f";
+                            }
+                        });
+                    } else if (content.messages) {
+                        // תאימות לאחור
+                        content.messages.forEach((txt, index) => {
+                            if (index < 5) document.getElementById(`msg${index+1}`).value = txt;
+                        });
+                    }
+                    
+                    status.innerText = "הנתונים נטענו בהצלחה.";
+                    status.style.color = "green";
+                }
+            } catch (e) {
+                status.innerText = "שגיאה בטעינת נתונים.";
+            }
+        }
+
         async function updateSiteData() {
             const token = document.getElementById("ghToken").value;
             const status = document.getElementById("globalStatus");
-            
-            if (!token) { alert("נא להזין מפתח גישה"); return; }
-            
-            // שמירת הטוקן לשימוש הבא
-            localStorage.setItem("github_token", token);
+            if (!token) { alert("נא להזין טוקן"); return; }
 
             status.style.color = "#1a237e";
-            status.innerText = "מעדכן נתונים בשרת...";
+            status.innerText = "מעדכן...";
+
+            // בניית מבנה הודעות עם צבעים
+            const messagesConfig = [];
+            for(let i=1; i<=5; i++) {
+                messagesConfig.push({
+                    text: document.getElementById(`msg${i}`).value,
+                    color: document.getElementById(`clr${i}`).value
+                });
+            }
 
             const data = {
-                boardTitle: "ישיבת תפארת עובדיה", // כותרת קבועה
-                messages: [
-                    document.getElementById("msg1").value,
-                    document.getElementById("msg2").value,
-                    document.getElementById("msg3").value,
-                    document.getElementById("msg4").value,
-                    document.getElementById("msg5").value
-                ],
+                boardTitle: "ישיבת תפארת עובדיה",
+                messagesConfig: messagesConfig,
+                messages: messagesConfig.map(m => m.text), // לשמירה על תאימות
                 prayers: document.getElementById("prayersInput").value,
                 patronDay: document.getElementById("patronDayInput").value,
                 patronWeek: document.getElementById("patronWeekInput").value,
@@ -115,15 +180,10 @@
                 });
 
                 if (response.ok) {
-                    status.style.color = "#2e7d32";
-                    status.innerText = "הלוח עודכן בהצלחה! ✅ השינוי יופיע תוך דקה.";
-                } else {
-                    status.style.color = "#c62828";
-                    status.innerText = "שגיאת עדכון. בדוק את המפתח.";
+                    status.innerText = "עודכן בהצלחה! ✅";
+                    status.style.color = "green";
                 }
-            } catch (e) {
-                status.innerText = "שגיאת תקשורת: " + e.message;
-            }
+            } catch (e) { status.innerText = "שגיאה."; }
         }
     </script>
 </body>
