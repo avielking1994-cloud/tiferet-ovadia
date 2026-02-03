@@ -105,12 +105,6 @@
 
 <nav>
     <a href="index.html">דף הבית</a>
-    <a href="about.html">אודות המוסדות</a>
-    <a href="staff.html">רבני המוסדות</a>
-    <a href="gallery.html">גלריית תמונות</a>
-    <a href="donations.html">תרומות</a>
-    <a href="registration.html">רישום לישיבה</a>
-    <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
 
@@ -162,22 +156,17 @@
 </div>
 
 <script>
-    let messages = [];
+    let messagesConfig = [];
     let currentMsgIndex = 0;
 
     function startProjection() {
         const elem = document.documentElement;
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        }
+        if (elem.requestFullscreen) { elem.requestFullscreen(); }
         document.body.classList.add('is-projecting');
     }
 
-    // מאזין ליציאה ממסך מלא (דרך ESC או כפתור)
     document.addEventListener('fullscreenchange', () => {
-        if (!document.fullscreenElement) {
-            document.body.classList.remove('is-projecting');
-        }
+        if (!document.fullscreenElement) { document.body.classList.remove('is-projecting'); }
     });
 
     function adjustFontSize(text) {
@@ -198,20 +187,29 @@
                 const lines = data.prayers.split('\n').slice(0, 7);
                 document.getElementById("prayers-list").innerHTML = lines.map(l => l.trim() ? `<div class="prayer-item">${l}</div>` : '').join('');
             }
-            messages = (data.messages || []).filter(m => m && m.trim() !== "");
+            
+            // טעינת הודעות עם צבעים
+            messagesConfig = (data.messagesConfig || []).filter(m => m && m.text && m.text.trim() !== "");
+            
+            // תאימות לאחור (אם אין messagesConfig)
+            if (messagesConfig.length === 0 && data.messages) {
+                messagesConfig = data.messages.filter(m => m.trim() !== "").map(m => ({text: m, color: "#001f3f"}));
+            }
         } catch (e) {}
     }
 
     function rotateMessages() {
-        if (messages.length === 0) return;
+        if (messagesConfig.length === 0) return;
         const msgElement = document.getElementById("msg-body");
         msgElement.style.opacity = 0;
+        
         setTimeout(() => {
-            const currentText = messages[currentMsgIndex];
-            adjustFontSize(currentText);
-            msgElement.innerText = currentText;
+            const currentItem = messagesConfig[currentMsgIndex];
+            adjustFontSize(currentItem.text);
+            msgElement.innerText = currentItem.text;
+            msgElement.style.color = currentItem.color || "#001f3f"; // החלת הצבע מהפורטל
             msgElement.style.opacity = 1;
-            currentMsgIndex = (currentMsgIndex + 1) % messages.length;
+            currentMsgIndex = (currentMsgIndex + 1) % messagesConfig.length;
         }, 500);
     }
 
@@ -241,5 +239,3 @@
 </script>
 </body>
 </html>
-
-
