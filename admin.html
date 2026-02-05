@@ -6,7 +6,7 @@
     <title>ניהול מערכת - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 900px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 800px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
         .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
@@ -17,23 +17,17 @@
         .msg-row textarea { flex-grow: 1; height: 50px; }
         .color-picker { width: 50px; height: 50px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; padding: 2px; }
 
-        button { background-color: #1a237e; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.3s; }
+        button { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button:hover { background-color: #0d1440; }
-        .update-btn { width: 100%; font-size: 18px; margin-top: 20px; background-color: #1a237e; }
-        
-        .logout-btn { background-color: #f44336; padding: 8px 15px; position: absolute; left: 20px; top: 20px; }
+        .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
         #globalStatus { text-align: center; margin-top: 20px; font-weight: bold; min-height: 24px; }
         .msg-container { border: 1px solid #d4af37; padding: 15px; border-radius: 8px; background-color: #fdfdfd; margin-bottom: 20px; }
 
-        .reg-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; font-size: 0.85rem; }
-        .reg-table th, .reg-table td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+        .reg-table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; font-size: 0.9rem; }
+        .reg-table th, .reg-table td { border: 1px solid #ddd; padding: 10px; text-align: right; }
         .reg-table th { background-color: #1a2a6c; color: #d4af37; }
-        
-        .action-btns { display: flex; gap: 5px; }
-        .btn-sm { padding: 4px 8px; font-size: 11px; border-radius: 4px; border: none; cursor: pointer; color: white; }
-        .btn-wa { background-color: #25D366; }
-        .btn-mail { background-color: #EA4335; }
-        .btn-view { background-color: #d4af37; color: #1a2a6c; }
+        .reg-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .view-btn { background: #d4af37; color: #1a2a6c; border: none; padding: 5px 8px; border-radius: 4px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -48,7 +42,7 @@
         </div>
 
         <div class="msg-container" style="background-color: #fff9e6;">
-            <h3 style="color: #1a237e; margin-top: 0;">📋 ניהול נרשמים ותקשורת</h3>
+            <h3 style="color: #1a237e; margin-top: 0;">📋 בקשות רישום חדשות</h3>
             <div style="overflow-x: auto;">
                 <table class="reg-table">
                     <thead>
@@ -56,39 +50,42 @@
                             <th>תאריך</th>
                             <th>שם המועמד</th>
                             <th>טלפון</th>
-                            <th>פעולות מהירות</th>
+                            <th>פעולות</th>
                         </tr>
                     </thead>
                     <tbody id="registrations-list">
-                        <tr><td colspan="4" style="text-align:center;">טוען נתונים...</td></tr>
+                        <tr><td colspan="4" style="text-align:center;">טוען רשימת נרשמים...</td></tr>
                     </tbody>
                 </table>
             </div>
         </div>
 
-        <div class="msg-container">
-            <label style="color: #1a237e;">פרנסי הישיבה (לעדכון בלוח):</label>
-            <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
-            <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
-            <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
-            <p style="font-size: 0.8rem; color: #666;">* לחיצה על עדכון תשמור את השמות בלוח המודעות הציבורי.</p>
-        </div>
+        <hr style="border: 0; border-top: 1px solid #d4af37; margin: 30px 0;">
 
         <div class="msg-container">
-            <label style="color: #1a237e;">הודעות רצות בצבעים:</label>
+            <label style="color: #1a237e;">הודעות מתחלפות וצבעים:</label>
             <div id="messages-list">
                 <div class="msg-row"><textarea id="msg1" placeholder="הודעה 1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
                 <div class="msg-row"><textarea id="msg2" placeholder="הודעה 2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
                 <div class="msg-row"><textarea id="msg3" placeholder="הודעה 3"></textarea><input type="color" id="clr3" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg4" placeholder="הודעה 4"></textarea><input type="color" id="clr4" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg5" placeholder="הודעה 5"></textarea><input type="color" id="clr5" class="color-picker" value="#001f3f"></div>
             </div>
+        </div>
+
+        <div class="msg-container">
+            <label style="color: #1a237e;">פרנסי הישיבה:</label>
+            <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
+            <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
+            <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
         </div>
 
         <div class="input-group">
             <label>זמני תפילות:</label>
-            <textarea id="prayersInput" style="height: 80px;"></textarea>
+            <textarea id="prayersInput" style="height: 100px;"></textarea>
         </div>
 
-        <button class="update-btn" onclick="updateSiteData()">עדכן לוח מודעות עכשיו 🚀</button>
+        <button onclick="updateSiteData()">עדכן את הלוח עכשיו</button>
         <div id="globalStatus"></div>
     </div>
 
@@ -126,119 +123,5 @@
                     document.getElementById("prayersInput").value = content.prayers || "";
                     if (content.messagesConfig) {
                         content.messagesConfig.forEach((item, index) => {
-                            if (index < 3) {
-                                document.getElementById(`msg${index+1}`).value = item.text;
-                                document.getElementById(`clr${index+1}`).value = item.color || "#001f3f";
-                            }
-                        });
-                    }
-                }
-            } catch (e) { console.error("Error loading board data"); }
-        }
-
-        async function fetchRegistrations(token) {
-            const listBody = document.getElementById("registrations-list");
-            try {
-                const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/registrations.json";
-                const response = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-                if (response.ok) {
-                    const fileData = await response.json();
-                    const regs = JSON.parse(decodeURIComponent(escape(atob(fileData.content))));
-                    window.allRegs = regs;
-                    
-                    if(regs.length === 0) {
-                        listBody.innerHTML = "<tr><td colspan='4' style='text-align:center;'>אין נרשמים</td></tr>";
-                        return;
-                    }
-
-                    listBody.innerHTML = regs.map((r, i) => {
-                        const phone = r['טלפון'] ? r['טלפון'].replace(/\D/g, '') : '';
-                        const name = `${r['שם פרטי'] || ''} ${r['שם משפחה'] || ''}`;
-                        const email = r['אימייל'] || '';
-
-                        return `
-                            <tr>
-                                <td>${r.date || ''}</td>
-                                <td>${name}</td>
-                                <td>${r['טלפון'] || ''}</td>
-                                <td class="action-btns">
-                                    <button class="btn-sm btn-view" onclick="showReg(${i})">פרטים</button>
-                                    <button class="btn-sm btn-wa" onclick="sendWA('${phone}', '${name}')">WhatsApp</button>
-                                    ${email ? `<button class="btn-sm btn-mail" onclick="sendMail('${email}', '${name}')">מייל</button>` : ''}
-                                </td>
-                            </tr>
-                        `;
-                    }).reverse().join('');
-                }
-            } catch (e) { listBody.innerHTML = "<tr><td colspan='4'>שגיאה בטעינה</td></tr>"; }
-        }
-
-        // פונקציות תקשורת
-        function sendWA(phone, name) {
-            if(!phone) return alert("אין מספר טלפון");
-            let cleanPhone = phone;
-            if(cleanPhone.startsWith('0')) cleanPhone = '972' + cleanPhone.substring(1);
-            const msg = encodeURIComponent(`שלום ${name}, קיבלנו את פנייתך לישיבת תפארת עובדיה. נשמח לעמוד בקשר.`);
-            window.open(`https://wa.me/${cleanPhone}?text=${msg}`, '_blank');
-        }
-
-        function sendMail(email, name) {
-            const subject = encodeURIComponent("בקשת רישום - ישיבת תפארת עובדיה");
-            const body = encodeURIComponent(`שלום ${name},\n\nבהמשך לפנייתך לרישום לישיבה...`);
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-
-        function showReg(index) {
-            const r = window.allRegs[index];
-            let details = "";
-            for (let key in r) { details += `${key}: ${r[key]}\n`; }
-            alert("פרטי נרשם:\n\n" + details);
-        }
-
-        async function updateSiteData() {
-            const token = document.getElementById("ghToken").value;
-            const status = document.getElementById("globalStatus");
-            if (!token) { alert("נא להזין טוקן"); return; }
-            status.innerText = "מעדכן לוח...";
-
-            const messagesConfig = [];
-            for(let i=1; i<=3; i++) {
-                messagesConfig.push({
-                    text: document.getElementById(`msg${i}`).value,
-                    color: document.getElementById(`clr${i}`).value
-                });
-            }
-
-            const data = {
-                boardTitle: "ישיבת תפארת עובדיה",
-                messagesConfig: messagesConfig,
-                prayers: document.getElementById("prayersInput").value,
-                patronDay: document.getElementById("patronDayInput").value,
-                patronWeek: document.getElementById("patronWeekInput").value,
-                patronMonth: document.getElementById("patronMonthInput").value,
-                lastUpdate: new Date().toLocaleString('he-IL')
-            };
-
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-            const url = "https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/data.json";
-
-            try {
-                const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-                let sha = "";
-                if (getFile.ok) { const fileData = await getFile.json(); sha = fileData.sha; }
-
-                const response = await fetch(url, {
-                    method: "PUT",
-                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
-                    body: JSON.stringify({ message: "Update Board", content: content, sha: sha || undefined })
-                });
-
-                if (response.ok) {
-                    status.innerText = "הלוח עודכן בהצלחה! ✅";
-                    status.style.color = "green";
-                }
-            } catch (e) { status.innerText = "שגיאה בעדכון."; status.style.color = "red"; }
-        }
-    </script>
-</body>
-</html>
+                            if (index < 5) {
+                                document.getElementById(`msg${index+1}`).value = item.
