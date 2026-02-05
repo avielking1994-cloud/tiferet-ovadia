@@ -32,4 +32,123 @@
 <header class="main-header">
     <div class="header-container" style="position: relative;">
         <div style="position: absolute; left: 20px; top: 20px;">
-            <a href="login.html" style="background: #1a2a6c; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; border: 1px solid #d4af37; font-
+            <a href="login.html" style="background: #1a2a6c; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; border: 1px solid #d4af37; font-weight: bold;">כניסה לפורטל</a>
+        </div>
+        <div class="logo-box">
+            <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
+        </div>
+        <div class="title-box">
+            <h1 class="main-title">מוסדות תפארת עובדיה</h1>
+            <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
+            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
+        </div>
+    </div>
+</header>
+
+<nav>
+    <a href="index.html">דף הבית</a>
+    <a href="about.html">אודות המוסדות</a>
+    <a href="staff.html">רבני המוסדות</a>
+    <a href="gallery.html">גלריית תמונות</a>
+    <a href="donations.html">תרומות</a>
+    <a href="registration.html">רישום לישיבה</a>
+    <a href="contact.html">צור קשר</a>
+    <a href="archive.html">לוח מודעות</a>
+</nav>
+
+<div class="container">
+    <h2>טופס רישום והצטרפות לישיבה</h2>
+    
+    <div id="success-message">
+        אשריכם! הטופס נשלח בהצלחה. <br>
+        פרטיכם התקבלו במזכירות הישיבה ונחזור אליכם בהקדם בלי נדר.
+    </div>
+
+    <form id="reg-form">
+        <div class="form-section">
+            <h3>🔹 פרטים אישיים</h3>
+            <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
+            <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
+            <input type="tel" name="טלפון" placeholder="טלפון נייד" required>
+            <input type="text" name="כתובת" placeholder="כתובת מגורים">
+            <label>סטטוס אישי:</label>
+            <select name="סטטוס אישי">
+                <option value="רווק">רווק</option>
+                <option value="גרוש">גרוש</option>
+                <option value="אלמן">אלמן</option>
+            </select>
+        </div>
+        <button type="submit" id="submit-button" class="submit-btn">שלח בקשת הצטרפות</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('reg-form');
+    const successMsg = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-button');
+
+    const owner = "avielking1994-cloud";
+    const repo = "tiferet-ovadia";
+    const fileName = "registrations.json";
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+        
+        // קבלת הטוקן מהאחסון המקומי או מהמשתמש (כדי ש-GitHub לא יחסום אותו)
+        let token = localStorage.getItem('gh_token');
+        if (!token) {
+            token = prompt("נא להזין טוקן GitHub לצורך אימות שליחה (חד-פעמי):");
+            if (token) localStorage.setItem('gh_token', token);
+        }
+
+        if (!token) return;
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "שולח נתונים...";
+
+        const formData = new FormData(form);
+        const newEntry = { date: new Date().toLocaleString('he-IL') };
+        formData.forEach((value, key) => { newEntry[key] = value; });
+
+        try {
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
+            let sha = "";
+            let currentData = [];
+
+            const getRes = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+
+            if (getRes.ok) {
+                const fileJson = await getRes.json();
+                sha = fileJson.sha;
+                currentData = JSON.parse(decodeURIComponent(escape(atob(fileJson.content))));
+            }
+
+            currentData.push(newEntry);
+
+            const putRes = await fetch(url, {
+                method: "PUT",
+                headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    message: `רישום חדש: ${newEntry['שם פרטי']}`,
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2)))),
+                    sha: sha || undefined
+                })
+            });
+
+            if (putRes.ok) {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                localStorage.removeItem('gh_token'); // אם נכשל, אולי הטוקן לא תקין
+                throw new Error("שגיאה בשמירה. וודא שהטוקן תקין.");
+            }
+        } catch (error) {
+            alert(error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "שלח שוב";
+        }
+    });
+</script>
+</body>
+</html>
