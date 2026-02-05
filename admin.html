@@ -6,7 +6,7 @@
     <title>פורטל ניהול - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 900px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 1100px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
         
         /* עיצוב לשוניות */
@@ -29,9 +29,14 @@
         button.main-btn:hover { background-color: #0d1440; }
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; font-size: 0.9rem; }
-        th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
-        th { background-color: #1a2a6c; color: #d4af37; }
+        /* עיצוב טבלה רחבה */
+        .table-container { overflow-x: auto; margin-top: 15px; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; min-width: 1000px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
+        th { background-color: #1a2a6c; color: #d4af37; position: sticky; top: 0; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .view-btn { background: #d4af37; color: #1a2a6c; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
         #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; min-height: 24px; }
     </style>
 </head>
@@ -78,11 +83,26 @@
         </div>
 
         <div id="regTab" class="tab-content">
-            <h3>📋 בקשות רישום חדשות</h3>
-            <table>
-                <thead><tr><th>תאריך</th><th>שם המועמד</th><th>טלפון</th></tr></thead>
-                <tbody id="registrations-list"></tbody>
-            </table>
+            <h3>📋 רשימת נרשמים מפורטת</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>תאריך</th>
+                            <th>שם מלא</th>
+                            <th>טלפון</th>
+                            <th>ת.ז</th>
+                            <th>סטטוס</th>
+                            <th>ישיבה קודמת</th>
+                            <th>מצב רוחני</th>
+                            <th>פרטים</th>
+                        </tr>
+                    </thead>
+                    <tbody id="registrations-list">
+                        <tr><td colspan="8" style="text-align:center;">טוען נתונים...</td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div id="donorTab" class="tab-content">
@@ -93,10 +113,12 @@
                 <button class="main-btn" style="background:#4caf50;" onclick="addDonor()">הוסף תורם לרשימה</button>
             </div>
             <h3>רשימת תורמים</h3>
-            <table>
-                <thead><tr><th>שם התורם</th><th>הערה</th><th>פעולה</th></tr></thead>
-                <tbody id="donors-list"></tbody>
-            </table>
+            <div class="table-container">
+                <table>
+                    <thead><tr><th>שם התורם</th><th>הערה</th><th>פעולה</th></tr></thead>
+                    <tbody id="donors-list"></tbody>
+                </table>
+            </div>
             <button class="main-btn" onclick="saveDonorsToGH()">שמור רשימת תורמים לצמיתות</button>
         </div>
 
@@ -105,6 +127,7 @@
 
     <script>
         let donorsData = [];
+        let allRegistrations = [];
 
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
@@ -129,7 +152,6 @@
             if (!token) return;
             localStorage.setItem("github_token", token);
             
-            // טעינת לוח ושחזור הודעות
             fetchFromGH("data.json", (data) => {
                 document.getElementById("patronDayInput").value = data.patronDay || "";
                 document.getElementById("patronWeekInput").value = data.patronWeek || "";
@@ -145,13 +167,11 @@
                 }
             });
 
-            // טעינת נרשמים
             fetchFromGH("registrations.json", (data) => {
-                const list = document.getElementById("registrations-list");
-                list.innerHTML = data.map(r => `<tr><td>${r.date || ''}</td><td>${r['שם פרטי']} ${r['שם משפחה']}</td><td>${r.טלפון}</td></tr>`).reverse().join('');
+                allRegistrations = data || [];
+                renderRegistrations();
             });
 
-            // טעינת תורמים
             fetchFromGH("donors.json", (data) => {
                 donorsData = data || [];
                 renderDonors();
@@ -171,6 +191,35 @@
             } catch (e) { console.log(fileName + " not found"); }
         }
 
+        function renderRegistrations() {
+            const list = document.getElementById("registrations-list");
+            if (allRegistrations.length === 0) {
+                list.innerHTML = "<tr><td colspan='8' style='text-align:center;'>אין נרשמים עדיין</td></tr>";
+                return;
+            }
+            list.innerHTML = allRegistrations.map((r, i) => `
+                <tr>
+                    <td>${r.date || ''}</td>
+                    <td>${r['שם פרטי']} ${r['שם משפחה']}</td>
+                    <td>${r['טלפון'] || ''}</td>
+                    <td>${r['מספר זהות'] || ''}</td>
+                    <td>${r['סטטוס אישי'] || ''}</td>
+                    <td>${r['ישיבה קודמת'] || ''}</td>
+                    <td>${r['מצב רוחני'] || ''}</td>
+                    <td><button class="view-btn" onclick="showFullDetails(${i})">הכל</button></td>
+                </tr>
+            `).reverse().join('');
+        }
+
+        function showFullDetails(index) {
+            const r = allRegistrations[index];
+            let msg = "--- פרטים מלאים ---\n";
+            for (let key in r) {
+                if (r[key]) msg += `${key}: ${r[key]}\n`;
+            }
+            alert(msg);
+        }
+
         async function updateBoard() {
             const messages = [];
             for (let i = 1; i <= 5; i++) {
@@ -179,7 +228,6 @@
                     color: document.getElementById(`clr${i}`).value
                 });
             }
-
             const data = {
                 boardTitle: "ישיבת תפארת עובדיה",
                 patronDay: document.getElementById("patronDayInput").value,
@@ -189,7 +237,6 @@
                 messagesConfig: messages,
                 lastUpdate: new Date().toLocaleString('he-IL')
             };
-
             await saveToGH("data.json", data, "Update Board Data");
         }
 
@@ -218,19 +265,21 @@
             const status = document.getElementById("globalStatus");
             status.innerText = "מעדכן...";
 
-            let sha = "";
-            const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-            if (getFile.ok) { const f = await getFile.json(); sha = f.sha; }
+            try {
+                let sha = "";
+                const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+                if (getFile.ok) { const f = await getFile.json(); sha = f.sha; }
 
-            const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
-            const res = await fetch(url, {
-                method: "PUT",
-                headers: { "Authorization": `token ${token}` },
-                body: JSON.stringify({ message: msg, content, sha: sha || undefined })
-            });
+                const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
+                const res = await fetch(url, {
+                    method: "PUT",
+                    headers: { "Authorization": `token ${token}` },
+                    body: JSON.stringify({ message: msg, content, sha: sha || undefined })
+                });
 
-            if (res.ok) { status.innerText = "נשמר בהצלחה! ✅"; status.style.color = "green"; }
-            else { status.innerText = "שגיאה בשמירה ❌"; status.style.color = "red"; }
+                if (res.ok) { status.innerText = "נשמר בהצלחה! ✅"; status.style.color = "green"; }
+                else { status.innerText = "שגיאה בשמירה ❌"; status.style.color = "red"; }
+            } catch (e) { status.innerText = "שגיאה בתקשורת ❌"; }
         }
 
         function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
