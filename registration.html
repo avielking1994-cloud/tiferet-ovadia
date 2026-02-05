@@ -18,29 +18,53 @@
 <body>
 
 <header class="main-header">
-    <div class="header-container">
+    <div class="header-container" style="position: relative;">
+        <div style="position: absolute; left: 20px; top: 20px;">
+            <a href="login.html" style="background: #1a2a6c; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; border: 1px solid #d4af37; font-weight: bold;">כניסה לפורטל</a>
+        </div>
+
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
+            <p class="legacy-title" style="color: #d4af37; font-weight: bold;">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
         </div>
     </div>
 </header>
 
+<nav>
+    <a href="index.html">דף הבית</a>
+    <a href="about.html">אודות המוסדות</a>
+    <a href="staff.html">רבני המוסדות</a>
+    <a href="gallery.html">גלריית תמונות</a>
+    <a href="donations.html">תרומות</a>
+    <a href="registration.html" class="active">רישום לישיבה</a>
+    <a href="contact.html">צור קשר</a>
+    <a href="archive.html">לוח מודעות</a>
+</nav>
+
 <div class="container">
     <h2>טופס רישום והצטרפות לישיבה</h2>
-    <div id="success-message">אשריכם! הטופס נשלח בהצלחה למזכירות הישיבה.</div>
+    
+    <div id="success-message">
+        אשריכם! הטופס נשלח בהצלחה. <br>
+        פרטיכם התקבלו במזכירות הישיבה ונחזור אליכם בהקדם בלי נדר.
+    </div>
 
     <form id="reg-form">
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
-            <input type="text" name="firstName" placeholder="שם פרטי" required>
-            <input type="text" name="lastName" placeholder="שם משפחה" required>
-            <input type="tel" name="phone" placeholder="טלפון נייד" required>
-            <input type="text" name="address" placeholder="כתובת מגורים">
-            <select name="status">
+            <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
+            <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
+            <input type="text" name="מספר זהות" placeholder="מספר זהות">
+            <input type="tel" name="טלפון" placeholder="טלפון נייד" required>
+            <input type="text" name="תאריך לידה" placeholder="תאריך לידה (עברי/לועזי)">
+            <input type="text" name="כתובת" placeholder="כתובת מגורים (עיר ורחוב)">
+            
+            <label>סטטוס אישי:</label>
+            <select name="סטטוס אישי">
                 <option value="רווק">רווק</option>
                 <option value="גרוש">גרוש</option>
                 <option value="אלמן">אלמן</option>
@@ -49,62 +73,113 @@
 
         <div class="form-section">
             <h3>🔹 פרטי הורים</h3>
-            <input type="text" name="fatherName" placeholder="שם האב">
-            <input type="text" name="motherName" placeholder="שם האם">
+            <input type="text" name="שם האב" placeholder="שם האב">
+            <input type="text" name="עיסוק האב" placeholder="עיסוק האב">
+            <input type="text" name="שם האם" placeholder="שם האם">
         </div>
 
         <div class="form-section">
-            <h3>🔹 רקע לימודי ורוחני</h3>
-            <input type="text" name="prevYeshiva" placeholder="ישיבה קודמת">
-            <select name="religiousLevel">
+            <h3>🔹 רקע לימודי וצבאי</h3>
+            <input type="text" name="ישיבה קודמת" placeholder="ישיבה קודמת / מקום לימודים אחרון">
+            <input type="text" name="שירות צבאי" placeholder="שירות צבאי (חיל / תפקיד / לא שירת)">
+            <input type="text" name="עיסוק נוכחי" placeholder="עיסוק נוכחי (עובד/לומד)">
+        </div>
+
+        <div class="form-section">
+            <h3>🔹 מצב רוחני ושאיפות</h3>
+            <label>איך היית הגדיר את המצב הרוחני הנוכחי?</label>
+            <select name="מצב רוחני">
                 <option value="מתחזק">מתחזק</option>
+                <option value="מסורתי">מסורתי</option>
                 <option value="דתי">דתי</option>
                 <option value="חרדי">חרדי</option>
             </select>
-            <textarea name="goals" placeholder="שאיפות רוחניות..." rows="3"></textarea>
+            <textarea name="מטרה" placeholder="מה המטרה שתרצה להשיג בזמן לימודך בישיבה?" rows="3"></textarea>
+            <textarea name="הערות" placeholder="הערות נוספות שחשוב שנדע..." rows="2"></textarea>
         </div>
 
-        <button type="submit" id="submit-button" class="submit-btn">שלח בקשת הצטרפות</button>
+        <button type="submit" id="submit-button" class="submit-btn">שלח בקשת הצטרפות לישיבה</button>
     </form>
 </div>
 
+<footer>
+    <p>© כל הזכויות שמורות למוסדות תפארת עובדיה | שנת תשפ"ו</p>
+</footer>
+
 <script>
     const form = document.getElementById('reg-form');
-    
+    const successMsg = document.getElementById('success-message');
+    const submitBtn = document.getElementById('submit-button');
+
+    const owner = "avielking1994-cloud";
+    const repo = "tiferet-ovadia";
+    const fileName = "registrations.json";
+
     form.addEventListener('submit', async e => {
         e.preventDefault();
-        const btn = document.getElementById('submit-button');
-        btn.disabled = true;
-        btn.innerText = "שולח נתונים...";
+
+        // בקשת טוקן אם לא קיים באחסון (כדי שלא ייחסם בתוך הקוד)
+        let token = localStorage.getItem('gh_token');
+        if (!token) {
+            token = prompt("לצורך אימות שליחה מאובטח, נא להזין את הטוקן שקיבלת מהמנהל (חד-פעמי):");
+            if (token) localStorage.setItem('gh_token', token);
+        }
+
+        if (!token) {
+            alert("חובה להזין מפתח גישה לשליחת הטופס.");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.innerText = "שולח נתונים...";
 
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-        data.date = new Date().toLocaleString('he-IL');
+        const newEntry = { date: new Date().toLocaleString('he-IL') };
+        formData.forEach((value, key) => { newEntry[key] = value; });
 
-        // שליחה ל-GitHub Action (בלי טוקן חשוף!)
         try {
-            const response = await fetch('https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/dispatches', {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/vnd.github.v3+json',
-                    // כאן לא שמים טוקן - אנחנו נשתמש ב-Webhook או ב-Proxy פשוט
-                },
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
+            let sha = "";
+            let currentData = [];
+
+            // 1. קריאת הקובץ הקיים
+            const getRes = await fetch(url, { headers: { "Authorization": `token ${token}` } });
+
+            if (getRes.ok) {
+                const fileJson = await getRes.json();
+                sha = fileJson.sha;
+                currentData = JSON.parse(decodeURIComponent(escape(atob(fileJson.content))));
+            }
+
+            // 2. הוספת הנתון החדש
+            currentData.push(newEntry);
+
+            // 3. שמירה חזרה
+            const putRes = await fetch(url, {
+                method: "PUT",
+                headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    event_type: 'new-registration',
-                    client_payload: data
+                    message: `רישום חדש: ${newEntry['שם פרטי']} ${newEntry['שם משפחה']}`,
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2)))),
+                    sha: sha || undefined
                 })
             });
-            
-            // בגלל שזה דף סטטי, נשתמש בפורמט שליחה פשוט יותר שעובד עם שירותים כמו Formspree או דומה לו שמחבר ל-GitHub
-            // אבל כדי שזה יעבוד "נקי" בפורטל שלך:
-            form.style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
+
+            if (putRes.ok) {
+                form.style.display = 'none';
+                successMsg.style.display = 'block';
+                window.scrollTo(0, 0);
+            } else {
+                localStorage.removeItem('gh_token');
+                throw new Error("שגיאה בהרשאת גישה. נא לנסות שוב.");
+            }
         } catch (error) {
-            alert("הרישום התקבל במערכת!"); // הודעה חיובית בכל מקרה
-            form.style.display = 'none';
-            document.getElementById('success-message').style.display = 'block';
+            alert(error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "שלח שוב";
         }
     });
 </script>
+
 </body>
 </html>
