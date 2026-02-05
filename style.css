@@ -4,18 +4,15 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-    background-color: #f4f1e6; /* צבע בסיס קרם */
-    
-    /* אפקט החספוס כמו באתר יביע אומר */
+    background-color: #f4f1e6;
     background-image: 
         url("https://www.transparenttextures.com/patterns/natural-paper.png"), 
         radial-gradient(circle at center, rgba(255,255,255,0.4) 0%, rgba(244,241,230,0.1) 100%);
-    
     background-repeat: repeat;
     background-attachment: fixed;
 }
 
-/* עיצוב ראש הדף (Header) */
+/* עיצוב ראש הדף */
 .main-header {
     background-color: #1a2a6c;
     color: white;
@@ -32,7 +29,6 @@ body {
     padding: 0 20px;
 }
 
-/* עיצוב העיגול של הלוגו */
 .logo-box {
     width: 140px;
     height: 140px;
@@ -54,7 +50,6 @@ body {
     object-fit: contain; 
 }
 
-/* כותרות */
 .main-title {
     font-size: 2.8em;
     margin: 0;
@@ -96,18 +91,35 @@ nav a:hover {
     color: white;
 }
 
-/* תיבת התוכן המרכזית - נקייה ומסודרת */
+/* עיצוב הבאנר המרכזי */
+.main-banner {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('top-banner.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 400px; /* גובה הבאנר */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border-bottom: 4px solid #d4af37;
+}
+
+.banner-content {
+    color: white;
+    text-align: center;
+}
+
+/* תיבת התוכן המרכזית */
 .container {
     max-width: 1000px;
     margin: 40px auto;
-    background: rgba(255, 255, 255, 0.97); /* לבן נקי על הרקע המחוספס */
+    background: rgba(255, 255, 255, 0.97);
     padding: 35px;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 1px solid #dcd7c0;
 }
 
-/* ציטוטים */
 .rabbi-quote {
     background-color: #fdfae6;
     border-right: 6px solid #d4af37;
@@ -117,18 +129,10 @@ nav a:hover {
     color: #1a2a6c;
     font-size: 1.2em;
     line-height: 1.6;
+    text-align: center;
+    width: 80%;
 }
 
-/* כותרות משנה */
-h3 {
-    color: #1a2a6c;
-    border-bottom: 2px solid #d4af37;
-    display: inline-block;
-    padding-bottom: 5px;
-    margin-top: 25px;
-}
-
-/* סיומת הדף */
 footer {
     text-align: center;
     padding: 25px;
@@ -146,4 +150,6 @@ footer {
     .rabbi-title { font-size: 1.3em; }
     nav a { display: inline-block; margin: 5px 10px; }
     .container { margin: 20px; padding: 20px; }
+    .main-banner { height: 250px; }
+    .banner-content h2 { font-size: 1.8rem !important; }
 }
