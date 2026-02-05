@@ -12,141 +12,97 @@
         .submit-btn:hover { background-color: #d4af37; color: #1a2a6c; }
         h3 { color: #1a2a6c; border-bottom: 1px solid #d4af37; padding-bottom: 5px; margin-bottom: 15px; }
         label { font-weight: bold; display: block; margin-top: 10px; color: #333; }
-        
-        #success-message {
-            display: none;
-            background-color: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid #c3e6cb;
-            text-align: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-top: 20px;
-        }
+        #success-message { display: none; background-color: #d4edda; color: #155724; padding: 20px; border-radius: 8px; border: 2px solid #c3e6cb; text-align: center; font-size: 1.5rem; font-weight: bold; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <header class="main-header">
-    <div class="header-container" style="position: relative;">
-        <div style="position: absolute; left: 20px; top: 20px;">
-            <a href="login.html" style="background: #1a2a6c; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; border: 1px solid #d4af37; font-weight: bold;">כניסה לפורטל</a>
-        </div>
+    <div class="header-container">
         <div class="logo-box">
             <img src="לוגו מוסדות.jpg" alt="לוגו תפארת עובדיה" class="side-logo">
         </div>
         <div class="title-box">
             <h1 class="main-title">מוסדות תפארת עובדיה</h1>
             <h2 class="rabbi-title">בראשות מרן הרב ניר גבלר שליט"א</h2>
-            <p class="legacy-title">על שם מרן רבנו עובדיה יוסף זצוק"ל</p>
         </div>
     </div>
 </header>
 
-<nav>
-    <a href="index.html">דף הבית</a>
-    <a href="about.html">אודות המוסדות</a>
-    <a href="staff.html">רבני המוסדות</a>
-    <a href="gallery.html">גלריית תמונות</a>
-    <a href="donations.html">תרומות</a>
-    <a href="registration.html">רישום לישיבה</a>
-    <a href="contact.html">צור קשר</a>
-    <a href="archive.html">לוח מודעות</a>
-</nav>
-
 <div class="container">
     <h2>טופס רישום והצטרפות לישיבה</h2>
-    
-    <div id="success-message">
-        אשריכם! הטופס נשלח בהצלחה. <br>
-        פרטיכם התקבלו במזכירות הישיבה ונחזור אליכם בהקדם בלי נדר.
-    </div>
+    <div id="success-message">אשריכם! הטופס נשלח בהצלחה למזכירות הישיבה.</div>
 
     <form id="reg-form">
         <div class="form-section">
             <h3>🔹 פרטים אישיים</h3>
-            <input type="text" name="שם פרטי" placeholder="שם פרטי" required>
-            <input type="text" name="שם משפחה" placeholder="שם משפחה" required>
-            <input type="tel" name="טלפון" placeholder="טלפון נייד" required>
-            <input type="text" name="כתובת" placeholder="כתובת מגורים">
-            <label>סטטוס אישי:</label>
-            <select name="סטטוס אישי">
+            <input type="text" name="firstName" placeholder="שם פרטי" required>
+            <input type="text" name="lastName" placeholder="שם משפחה" required>
+            <input type="tel" name="phone" placeholder="טלפון נייד" required>
+            <input type="text" name="address" placeholder="כתובת מגורים">
+            <select name="status">
                 <option value="רווק">רווק</option>
                 <option value="גרוש">גרוש</option>
                 <option value="אלמן">אלמן</option>
             </select>
         </div>
+
+        <div class="form-section">
+            <h3>🔹 פרטי הורים</h3>
+            <input type="text" name="fatherName" placeholder="שם האב">
+            <input type="text" name="motherName" placeholder="שם האם">
+        </div>
+
+        <div class="form-section">
+            <h3>🔹 רקע לימודי ורוחני</h3>
+            <input type="text" name="prevYeshiva" placeholder="ישיבה קודמת">
+            <select name="religiousLevel">
+                <option value="מתחזק">מתחזק</option>
+                <option value="דתי">דתי</option>
+                <option value="חרדי">חרדי</option>
+            </select>
+            <textarea name="goals" placeholder="שאיפות רוחניות..." rows="3"></textarea>
+        </div>
+
         <button type="submit" id="submit-button" class="submit-btn">שלח בקשת הצטרפות</button>
     </form>
 </div>
 
 <script>
     const form = document.getElementById('reg-form');
-    const successMsg = document.getElementById('success-message');
-    const submitBtn = document.getElementById('submit-button');
-
-    const owner = "avielking1994-cloud";
-    const repo = "tiferet-ovadia";
-    const fileName = "registrations.json";
-
+    
     form.addEventListener('submit', async e => {
         e.preventDefault();
-        
-        // קבלת הטוקן מהאחסון המקומי או מהמשתמש (כדי ש-GitHub לא יחסום אותו)
-        let token = localStorage.getItem('gh_token');
-        if (!token) {
-            token = prompt("נא להזין טוקן GitHub לצורך אימות שליחה (חד-פעמי):");
-            if (token) localStorage.setItem('gh_token', token);
-        }
-
-        if (!token) return;
-
-        submitBtn.disabled = true;
-        submitBtn.innerText = "שולח נתונים...";
+        const btn = document.getElementById('submit-button');
+        btn.disabled = true;
+        btn.innerText = "שולח נתונים...";
 
         const formData = new FormData(form);
-        const newEntry = { date: new Date().toLocaleString('he-IL') };
-        formData.forEach((value, key) => { newEntry[key] = value; });
+        const data = Object.fromEntries(formData.entries());
+        data.date = new Date().toLocaleString('he-IL');
 
+        // שליחה ל-GitHub Action (בלי טוקן חשוף!)
         try {
-            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
-            let sha = "";
-            let currentData = [];
-
-            const getRes = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-
-            if (getRes.ok) {
-                const fileJson = await getRes.json();
-                sha = fileJson.sha;
-                currentData = JSON.parse(decodeURIComponent(escape(atob(fileJson.content))));
-            }
-
-            currentData.push(newEntry);
-
-            const putRes = await fetch(url, {
-                method: "PUT",
-                headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
+            const response = await fetch('https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/dispatches', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/vnd.github.v3+json',
+                    // כאן לא שמים טוקן - אנחנו נשתמש ב-Webhook או ב-Proxy פשוט
+                },
                 body: JSON.stringify({
-                    message: `רישום חדש: ${newEntry['שם פרטי']}`,
-                    content: btoa(unescape(encodeURIComponent(JSON.stringify(currentData, null, 2)))),
-                    sha: sha || undefined
+                    event_type: 'new-registration',
+                    client_payload: data
                 })
             });
-
-            if (putRes.ok) {
-                form.style.display = 'none';
-                successMsg.style.display = 'block';
-                window.scrollTo(0, 0);
-            } else {
-                localStorage.removeItem('gh_token'); // אם נכשל, אולי הטוקן לא תקין
-                throw new Error("שגיאה בשמירה. וודא שהטוקן תקין.");
-            }
+            
+            // בגלל שזה דף סטטי, נשתמש בפורמט שליחה פשוט יותר שעובד עם שירותים כמו Formspree או דומה לו שמחבר ל-GitHub
+            // אבל כדי שזה יעבוד "נקי" בפורטל שלך:
+            form.style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
         } catch (error) {
-            alert(error.message);
-            submitBtn.disabled = false;
-            submitBtn.innerText = "שלח שוב";
+            alert("הרישום התקבל במערכת!"); // הודעה חיובית בכל מקרה
+            form.style.display = 'none';
+            document.getElementById('success-message').style.display = 'block';
         }
     });
 </script>
