@@ -19,17 +19,20 @@
         .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        textarea, input[type="text"], input[type="password"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; }
+        textarea, input[type="text"], input[type="password"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         
         .msg-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
-        .color-picker { width: 50px; height: 50px; border-radius: 8px; cursor: pointer; }
+        .msg-row textarea { flex-grow: 1; height: 60px; }
+        .color-picker { width: 50px; height: 60px; border: 1px solid #ccc; border-radius: 8px; cursor: pointer; padding: 2px; }
 
-        button.main-btn { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; }
-        .logout-btn { background-color: #f44336; padding: 8px 15px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button.main-btn { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
+        button.main-btn:hover { background-color: #0d1440; }
+        .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; font-size: 0.9rem; }
         th, td { border: 1px solid #ddd; padding: 10px; text-align: right; }
         th { background-color: #1a2a6c; color: #d4af37; }
+        #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; min-height: 24px; }
     </style>
 </head>
 <body>
@@ -40,7 +43,7 @@
 
         <div class="token-section">
             <label>מפתח גישה (GitHub Token):</label>
-            <input type="password" id="ghToken" onchange="loadAllData()" placeholder="הזן טוקן לטעינה">
+            <input type="password" id="ghToken" onchange="loadAllData()" placeholder="הזן טוקן לטעינת נתונים">
         </div>
 
         <div class="tabs">
@@ -50,49 +53,54 @@
         </div>
 
         <div id="boardTab" class="tab-content active">
-            <div class="input-group">
-                <label>פרנסי הישיבה:</label>
-                <input type="text" id="patronDayInput" placeholder="פרנס היום">
-                <input type="text" id="patronWeekInput" placeholder="פרנס השבוע" style="margin-top:5px;">
-                <input type="text" id="patronMonthInput" placeholder="פרנס החודש" style="margin-top:5px;">
+            <div class="msg-container">
+                <label style="color: #1a237e;">פרנסי הישיבה:</label>
+                <div class="input-group"><label>פרנס היום:</label><input type="text" id="patronDayInput"></div>
+                <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
+                <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
             </div>
-            <label>הודעות רצות:</label>
+
+            <label style="color: #1a237e;">5 הודעות מתחלפות וצבעים:</label>
             <div id="messages-list">
-                <div class="msg-row"><textarea id="msg1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
-                <div class="msg-row"><textarea id="msg2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg1" placeholder="הודעה 1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg2" placeholder="הודעה 2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg3" placeholder="הודעה 3"></textarea><input type="color" id="clr3" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg4" placeholder="הודעה 4"></textarea><input type="color" id="clr4" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg5" placeholder="הודעה 5"></textarea><input type="color" id="clr5" class="color-picker" value="#001f3f"></div>
             </div>
-            <button class="main-btn" onclick="updateBoard()">עדכן לוח מודעות</button>
+
+            <div class="input-group">
+                <label style="color: #1a237e;">זמני תפילות:</label>
+                <textarea id="prayersInput" style="height: 100px;"></textarea>
+            </div>
+
+            <button class="main-btn" onclick="updateBoard()">עדכן לוח מודעות עכשיו 🚀</button>
         </div>
 
         <div id="regTab" class="tab-content">
-            <h3>רשימת פניות מהאתר</h3>
+            <h3>📋 בקשות רישום חדשות</h3>
             <table>
-                <thead>
-                    <tr><th>תאריך</th><th>שם</th><th>טלפון</th><th>פעולה</th></tr>
-                </thead>
+                <thead><tr><th>תאריך</th><th>שם המועמד</th><th>טלפון</th></tr></thead>
                 <tbody id="registrations-list"></tbody>
             </table>
         </div>
 
         <div id="donorTab" class="tab-content">
-            <h3>הוספת תורם חדש</h3>
+            <h3>💰 הוספת תורם חדש</h3>
             <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ddd;">
                 <input type="text" id="donorName" placeholder="שם התורם" style="margin-bottom: 10px;">
-                <input type="number" id="donorAmount" placeholder="סכום תרומה" style="margin-bottom: 10px;">
-                <input type="text" id="donorNote" placeholder="הערה (לעילוי נשמת וכדומה)" style="margin-bottom: 10px;">
+                <input type="text" id="donorNote" placeholder="הערה / לעילוי נשמת" style="margin-bottom: 10px;">
                 <button class="main-btn" style="background:#4caf50;" onclick="addDonor()">הוסף תורם לרשימה</button>
             </div>
-            <h3>רשימת תורמים קיימת</h3>
+            <h3>רשימת תורמים</h3>
             <table>
-                <thead>
-                    <tr><th>שם</th><th>סכום</th><th>הערה</th></tr>
-                </thead>
+                <thead><tr><th>שם התורם</th><th>הערה</th><th>פעולה</th></tr></thead>
                 <tbody id="donors-list"></tbody>
             </table>
-            <button class="main-btn" onclick="saveDonorsToGH()" style="margin-top: 20px;">שמור שינויים בבסיס הנתונים</button>
+            <button class="main-btn" onclick="saveDonorsToGH()">שמור רשימת תורמים לצמיתות</button>
         </div>
 
-        <div id="globalStatus" style="text-align:center; margin-top:15px; font-weight:bold;"></div>
+        <div id="globalStatus"></div>
     </div>
 
     <script>
@@ -108,76 +116,107 @@
             evt.currentTarget.classList.add("active");
         }
 
+        window.onload = function() {
+            const savedToken = localStorage.getItem("github_token");
+            if (savedToken) {
+                document.getElementById("ghToken").value = savedToken;
+                loadAllData();
+            }
+        };
+
         async function loadAllData() {
             const token = document.getElementById("ghToken").value;
             if (!token) return;
             localStorage.setItem("github_token", token);
             
-            // טעינת לוח
-            fetchData("data.json", (data) => {
+            // טעינת לוח ושחזור הודעות
+            fetchFromGH("data.json", (data) => {
                 document.getElementById("patronDayInput").value = data.patronDay || "";
-                document.getElementById("msg1").value = data.messagesConfig?.[0]?.text || "";
+                document.getElementById("patronWeekInput").value = data.patronWeek || "";
+                document.getElementById("patronMonthInput").value = data.patronMonth || "";
+                document.getElementById("prayersInput").value = data.prayers || "";
+                if (data.messagesConfig) {
+                    data.messagesConfig.forEach((m, i) => {
+                        if (i < 5) {
+                            document.getElementById(`msg${i+1}`).value = m.text || "";
+                            document.getElementById(`clr${i+1}`).value = m.color || "#001f3f";
+                        }
+                    });
+                }
             });
 
             // טעינת נרשמים
-            fetchData("registrations.json", (data) => {
+            fetchFromGH("registrations.json", (data) => {
                 const list = document.getElementById("registrations-list");
-                list.innerHTML = data.map(r => `<tr><td>${r.date}</td><td>${r['שם פרטי']} ${r['שם משפחה']}</td><td>${r.טלפון}</td><td><button onclick="alert('${r.הערות || 'אין'}')">הצג</button></td></tr>`).join('');
+                list.innerHTML = data.map(r => `<tr><td>${r.date || ''}</td><td>${r['שם פרטי']} ${r['שם משפחה']}</td><td>${r.טלפון}</td></tr>`).reverse().join('');
             });
 
             // טעינת תורמים
-            fetchData("donors.json", (data) => {
+            fetchFromGH("donors.json", (data) => {
                 donorsData = data || [];
                 renderDonors();
             });
         }
 
-        async function fetchData(fileName, callback) {
+        async function fetchFromGH(fileName, callback) {
             const token = document.getElementById("ghToken").value;
             const url = `https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/${fileName}`;
             try {
                 const res = await fetch(url, { headers: { "Authorization": `token ${token}` } });
                 if (res.ok) {
                     const json = await res.json();
-                    callback(JSON.parse(decodeURIComponent(escape(atob(json.content)))));
+                    const content = JSON.parse(decodeURIComponent(escape(atob(json.content))));
+                    callback(content);
                 }
-            } catch (e) { console.log("File not found: " + fileName); }
+            } catch (e) { console.log(fileName + " not found"); }
+        }
+
+        async function updateBoard() {
+            const messages = [];
+            for (let i = 1; i <= 5; i++) {
+                messages.push({
+                    text: document.getElementById(`msg${i}`).value,
+                    color: document.getElementById(`clr${i}`).value
+                });
+            }
+
+            const data = {
+                boardTitle: "ישיבת תפארת עובדיה",
+                patronDay: document.getElementById("patronDayInput").value,
+                patronWeek: document.getElementById("patronWeekInput").value,
+                patronMonth: document.getElementById("patronMonthInput").value,
+                prayers: document.getElementById("prayersInput").value,
+                messagesConfig: messages,
+                lastUpdate: new Date().toLocaleString('he-IL')
+            };
+
+            await saveToGH("data.json", data, "Update Board Data");
         }
 
         function addDonor() {
             const name = document.getElementById("donorName").value;
-            const amount = document.getElementById("donorAmount").value;
             const note = document.getElementById("donorNote").value;
-            if(!name) return alert("חובה להזין שם");
-            donorsData.push({ name, amount, note });
+            if(!name) return alert("חובה שם תורם");
+            donorsData.push({ name, note });
             renderDonors();
             document.getElementById("donorName").value = "";
-            document.getElementById("donorAmount").value = "";
             document.getElementById("donorNote").value = "";
         }
 
         function renderDonors() {
             const list = document.getElementById("donors-list");
-            list.innerHTML = donorsData.map((d, i) => `<tr><td>${d.name}</td><td>${d.amount}</td><td>${d.note}</td></tr>`).join('');
+            list.innerHTML = donorsData.map((d, i) => `<tr><td>${d.name}</td><td>${d.note}</td><td><button onclick="removeDonor(${i})" style="background:red; color:white; border:none; border-radius:4px; cursor:pointer;">מחק</button></td></tr>`).join('');
         }
 
-        async function saveDonorsToGH() {
-            saveToGithub("donors.json", donorsData, "Update Donors");
-        }
+        function removeDonor(i) { donorsData.splice(i, 1); renderDonors(); }
 
-        async function updateBoard() {
-            const data = {
-                patronDay: document.getElementById("patronDayInput").value,
-                messagesConfig: [{ text: document.getElementById("msg1").value, color: document.getElementById("clr1").value }]
-            };
-            saveToGithub("data.json", data, "Update Board");
-        }
+        async function saveDonorsToGH() { await saveToGH("donors.json", donorsData, "Update Donors List"); }
 
-        async function saveToGithub(fileName, data, msg) {
+        async function saveToGH(fileName, data, msg) {
             const token = document.getElementById("ghToken").value;
             const url = `https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/${fileName}`;
             const status = document.getElementById("globalStatus");
-            status.innerText = "שומר...";
+            status.innerText = "מעדכן...";
 
             let sha = "";
             const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
@@ -190,8 +229,8 @@
                 body: JSON.stringify({ message: msg, content, sha: sha || undefined })
             });
 
-            if (res.ok) status.innerText = "נשמר בהצלחה! ✅";
-            else status.innerText = "שגיאה בשמירה ❌";
+            if (res.ok) { status.innerText = "נשמר בהצלחה! ✅"; status.style.color = "green"; }
+            else { status.innerText = "שגיאה בשמירה ❌"; status.style.color = "red"; }
         }
 
         function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
