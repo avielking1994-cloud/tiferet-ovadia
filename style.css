@@ -1,41 +1,125 @@
-/* עיצוב הבאנר המקצועי והחלק */
+/* הגדרות בסיס */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f1e6;
+    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
+    line-height: 1.6;
+}
+
+/* כפתור פורטל צף */
+.floating-portal-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2000;
+    background: #1a2a6c;
+    color: #d4af37;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #d4af37;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* באנר עליון */
 .main-banner {
-    position: relative;
     background-image: url('top-banner.jpg');
     background-size: cover;
     background-position: center;
-    height: 500px;
+    height: 450px;
     width: 100%;
-    /* הוספת מסגרת זהב דקה מאוד למעלה ולמטה למראה יוקרתי */
-    border-bottom: 3px solid #d4af37;
-    box-shadow: inset 0 0 100px rgba(0,0,0,0.3); /* צל פנימי שנותן עומק לתמונה */
+    border-bottom: 5px solid #d4af37;
 }
 
-/* שכבת המיזוג - זה מה שגורם לזה להיראות "חלק" */
-.main-banner::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 40%; /* גובה המעבר */
-    background: linear-gradient(to bottom, transparent, rgba(26, 42, 108, 0.7)); 
-    /* המעבר הופך מצלול לכחול כהה שמתחבר לתפריט */
+/* עיצוב התגים (התפריט) - החזרת העיצוב המקורי */
+nav {
+    background-color: #1a2a6c;
+    padding: 15px 0;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid #d4af37;
 }
 
-/* כפתור הפורטל - שיפור נראות על התמונה */
-.floating-portal-btn {
-    position: absolute;
-    top: 25px;
-    left: 25px;
-    z-index: 2000;
-    background: rgba(26, 42, 108, 0.9);
+nav a {
     color: #d4af37;
-    padding: 12px 25px;
-    border-radius: 50px; /* צורה מעוגלת יותר, יותר מודרני */
     text-decoration: none;
+    margin: 0 15px;
     font-weight: bold;
-    border: 2px solid #d4af37;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    transition: all 0.3s ease;
+    font-size: 1.1em;
+    transition: 0.3s;
+    padding: 5px 10px;
+}
+
+nav a:hover {
+    color: white;
+}
+
+/* עיצוב גוף הטקסט */
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: rgba(255, 255, 255, 0.97);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border: 1px solid #dcd7c0;
+}
+
+.section-title {
+    color: #1a2a6c;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #d4af37;
+    display: block;
+    padding-bottom: 15px;
+}
+
+.content-box {
+    text-align: center;
+    font-size: 1.3rem;
+    color: #333;
+    padding: 0 20px;
+}
+
+/* ציטוט הרב - העיצוב החם */
+.rabbi-quote {
+    background-color: #fdfae6;
+    border-right: 6px solid #d4af37;
+    padding: 25px;
+    font-style: italic;
+    margin: 35px auto 0 auto;
+    color: #1a2a6c;
+    font-size: 1.2em;
+    max-width: 80%;
+    text-align: center;
+}
+
+/* סיומת הדף (Footer) */
+footer {
+    background-color: #1a2a6c;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 60px;
+    border-top: 4px solid #d4af37;
+}
+
+.footer-line {
+    width: 50px;
+    height: 2px;
+    background-color: #d4af37;
+    margin: 0 auto 15px auto;
+}
+
+/* התאמה לניידים */
+@media (max-width: 768px) {
+    nav a { display: inline-block; margin: 5px; font-size: 1rem; }
+    .main-banner { height: 250px; }
+    .section-title { font-size: 1.8rem; }
 }
