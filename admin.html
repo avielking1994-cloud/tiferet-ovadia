@@ -91,15 +91,14 @@
                             <th>תאריך</th>
                             <th>שם מלא</th>
                             <th>טלפון</th>
-                            <th>ת.ז</th>
                             <th>סטטוס</th>
                             <th>ישיבה קודמת</th>
                             <th>מצב רוחני</th>
-                            <th>פרטים</th>
+                            <th>פרטים מלאים</th>
                         </tr>
                     </thead>
                     <tbody id="registrations-list">
-                        <tr><td colspan="8" style="text-align:center;">טוען נתונים...</td></tr>
+                        <tr><td colspan="7" style="text-align:center;">טוען נתונים...</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -128,6 +127,8 @@
     <script>
         let donorsData = [];
         let allRegistrations = [];
+        const owner = "avielking1994-cloud";
+        const repo = "tiferet-ovadia";
 
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
@@ -152,6 +153,7 @@
             if (!token) return;
             localStorage.setItem("github_token", token);
             
+            // טעינת נתוני לוח מודעות
             fetchFromGH("data.json", (data) => {
                 document.getElementById("patronDayInput").value = data.patronDay || "";
                 document.getElementById("patronWeekInput").value = data.patronWeek || "";
@@ -167,11 +169,13 @@
                 }
             });
 
+            // טעינת נתוני נרשמים
             fetchFromGH("registrations.json", (data) => {
                 allRegistrations = data || [];
                 renderRegistrations();
             });
 
+            // טעינת נתוני תורמים
             fetchFromGH("donors.json", (data) => {
                 donorsData = data || [];
                 renderDonors();
@@ -180,44 +184,47 @@
 
         async function fetchFromGH(fileName, callback) {
             const token = document.getElementById("ghToken").value;
-            const url = `https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/${fileName}`;
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
             try {
                 const res = await fetch(url, { headers: { "Authorization": `token ${token}` } });
                 if (res.ok) {
                     const json = await res.json();
                     const content = JSON.parse(decodeURIComponent(escape(atob(json.content))));
                     callback(content);
+                } else {
+                    console.log(fileName + " לא נמצא או שגיאת הרשאה");
                 }
-            } catch (e) { console.log(fileName + " not found"); }
+            } catch (e) { console.error("Error fetching " + fileName, e); }
         }
 
         function renderRegistrations() {
             const list = document.getElementById("registrations-list");
-            if (allRegistrations.length === 0) {
-                list.innerHTML = "<tr><td colspan='8' style='text-align:center;'>אין נרשמים עדיין</td></tr>";
+            if (!allRegistrations || allRegistrations.length === 0) {
+                list.innerHTML = "<tr><td colspan='7' style='text-align:center;'>אין נרשמים עדיין</td></tr>";
                 return;
             }
             list.innerHTML = allRegistrations.map((r, i) => `
                 <tr>
-                    <td>${r.date || ''}</td>
-                    <td>${r['שם פרטי']} ${r['שם משפחה']}</td>
-                    <td>${r['טלפון'] || ''}</td>
-                    <td>${r['מספר זהות'] || ''}</td>
-                    <td>${r['סטטוס אישי'] || ''}</td>
-                    <td>${r['ישיבה קודמת'] || ''}</td>
-                    <td>${r['מצב רוחני'] || ''}</td>
-                    <td><button class="view-btn" onclick="showFullDetails(${i})">הכל</button></td>
+                    <td>${r.date || '---'}</td>
+                    <td>${r['שם פרטי'] || ''} ${r['שם משפחה'] || ''}</td>
+                    <td>${r['טלפון'] || '---'}</td>
+                    <td>${r['סטטוס אישי'] || '---'}</td>
+                    <td>${r['ישיבה קודמת'] || '---'}</td>
+                    <td>${r['מצב רוחני'] || '---'}</td>
+                    <td><button class="view-btn" onclick="showFullDetails(${i})">👁️ פתח פרטים</button></td>
                 </tr>
             `).reverse().join('');
         }
 
         function showFullDetails(index) {
             const r = allRegistrations[index];
-            let msg = "--- פרטים מלאים ---\n";
+            let detailsHtml = "פרטי נרשם מלאים:\n\n";
             for (let key in r) {
-                if (r[key]) msg += `${key}: ${r[key]}\n`;
+                if (r[key] && typeof r[key] !== 'object') {
+                    detailsHtml += `● ${key}: ${r[key]}\n`;
+                }
             }
-            alert(msg);
+            alert(detailsHtml);
         }
 
         async function updateBoard() {
@@ -252,7 +259,13 @@
 
         function renderDonors() {
             const list = document.getElementById("donors-list");
-            list.innerHTML = donorsData.map((d, i) => `<tr><td>${d.name}</td><td>${d.note}</td><td><button onclick="removeDonor(${i})" style="background:red; color:white; border:none; border-radius:4px; cursor:pointer;">מחק</button></td></tr>`).join('');
+            list.innerHTML = donorsData.map((d, i) => `
+                <tr>
+                    <td>${d.name}</td>
+                    <td>${d.note}</td>
+                    <td><button onclick="removeDonor(${i})" style="background:red; color:white; border:none; border-radius:4px; cursor:pointer; padding:5px 10px;">מחק</button></td>
+                </tr>
+            `).join('');
         }
 
         function removeDonor(i) { donorsData.splice(i, 1); renderDonors(); }
@@ -261,28 +274,45 @@
 
         async function saveToGH(fileName, data, msg) {
             const token = document.getElementById("ghToken").value;
-            const url = `https://api.github.com/repos/avielking1994-cloud/tiferet-ovadia/contents/${fileName}`;
+            if (!token) return alert("חובה להזין טוקן!");
+            const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
             const status = document.getElementById("globalStatus");
-            status.innerText = "מעדכן...";
+            status.innerText = "מעדכן שרת...";
+            status.style.color = "blue";
 
             try {
                 let sha = "";
                 const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
-                if (getFile.ok) { const f = await getFile.json(); sha = f.sha; }
+                if (getFile.ok) { 
+                    const f = await getFile.json(); 
+                    sha = f.sha; 
+                }
 
                 const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
                 const res = await fetch(url, {
                     method: "PUT",
-                    headers: { "Authorization": `token ${token}` },
+                    headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({ message: msg, content, sha: sha || undefined })
                 });
 
-                if (res.ok) { status.innerText = "נשמר בהצלחה! ✅"; status.style.color = "green"; }
-                else { status.innerText = "שגיאה בשמירה ❌"; status.style.color = "red"; }
-            } catch (e) { status.innerText = "שגיאה בתקשורת ❌"; }
+                if (res.ok) { 
+                    status.innerText = "נשמר בהצלחה ב-GitHub! ✅"; 
+                    status.style.color = "green"; 
+                }
+                else { 
+                    status.innerText = "שגיאה בשמירה (בדוק הרשאות טוקן) ❌"; 
+                    status.style.color = "red"; 
+                }
+            } catch (e) { 
+                status.innerText = "שגיאה בתקשורת ❌"; 
+                status.style.color = "red";
+            }
         }
 
-        function logout() { sessionStorage.removeItem("isLoggedIn"); window.location.href = "index.html"; }
+        function logout() { 
+            localStorage.removeItem("github_token"); 
+            window.location.reload(); 
+        }
     </script>
 </body>
 </html>
