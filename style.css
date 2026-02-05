@@ -1,101 +1,41 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f1e6;
-    background-image: url("https://www.transparenttextures.com/patterns/natural-paper.png");
-}
-
-/* כפתור פורטל צף בצד שמאל למעלה */
-.floating-portal-btn {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 2000;
-    background: rgba(26, 42, 108, 0.8);
-    color: #d4af37;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    border: 1px solid #d4af37;
-    transition: 0.3s;
-}
-
-.floating-portal-btn:hover {
-    background: #1a2a6c;
-    color: white;
-}
-
-/* הבאנר העליון */
+/* עיצוב הבאנר המקצועי והחלק */
 .main-banner {
+    position: relative;
     background-image: url('top-banner.jpg');
     background-size: cover;
     background-position: center;
-    height: 450px; /* תוכל לשנות את הגובה לפי העיצוב שלך */
+    height: 500px;
     width: 100%;
-    border-bottom: 4px solid #d4af37;
-}
-
-/* תפריט ניווט מתחת לבאנר */
-nav {
-    background-color: #1a2a6c;
-    padding: 15px;
-    text-align: center;
+    /* הוספת מסגרת זהב דקה מאוד למעלה ולמטה למראה יוקרתי */
     border-bottom: 3px solid #d4af37;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.3); /* צל פנימי שנותן עומק לתמונה */
 }
 
-nav a {
+/* שכבת המיזוג - זה מה שגורם לזה להיראות "חלק" */
+.main-banner::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40%; /* גובה המעבר */
+    background: linear-gradient(to bottom, transparent, rgba(26, 42, 108, 0.7)); 
+    /* המעבר הופך מצלול לכחול כהה שמתחבר לתפריט */
+}
+
+/* כפתור הפורטל - שיפור נראות על התמונה */
+.floating-portal-btn {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    z-index: 2000;
+    background: rgba(26, 42, 108, 0.9);
     color: #d4af37;
+    padding: 12px 25px;
+    border-radius: 50px; /* צורה מעוגלת יותר, יותר מודרני */
     text-decoration: none;
-    margin: 0 15px;
     font-weight: bold;
-    font-size: 1.1em;
-}
-
-nav a:hover {
-    color: white;
-}
-
-/* תוכן האתר */
-.container {
-    max-width: 1000px;
-    margin: 40px auto;
-    background: white;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.section-title {
-    color: #1a2a6c;
-    text-align: center;
-    border-bottom: 2px solid #d4af37;
-    padding-bottom: 10px;
-}
-
-.welcome-box {
-    text-align: center;
-    font-size: 1.4rem;
-    line-height: 1.8;
-}
-
-.rabbi-quote {
-    background-color: #fdfae6;
-    border-right: 6px solid #d4af37;
-    padding: 20px;
-    margin-top: 30px;
-    text-align: center;
-    font-style: italic;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #1a2a6c;
-    color: white;
-    border-top: 3px solid #d4af37;
+    border: 2px solid #d4af37;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
 }
