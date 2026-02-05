@@ -6,10 +6,10 @@
     <title>פורטל ניהול - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 1100px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 1200px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
         
-        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; flex-wrap: wrap; }
         .tab-btn { padding: 10px 20px; border: none; background: #e0e0e0; cursor: pointer; border-radius: 8px 8px 0 0; font-weight: bold; transition: 0.3s; }
         .tab-btn.active { background: #1a237e; color: white; border-bottom: 3px solid #d4af37; }
         .tab-content { display: none; }
@@ -18,7 +18,7 @@
         .token-section { background: #e8f5e9; border: 1px solid #4caf50; padding: 12px; border-radius: 10px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; font-weight: bold; margin-bottom: 8px; color: #333; }
-        textarea, input[type="text"], input[type="password"], input[type="number"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
+        textarea, input[type="text"], input[type="password"], input[type="number"], input[type="date"] { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 14px; }
         
         .msg-row { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
         .msg-row textarea { flex-grow: 1; height: 60px; }
@@ -27,16 +27,15 @@
         button.main-btn { background-color: #1a237e; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: bold; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
         button.main-btn:hover { background-color: #0d1440; }
         
-        /* כפתור יציאה מתוקן */
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .logout-btn:hover { background-color: #d32f2f; }
         
         .table-container { overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; min-width: 1000px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
         th { background-color: #1a2a6c; color: #d4af37; position: sticky; top: 0; }
         tr:nth-child(even) { background-color: #f9f9f9; }
-        .view-btn { background: #d4af37; color: #1a2a6c; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        
+        .student-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #ddd; }
         
         #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; min-height: 24px; }
     </style>
@@ -54,6 +53,7 @@
 
         <div class="tabs">
             <button class="tab-btn active" onclick="openTab(event, 'boardTab')">📢 עדכון לוח</button>
+            <button class="tab-btn" onclick="openTab(event, 'studentsTab')">🎓 רשימת בחורים</button>
             <button class="tab-btn" onclick="openTab(event, 'regTab')">📋 רישום תלמידים</button>
             <button class="tab-btn" onclick="openTab(event, 'donorTab')">💰 ניהול תורמים</button>
         </div>
@@ -65,26 +65,57 @@
                 <div class="input-group"><label>פרנס השבוע:</label><input type="text" id="patronWeekInput"></div>
                 <div class="input-group"><label>פרנס החודש:</label><input type="text" id="patronMonthInput"></div>
             </div>
-
             <label style="color: #1a237e;">5 הודעות מתחלפות וצבעים:</label>
             <div id="messages-list">
-                <div class="msg-row"><textarea id="msg1" placeholder="הודעה 1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
-                <div class="msg-row"><textarea id="msg2" placeholder="הודעה 2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
-                <div class="msg-row"><textarea id="msg3" placeholder="הודעה 3"></textarea><input type="color" id="clr3" class="color-picker" value="#001f3f"></div>
-                <div class="msg-row"><textarea id="msg4" placeholder="הודעה 4"></textarea><input type="color" id="clr4" class="color-picker" value="#001f3f"></div>
-                <div class="msg-row"><textarea id="msg5" placeholder="הודעה 5"></textarea><input type="color" id="clr5" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg1"></textarea><input type="color" id="clr1" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg2"></textarea><input type="color" id="clr2" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg3"></textarea><input type="color" id="clr3" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg4"></textarea><input type="color" id="clr4" class="color-picker" value="#001f3f"></div>
+                <div class="msg-row"><textarea id="msg5"></textarea><input type="color" id="clr5" class="color-picker" value="#001f3f"></div>
             </div>
-
             <div class="input-group">
                 <label style="color: #1a237e;">זמני תפילות:</label>
                 <textarea id="prayersInput" style="height: 100px;"></textarea>
             </div>
-
             <button class="main-btn" onclick="updateBoard()">עדכן לוח מודעות עכשיו 🚀</button>
         </div>
 
+        <div id="studentsTab" class="tab-content">
+            <h3>🎓 הוספת בחור חדש לישיבה</h3>
+            <div class="student-form-grid">
+                <input type="text" id="stFirstName" placeholder="שם פרטי">
+                <input type="text" id="stLastName" placeholder="שם משפחה">
+                <input type="text" id="stID" placeholder="תעודת זהות">
+                <input type="text" id="stPhone" placeholder="טלפון">
+                <input type="text" id="stAddress" placeholder="כתובת מגורים">
+                <input type="text" id="stHebDate" placeholder="תאריך לידה עברי">
+                <input type="date" id="stEngDate" placeholder="תאריך לידה לועזי">
+                <input type="number" id="stPayment" placeholder="תשלום לישיבה">
+                <button class="main-btn" style="margin-top:0; background:#4caf50;" onclick="addStudent()">הוסף תלמיד</button>
+            </div>
+            <h3>רשימת בחורי הישיבה</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>שם מלא</th>
+                            <th>ת"ז</th>
+                            <th>טלפון</th>
+                            <th>כתובת</th>
+                            <th>לידה עברי</th>
+                            <th>לידה לועזי</th>
+                            <th>תשלום</th>
+                            <th>פעולה</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-list"></tbody>
+                </table>
+            </div>
+            <button class="main-btn" onclick="saveStudentsToGH()">שמור רשימת בחורים לצמיתות</button>
+        </div>
+
         <div id="regTab" class="tab-content">
-            <h3>📋 רשימת נרשמים מפורטת</h3>
+            <h3>📋 נרשמים חדשים (מהאתר)</h3>
             <div class="table-container">
                 <table>
                     <thead>
@@ -95,31 +126,29 @@
                             <th>סטטוס</th>
                             <th>ישיבה קודמת</th>
                             <th>מצב רוחני</th>
-                            <th>פרטים מלאים</th>
+                            <th>פרטים</th>
                         </tr>
                     </thead>
-                    <tbody id="registrations-list">
-                        <tr><td colspan="7" style="text-align:center;">טוען נתונים...</td></tr>
-                    </tbody>
+                    <tbody id="registrations-list"></tbody>
                 </table>
             </div>
         </div>
 
         <div id="donorTab" class="tab-content">
-            <h3>💰 הוספת תורם חדש</h3>
-            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #ddd;">
+            <h3>💰 הוספת תורם</h3>
+            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; border: 1px solid #ddd;">
                 <input type="text" id="donorName" placeholder="שם התורם" style="margin-bottom: 10px;">
-                <input type="text" id="donorNote" placeholder="הערה / לעילוי נשמת" style="margin-bottom: 10px;">
-                <button class="main-btn" style="background:#4caf50;" onclick="addDonor()">הוסף תורם לרשימה</button>
+                <input type="text" id="donorNote" placeholder="הערה" style="margin-bottom: 10px;">
+                <button class="main-btn" style="background:#4caf50;" onclick="addDonor()">הוסף תורם</button>
             </div>
             <h3>רשימת תורמים</h3>
             <div class="table-container">
                 <table>
-                    <thead><tr><th>שם התורם</th><th>הערה</th><th>פעולה</th></tr></thead>
+                    <thead><tr><th>שם</th><th>הערה</th><th>פעולה</th></tr></thead>
                     <tbody id="donors-list"></tbody>
                 </table>
             </div>
-            <button class="main-btn" onclick="saveDonorsToGH()">שמור רשימת תורמים לצמיתות</button>
+            <button class="main-btn" onclick="saveDonorsToGH()">שמור תורמים</button>
         </div>
 
         <div id="globalStatus"></div>
@@ -128,6 +157,7 @@
     <script>
         let donorsData = [];
         let allRegistrations = [];
+        let studentsData = [];
         const owner = "avielking1994-cloud";
         const repo = "tiferet-ovadia";
 
@@ -183,6 +213,11 @@
                 donorsData = data || [];
                 renderDonors();
             });
+
+            fetchFromGH("students.json", (data) => {
+                studentsData = data || [];
+                renderStudents();
+            });
         }
 
         async function fetchFromGH(fileName, callback) {
@@ -198,6 +233,51 @@
             } catch (e) { console.error("Error fetching " + fileName, e); }
         }
 
+        // --- ניהול בחורים ---
+        function addStudent() {
+            const student = {
+                firstName: document.getElementById("stFirstName").value,
+                lastName: document.getElementById("stLastName").value,
+                idNum: document.getElementById("stID").value,
+                phone: document.getElementById("stPhone").value,
+                address: document.getElementById("stAddress").value,
+                hebDate: document.getElementById("stHebDate").value,
+                engDate: document.getElementById("stEngDate").value,
+                payment: document.getElementById("stPayment").value
+            };
+            if(!student.firstName || !student.lastName) return alert("חובה למלא שם פרטי ומשפחה");
+            studentsData.push(student);
+            renderStudents();
+            // ניקוי שדות
+            document.querySelectorAll(".student-form-grid input").forEach(i => i.value = "");
+        }
+
+        function renderStudents() {
+            const list = document.getElementById("students-list");
+            list.innerHTML = studentsData.map((s, i) => `
+                <tr>
+                    <td>${s.firstName} ${s.lastName}</td>
+                    <td>${s.idNum}</td>
+                    <td>${s.phone}</td>
+                    <td>${s.address}</td>
+                    <td>${s.hebDate}</td>
+                    <td>${s.engDate}</td>
+                    <td>₪${s.payment}</td>
+                    <td><button onclick="removeStudent(${i})" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">מחק</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function removeStudent(i) {
+            if(confirm("בטוח שברצונך למחוק תלמיד זה?")) {
+                studentsData.splice(i, 1);
+                renderStudents();
+            }
+        }
+
+        async function saveStudentsToGH() { await saveToGH("students.json", studentsData, "Update Students List"); }
+
+        // --- פונקציות קיימות ---
         function renderRegistrations() {
             const list = document.getElementById("registrations-list");
             list.innerHTML = allRegistrations.map((r, i) => `
@@ -208,25 +288,30 @@
                     <td>${r['סטטוס אישי'] || '---'}</td>
                     <td>${r['ישיבה קודמת'] || '---'}</td>
                     <td>${r['מצב רוחני'] || '---'}</td>
-                    <td><button class="view-btn" onclick="showFullDetails(${i})">👁️ פרטים</button></td>
+                    <td><button class="view-btn" onclick="alert(JSON.stringify(r, null, 2))">👁️</button></td>
                 </tr>
             `).reverse().join('');
         }
 
-        function showFullDetails(index) {
-            const r = allRegistrations[index];
-            let detailsHtml = "פרטי נרשם:\n\n";
-            for (let key in r) { if (r[key] && typeof r[key] !== 'object') detailsHtml += `● ${key}: ${r[key]}\n`; }
-            alert(detailsHtml);
+        function addDonor() {
+            const name = document.getElementById("donorName").value;
+            const note = document.getElementById("donorNote").value;
+            if(!name) return alert("חובה שם תורם");
+            donorsData.push({ name, note });
+            renderDonors();
+        }
+
+        function renderDonors() {
+            const list = document.getElementById("donors-list");
+            list.innerHTML = donorsData.map((d, i) => `
+                <tr><td>${d.name}</td><td>${d.note}</td><td><button onclick="donorsData.splice(${i}, 1); renderDonors();" style="background:red; color:white; border:none; padding:5px;">מחק</button></td></tr>
+            `).join('');
         }
 
         async function updateBoard() {
             const messages = [];
             for (let i = 1; i <= 5; i++) {
-                messages.push({
-                    text: document.getElementById(`msg${i}`).value,
-                    color: document.getElementById(`clr${i}`).value
-                });
+                messages.push({ text: document.getElementById(`msg${i}`).value, color: document.getElementById(`clr${i}`).value });
             }
             const data = {
                 boardTitle: "ישיבת תפארת עובדיה",
@@ -240,29 +325,6 @@
             await saveToGH("data.json", data, "Update Board Data");
         }
 
-        function addDonor() {
-            const name = document.getElementById("donorName").value;
-            const note = document.getElementById("donorNote").value;
-            if(!name) return alert("חובה שם תורם");
-            donorsData.push({ name, note });
-            renderDonors();
-            document.getElementById("donorName").value = "";
-            document.getElementById("donorNote").value = "";
-        }
-
-        function renderDonors() {
-            const list = document.getElementById("donors-list");
-            list.innerHTML = donorsData.map((d, i) => `
-                <tr>
-                    <td>${d.name}</td>
-                    <td>${d.note}</td>
-                    <td><button onclick="removeDonor(${i})" style="background:red; color:white; border:none; border-radius:4px; padding:5px 10px;">מחק</button></td>
-                </tr>
-            `).join('');
-        }
-
-        function removeDonor(i) { donorsData.splice(i, 1); renderDonors(); }
-
         async function saveDonorsToGH() { await saveToGH("donors.json", donorsData, "Update Donors List"); }
 
         async function saveToGH(fileName, data, msg) {
@@ -270,21 +332,18 @@
             if (!token) return alert("חובה טוקן!");
             const url = `https://api.github.com/repos/${owner}/${repo}/contents/${fileName}`;
             const status = document.getElementById("globalStatus");
-            status.innerText = "מעדכן...";
+            status.innerText = "מעדכן שרת...";
             status.style.color = "blue";
-
             try {
                 let sha = "";
                 const getFile = await fetch(url, { headers: { "Authorization": `token ${token}` } });
                 if (getFile.ok) { const f = await getFile.json(); sha = f.sha; }
-
                 const content = btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2))));
                 const res = await fetch(url, {
                     method: "PUT",
                     headers: { "Authorization": `token ${token}`, "Content-Type": "application/json" },
                     body: JSON.stringify({ message: msg, content, sha: sha || undefined })
                 });
-
                 if (res.ok) { status.innerText = "נשמר בהצלחה! ✅"; status.style.color = "green"; }
                 else { status.innerText = "שגיאה בשמירה ❌"; status.style.color = "red"; }
             } catch (e) { status.innerText = "שגיאת תקשורת ❌"; status.style.color = "red"; }
