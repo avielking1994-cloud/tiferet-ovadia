@@ -6,7 +6,7 @@
     <title>פורטל ניהול - תפארת עובדיה</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; padding: 20px; direction: rtl; }
-        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 1200px; margin: auto; position: relative; }
+        .admin-box { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 1250px; margin: auto; position: relative; }
         h1 { color: #1a237e; text-align: center; border-bottom: 3px solid #d4af37; padding-bottom: 10px; margin-bottom: 25px; }
         
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #ddd; padding-bottom: 10px; flex-wrap: wrap; }
@@ -29,13 +29,21 @@
         
         .logout-btn { background-color: #f44336; padding: 8px 15px; width: auto; font-size: 13px; position: absolute; left: 20px; top: 20px; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         
+        /* עיצוב מערכת חדרים */
+        .dorm-section { display: flex; gap: 20px; margin-bottom: 30px; align-items: stretch; }
+        .rooms-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; flex-grow: 1; }
+        .room-box { border: 2px solid #1a237e; border-radius: 8px; background: white; }
+        .room-title { background: #1a237e; color: #d4af37; text-align: center; font-size: 14px; padding: 3px; font-weight: bold; }
+        .bed-item { border-top: 1px solid #eee; padding: 5px; text-align: center; font-size: 13px; height: 20px; color: #333; white-space: nowrap; overflow: hidden; }
+        .summary-box { background: #fffde7; border: 2px solid #fbc02d; padding: 15px; border-radius: 10px; min-width: 150px; text-align: center; }
+
         .table-container { overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; min-width: 1000px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: right; }
         th { background-color: #1a2a6c; color: #d4af37; position: sticky; top: 0; }
         tr:nth-child(even) { background-color: #f9f9f9; }
         
-        .student-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #ddd; }
+        .student-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; background: #f9f9f9; padding: 20px; border-radius: 10px; border: 1px solid #ddd; }
         
         #globalStatus { text-align: center; margin-top: 15px; font-weight: bold; min-height: 24px; }
     </style>
@@ -81,24 +89,40 @@
         </div>
 
         <div id="studentsTab" class="tab-content">
-            <h3>🎓 הוספת בחור חדש לישיבה</h3>
-            <div class="student-form-grid">
+            <h3>🛏️ מצב פנימייה וחדרים</h3>
+            <div class="dorm-section">
+                <div class="rooms-grid" id="roomsDisplay">
+                    </div>
+                <div class="summary-box">
+                    <strong>סיכום חדרים</strong><br><br>
+                    סה"כ מיטות: 28<br>
+                    תפוסות: <span id="occCount">0</span><br>
+                    <span style="color:green">פנויות: <span id="freeCount">28</span></span>
+                </div>
+            </div>
+
+            <h3 id="formTitle">🎓 הוספת / עריכת בחור</h3>
+            <div class="student-form-grid" id="studentForm">
+                <input type="hidden" id="editIndex" value="-1">
                 <input type="text" id="stFirstName" placeholder="שם פרטי">
                 <input type="text" id="stLastName" placeholder="שם משפחה">
                 <input type="text" id="stID" placeholder="תעודת זהות">
                 <input type="text" id="stPhone" placeholder="טלפון">
                 <input type="text" id="stAddress" placeholder="כתובת מגורים">
                 <input type="text" id="stHebDate" placeholder="תאריך לידה עברי">
-                <input type="date" id="stEngDate" placeholder="תאריך לידה לועזי">
+                <input type="date" id="stEngDate">
                 <input type="number" id="stPayment" placeholder="תשלום לישיבה">
-                <button class="main-btn" style="margin-top:0; background:#4caf50;" onclick="addStudent()">הוסף תלמיד</button>
+                <input type="number" id="stRoom" placeholder="מס' חדר (1-7)" min="1" max="7">
+                <button class="main-btn" style="margin-top:0; background:#4caf50;" onclick="addOrUpdateStudent()" id="submitBtn">הוסף תלמיד</button>
             </div>
+
             <h3>רשימת בחורי הישיבה</h3>
             <div class="table-container">
                 <table>
                     <thead>
                         <tr>
                             <th>שם מלא</th>
+                            <th>חדר</th>
                             <th>ת"ז</th>
                             <th>טלפון</th>
                             <th>כתובת</th>
@@ -111,7 +135,7 @@
                     <tbody id="students-list"></tbody>
                 </table>
             </div>
-            <button class="main-btn" onclick="saveStudentsToGH()">שמור רשימת בחורים לצמיתות</button>
+            <button class="main-btn" onclick="saveStudentsToGH()">שמור רשימת בחורים וחדרים לצמיתות</button>
         </div>
 
         <div id="regTab" class="tab-content">
@@ -155,11 +179,8 @@
     </div>
 
     <script>
-        let donorsData = [];
-        let allRegistrations = [];
-        let studentsData = [];
-        const owner = "avielking1994-cloud";
-        const repo = "tiferet-ovadia";
+        let donorsData = [], allRegistrations = [], studentsData = [];
+        const owner = "avielking1994-cloud", repo = "tiferet-ovadia";
 
         function openTab(evt, tabName) {
             let i, tabcontent, tablinks;
@@ -173,16 +194,10 @@
 
         window.onload = function() {
             const savedToken = localStorage.getItem("github_token");
-            if (savedToken) {
-                document.getElementById("ghToken").value = savedToken;
-                loadAllData();
-            }
+            if (savedToken) { document.getElementById("ghToken").value = savedToken; loadAllData(); }
         };
 
-        function logout() { 
-            localStorage.removeItem("github_token"); 
-            window.location.href = "index.html"; 
-        }
+        function logout() { localStorage.removeItem("github_token"); window.location.href = "index.html"; }
 
         async function loadAllData() {
             const token = document.getElementById("ghToken").value;
@@ -204,20 +219,9 @@
                 }
             });
 
-            fetchFromGH("registrations.json", (data) => {
-                allRegistrations = data || [];
-                renderRegistrations();
-            });
-
-            fetchFromGH("donors.json", (data) => {
-                donorsData = data || [];
-                renderDonors();
-            });
-
-            fetchFromGH("students.json", (data) => {
-                studentsData = data || [];
-                renderStudents();
-            });
+            fetchFromGH("registrations.json", (data) => { allRegistrations = data || []; renderRegistrations(); });
+            fetchFromGH("donors.json", (data) => { donorsData = data || []; renderDonors(); });
+            fetchFromGH("students.json", (data) => { studentsData = data || []; renderStudents(); });
         }
 
         async function fetchFromGH(fileName, callback) {
@@ -233,8 +237,9 @@
             } catch (e) { console.error("Error fetching " + fileName, e); }
         }
 
-        // --- ניהול בחורים ---
-        function addStudent() {
+        // --- ניהול בחורים ועריכה ---
+        function addOrUpdateStudent() {
+            const idx = parseInt(document.getElementById("editIndex").value);
             const student = {
                 firstName: document.getElementById("stFirstName").value,
                 lastName: document.getElementById("stLastName").value,
@@ -243,13 +248,45 @@
                 address: document.getElementById("stAddress").value,
                 hebDate: document.getElementById("stHebDate").value,
                 engDate: document.getElementById("stEngDate").value,
-                payment: document.getElementById("stPayment").value
+                payment: document.getElementById("stPayment").value,
+                room: document.getElementById("stRoom").value
             };
-            if(!student.firstName || !student.lastName) return alert("חובה למלא שם פרטי ומשפחה");
-            studentsData.push(student);
+
+            if(!student.firstName || !student.lastName) return alert("חובה למלא שם");
+
+            if(idx === -1) {
+                studentsData.push(student);
+            } else {
+                studentsData[idx] = student;
+                document.getElementById("editIndex").value = "-1";
+                document.getElementById("submitBtn").innerText = "הוסף תלמיד";
+                document.getElementById("submitBtn").style.background = "#4caf50";
+            }
+            
             renderStudents();
-            // ניקוי שדות
-            document.querySelectorAll(".student-form-grid input").forEach(i => i.value = "");
+            resetStudentForm();
+        }
+
+        function editStudent(i) {
+            const s = studentsData[i];
+            document.getElementById("stFirstName").value = s.firstName;
+            document.getElementById("stLastName").value = s.lastName;
+            document.getElementById("stID").value = s.idNum || "";
+            document.getElementById("stPhone").value = s.phone || "";
+            document.getElementById("stAddress").value = s.address || "";
+            document.getElementById("stHebDate").value = s.hebDate || "";
+            document.getElementById("stEngDate").value = s.engDate || "";
+            document.getElementById("stPayment").value = s.payment || "";
+            document.getElementById("stRoom").value = s.room || "";
+            
+            document.getElementById("editIndex").value = i;
+            document.getElementById("submitBtn").innerText = "עדכן פרטי בחור ✏️";
+            document.getElementById("submitBtn").style.background = "#2196F3";
+            document.getElementById("stFirstName").focus();
+        }
+
+        function resetStudentForm() {
+            document.querySelectorAll("#studentForm input").forEach(i => { if(i.id !== "editIndex") i.value = ""; });
         }
 
         function renderStudents() {
@@ -257,15 +294,40 @@
             list.innerHTML = studentsData.map((s, i) => `
                 <tr>
                     <td>${s.firstName} ${s.lastName}</td>
+                    <td><b>${s.room || '-'}</b></td>
                     <td>${s.idNum}</td>
                     <td>${s.phone}</td>
                     <td>${s.address}</td>
                     <td>${s.hebDate}</td>
                     <td>${s.engDate}</td>
                     <td>₪${s.payment}</td>
-                    <td><button onclick="removeStudent(${i})" style="background:red; color:white; border:none; padding:5px; cursor:pointer;">מחק</button></td>
+                    <td>
+                        <button onclick="editStudent(${i})" style="background:#2196F3; color:white; border:none; padding:5px 8px; cursor:pointer; border-radius:4px;">ערוך ✏️</button>
+                        <button onclick="removeStudent(${i})" style="background:red; color:white; border:none; padding:5px 8px; cursor:pointer; border-radius:4px;">מחק</button>
+                    </td>
                 </tr>
             `).join('');
+            updateRoomsUI();
+        }
+
+        function updateRoomsUI() {
+            const grid = document.getElementById("roomsDisplay");
+            grid.innerHTML = "";
+            let occupied = 0;
+
+            for (let r = 1; r <= 7; r++) {
+                const roommates = studentsData.filter(s => parseInt(s.room) === r).slice(0, 4);
+                occupied += roommates.length;
+                let html = `<div class="room-box"><div class="room-title">חדר ${r}</div>`;
+                for (let i = 0; i < 4; i++) {
+                    const name = roommates[i] ? `${roommates[i].firstName} ${roommates[i].lastName}` : "";
+                    html += `<div class="bed-item">${name}</div>`;
+                }
+                html += `</div>`;
+                grid.innerHTML += html;
+            }
+            document.getElementById("occCount").innerText = occupied;
+            document.getElementById("freeCount").innerText = 28 - occupied;
         }
 
         function removeStudent(i) {
@@ -275,9 +337,9 @@
             }
         }
 
-        async function saveStudentsToGH() { await saveToGH("students.json", studentsData, "Update Students List"); }
+        async function saveStudentsToGH() { await saveToGH("students.json", studentsData, "Update Students & Dorms"); }
 
-        // --- פונקציות קיימות ---
+        // --- שאר הפונקציות (ללא שינוי מהמקור) ---
         function renderRegistrations() {
             const list = document.getElementById("registrations-list");
             list.innerHTML = allRegistrations.map((r, i) => `
