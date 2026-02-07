@@ -6,68 +6,77 @@
     <title>לוח מודעות - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* הגדרות כלליות */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        .container { transition: all 0.3s ease; }
-
-        /* עיצוב הבאנר והניווט לפי הדפים האחרים */
-        .main-banner { height: 150px; background-color: #001f3f; background-image: url('banner.jpg'); background-size: cover; background-position: center; }
         
+        /* באנר עם תמונת המוסדות */
+        .main-banner { 
+            height: 180px; 
+            background-image: url('לוגו מוסדות.jpg'); 
+            background-size: cover; 
+            background-position: center; 
+            border-bottom: 4px solid #d4af37;
+        }
+
+        /* תפריט ניווט */
         nav { background: #1a2a6c; padding: 15px 0; border-bottom: 3px solid #d4af37; }
         .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-        nav a { color: white; text-decoration: none; font-weight: bold; font-size: 1rem; padding: 5px 10px; transition: 0.3s; }
+        nav a { color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; padding: 5px 10px; transition: 0.3s; }
         nav a:hover { color: #d4af37; }
 
         .fullscreen-btn {
-            background: #d4af37; color: #001f3f; border: none; padding: 12px 25px; border-radius: 8px;
+            background: #d4af37; color: #1a2a6c; border: none; padding: 12px 25px; border-radius: 8px;
             cursor: pointer; font-weight: bold; font-size: 1.1rem; margin: 20px auto; display: block;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         }
 
-        /* מצב הקרנה - הסתרת תפריטים */
+        /* מצב הקרנה - מסתיר הכל חוץ מהלוח */
         body.is-projecting { background: #000; overflow: hidden; }
         body.is-projecting .main-banner, 
         body.is-projecting nav, 
-        body.is-projecting footer, 
         body.is-projecting .fullscreen-btn { display: none !important; }
 
-        body.is-projecting .container { max-width: 100% !important; width: 100vw !important; height: 100vh !important; margin: 0 !important; }
-        body.is-projecting .board-wrapper { height: 100vh; width: 100vw; border: none; border-radius: 0; padding: 2vh 2vw; }
-
-        /* עיצוב לוח המודעות הדיגיטלי */
+        /* לוח המודעות הדיגיטלי עם תמונת המוסדות ברקע */
         .board-wrapper {
-            background: linear-gradient(rgba(0, 15, 35, 0.95), rgba(0, 15, 35, 0.95)), url('לוגו מוסדות.jpg');
-            background-size: cover; border: 5px solid #d4af37; border-radius: 15px;
-            color: white; display: flex; flex-direction: column; box-sizing: border-box;
-            min-height: 85vh; margin: 0 20px 20px 20px;
+            background: linear-gradient(rgba(0, 15, 35, 0.92), rgba(0, 15, 35, 0.92)), url('לוגו מוסדות.jpg');
+            background-size: cover; 
+            background-position: center;
+            border: 5px solid #d4af37; 
+            border-radius: 15px;
+            color: white; 
+            display: flex; 
+            flex-direction: column; 
+            box-sizing: border-box;
+            min-height: 85vh; 
+            margin: 0 20px 20px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; padding: 10px 20px; }
-        #clock { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #d4af37; }
+        .board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; padding: 15px 25px; }
+        #clock { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #d4af37; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         
-        .board-main { display: grid; grid-template-columns: 22% 54% 22%; gap: 15px; flex-grow: 1; padding: 15px; overflow: hidden; }
+        .board-main { display: grid; grid-template-columns: 22% 54% 22%; gap: 15px; flex-grow: 1; padding: 20px; overflow: hidden; }
 
-        .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; }
-        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; border-bottom: 1px solid #d4af37; margin-bottom: 10px; }
+        .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; }
+        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; border-bottom: 1px solid #d4af37; margin-bottom: 12px; font-size: 1.3rem; }
         
-        .prayer-item { background: rgba(212, 175, 55, 0.1); padding: 6px; margin-bottom: 5px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; }
+        .prayer-item { background: rgba(212, 175, 55, 0.15); padding: 8px; margin-bottom: 8px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; font-size: 1.1rem; }
 
         #message-card { 
-            background: white; color: #001f3f; border-radius: 20px; padding: 2vw; text-align: center; 
+            background: white; color: #001f3f; border-radius: 20px; padding: 2.5vw; text-align: center; 
             border: 10px solid #d4af37; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; box-shadow: inset 0 0 40px rgba(0,0,0,0.2); overflow: hidden; transition: opacity 0.6s;
+            justify-content: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.2); overflow: hidden; transition: opacity 0.6s;
         }
 
-        .msg-header-title { color: #d4af37; font-size: 2rem; font-weight: bold; border-bottom: 2px solid #d4af37; margin-bottom: 15px; padding: 0 20px; }
+        .msg-header-title { color: #d4af37; font-size: 2.2rem; font-weight: bold; border-bottom: 3px solid #d4af37; margin-bottom: 20px; padding: 0 30px; }
         #msg-body { font-weight: 800; line-height: 1.2; width: 100%; }
 
-        .patron-box { background: rgba(212, 175, 55, 0.15); border: 1px solid #d4af37; border-radius: 12px; padding: 10px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .patron-label { color: #d4af37; font-size: 0.9rem; }
-        .patron-name { font-size: 1.3rem; font-weight: bold; }
+        .patron-box { background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; border-radius: 12px; padding: 12px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .patron-label { color: #d4af37; font-size: 1rem; margin-bottom: 5px; text-decoration: underline; }
+        .patron-name { font-size: 1.4rem; font-weight: bold; text-shadow: 1px 1px 2px black; }
 
-        .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding: 5px 0; }
+        .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.3); padding: 7px 0; font-size: 1.1rem; }
 
-        .dedication-footer { border-top: 1px solid rgba(212, 175, 55, 0.5); padding: 10px; text-align: center; color: #d4af37; font-weight: bold; }
+        .dedication-footer { border-top: 1px solid rgba(212, 175, 55, 0.5); padding: 12px; text-align: center; color: #d4af37; font-weight: bold; font-size: 1.2rem; background: rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -93,10 +102,13 @@
     <div class="board-wrapper" id="board">
         <div class="board-header">
             <div>
-                <div id="date-heb" style="font-size: 1.8rem; font-weight: bold;">טוען תאריך...</div>
-                <div id="date-civ" style="font-size: 1rem; color: #bdc3c7;"></div>
+                <div id="date-heb" style="font-size: 2rem; font-weight: bold; color: #d4af37;">טוען תאריך...</div>
+                <div id="date-civ" style="font-size: 1.1rem; color: #bdc3c7;"></div>
             </div>
-            <div style="font-size: 2.2rem; color: #d4af37; font-weight: bold;">ישיבת תפארת עובדיה</div>
+            <div style="text-align: center;">
+                <div style="font-size: 2.5rem; color: #fff; font-weight: bold; text-shadow: 2px 2px 4px #000;">ישיבת תפארת עובדיה</div>
+                <div style="font-size: 1.2rem; color: #d4af37;">עמלה של תורה בטהרה</div>
+            </div>
             <div id="clock">00:00</div>
         </div>
 
@@ -113,10 +125,10 @@
             </div>
 
             <div id="message-card">
-                <div id="msg-body">טוען הודעות...</div>
+                <div id="msg-body">בסייעתא דשמיא</div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: column; gap: 12px;">
                 <div class="patron-box">
                     <div class="patron-label">פרנס היום</div>
                     <div id="patron-day" class="patron-name">---</div>
@@ -137,7 +149,6 @@
 </div>
 
 <script>
-    // אותו סקריפט מקצועי מהשלבים הקודמים לניהול הזמן והנתונים
     let messagesConfig = [];
     let currentMsgIndex = 0;
 
@@ -163,7 +174,7 @@
                 document.getElementById("prayers-list").innerHTML = lines.map(l => l.trim() ? `<div class="prayer-item">${l}</div>` : '').join('');
             }
             messagesConfig = (data.messagesConfig || []).filter(m => m && m.text);
-        } catch (e) { console.log("Data load error"); }
+        } catch (e) {}
     }
 
     function rotateMessages() {
@@ -174,11 +185,8 @@
             const item = messagesConfig[currentMsgIndex];
             msgCard.innerHTML = (item.title ? `<div class="msg-header-title">${item.title}</div>` : '') + 
                                `<div id="msg-body" style="color:${item.color || '#001f3f'}">${item.text}</div>`;
-            
-            // התאמת גודל טקסט אוטומטית
             const body = document.getElementById("msg-body");
             body.style.fontSize = item.text.length < 30 ? "4.5rem" : "2.5rem";
-            
             msgCard.style.opacity = 1;
             currentMsgIndex = (currentMsgIndex + 1) % messagesConfig.length;
         }, 600);
@@ -206,6 +214,5 @@
         setTimeout(rotateMessages, 1000);
     };
 </script>
-
 </body>
 </html>
