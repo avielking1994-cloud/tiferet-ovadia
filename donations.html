@@ -6,22 +6,81 @@
     <title>שותפות בהחזקת התורה - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .donation-container { max-width: 800px; margin: 40px auto; padding: 20px; }
-        .hero-donation { text-align: center; background: #fdfae6; border: 2px solid #d4af37; padding: 30px; border-radius: 15px; margin-bottom: 30px; }
-        .mitzvah-title { color: #1a2a6c; font-size: 2rem; margin-bottom: 10px; }
-        .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
         
-        .payment-methods { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .method-card { background: #fff; border-right: 5px solid #1a2a6c; padding: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border-radius: 5px; display: flex; flex-direction: column; justify-content: space-between; }
-        .method-card h4 { color: #d4af37; margin-top: 0; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .donation-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
         
-        .highlight-gold { color: #b8860b; font-weight: bold; font-size: 1.1em; }
-        .institution-code { background: #eef2ff; padding: 5px 10px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; display: inline-block; margin-top: 5px; }
-        
-        .donation-btn { display: inline-block; background: #1a2a6c; color: #d4af37; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 15px; transition: 0.3s; border: none; cursor: pointer; font-size: 1rem; width: 100%; }
+        .hero-donation { text-align: center; background: #fdfae6; border: 2px solid #d4af37; padding: 30px; border-radius: 15px; margin-bottom: 40px; }
+        .mitzvah-title { color: #1a2a6c; font-size: 2.2rem; margin-bottom: 10px; font-weight: bold; }
+        .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #d4af37; display: inline-block; padding-bottom: 5px; }
+
+        /* עיצוב כרטיסי התרומה עם תמונות */
+        .donation-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px; 
+            margin-bottom: 40px;
+        }
+
+        .donation-card { 
+            background: #fff; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1); 
+            border: 1px solid #eee;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .donation-card:hover { transform: translateY(-5px); }
+
+        .card-img { 
+            width: 100%; 
+            height: 180px; 
+            background-color: #1a2a6c; 
+            background-size: cover; 
+            background-position: center;
+            border-bottom: 4px solid #d4af37;
+        }
+
+        .card-body { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
+        .card-body h3 { color: #1a2a6c; margin: 0 0 10px 0; font-size: 1.5rem; }
+        .card-body p { color: #666; font-size: 1rem; line-height: 1.4; margin-bottom: 20px; }
+
+        /* עיצוב כפתורי הסליקה */
+        .donation-btn { 
+            display: inline-block; 
+            background: #1a2a6c; 
+            color: #d4af37; 
+            padding: 12px 20px; 
+            text-decoration: none; 
+            border-radius: 6px; 
+            font-weight: bold; 
+            transition: 0.3s; 
+            border: none; 
+            cursor: pointer; 
+            font-size: 1.1rem; 
+            width: 100%;
+        }
         .donation-btn:hover { background: #d4af37; color: #1a2a6c; }
+
+        /* מידע להעברה בנקאית */
+        .bank-info { 
+            background: #fff; 
+            border-right: 5px solid #d4af37; 
+            padding: 25px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
+            border-radius: 8px; 
+            margin-top: 20px;
+        }
+        .bank-info h4 { color: #1a2a6c; margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .highlight-gold { color: #b8860b; font-weight: bold; }
+        .institution-code { background: #eef2ff; padding: 3px 8px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; }
+
+        .dedication-note { background: #f0f4f8; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: center; border: 1px dashed #1a2a6c; font-size: 1.1rem; }
         
-        .dedication-note { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-top: 30px; text-align: center; border: 1px dashed #1a2a6c; }
+        footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -45,32 +104,56 @@
     <div class="hero-donation">
         <h2 class="mitzvah-title">היו שותפים בזכות התורה</h2>
         <p class="quote">"עץ חיים היא למחזיקים בה ותומכיה מאושר"</p>
-        <p>זכות החזקת עמלי התורה במוסדותינו תעמוד לכם ולזרעכם להתברך בכל מילי דמיטב. תרומתכם מוקדשת כולה לפעילות התורנית והחזקת האברכים.</p>
+        <p>זכות החזקת עמלי התורה במוסדותינו תעמוד לכם ולזרעכם להתברך בכל מילי דמיטב.</p>
     </div>
 
-    <div class="payment-methods">
-        <div class="method-card">
-            <h4>🏦 העברה בנקאית</h4>
-            <p><strong>שם המוטב:</strong> <span class="highlight-gold">תפארת נוי</span></p>
-            <p><strong>בנק:</strong> 10 (לאומי)</p>
-            <p><strong>סניף:</strong> 856</p>
-            <p><strong>מספר חשבון:</strong> <span class="highlight-gold">4967377</span></p>
-            <p><strong>קוד מוסד להוראת קבע בנקאית:</strong> <span class="institution-code">21652</span></p>
+    <div class="donation-grid">
+        
+        <div class="donation-card">
+            <div class="card-img" style="background-image: url('parnas_day.jpg');"></div>
+            <div class="card-body">
+                <h3>פרנס היום</h3>
+                <p>הקדשת יום לימוד שלם לעילוי נשמה, רפואה או הצלחה. השם יופיע בלוח המודעות הדיגיטלי.</p>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
+                </form>
+            </div>
         </div>
 
-        <div class="method-card">
-            <h4>💳 תרומה באשראי</h4>
-            <p>תרומה מאובטחת דרך מערכת הסליקה למוסדות. ניתן לתרום חד-פעמית או בהוראת קבע.</p>
-            
-            <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                <input type="submit" value="לחץ כאן לתרומה באשראי" class="donation-btn">
-            </form>
+        <div class="donation-card">
+            <div class="card-img" style="background-image: url('building.jpg');"></div>
+            <div class="card-body">
+                <h3>שותפות בבניין הישיבה</h3>
+                <p>קחו חלק בהקמת משכן הקבע של מוסדותינו. זכות נצח בבניין עדי עד.</p>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
+                </form>
+            </div>
         </div>
+
+        <div class="donation-card">
+            <div class="card-img" style="background-image: url('students.jpg');"></div>
+            <div class="card-body">
+                <h3>החזקת תלמיד</h3>
+                <p>סיוע במלגות קיום לאברכים ובני עלייה העמלים בתורה יומם וליל.</p>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bank-info">
+        <h4>🏦 אפשרויות תשלום נוספות</h4>
+        <p><strong>העברה בנקאית למוטב:</strong> <span class="highlight-gold">תפארת נוי</span></p>
+        <p><strong>בנק:</strong> 10 (לאומי) | <strong>סניף:</strong> 856 | <strong>חשבון:</strong> <span class="highlight-gold">4967377</span></p>
+        <p><strong>קוד מוסד להוראת קבע:</strong> <span class="institution-code">21652</span></p>
     </div>
 
     <div class="dedication-note">
-        <p>ניתן להקדיש לימוד, סדר או יום לימוד לעילוי נשמה, לרפואה ולהצלחה.<br>
-        <strong>לעדכון המזכירות על העברות והקדשות:03-5582208</strong></p>
+        <p><strong>לעדכון המזכירות על הקדשות והנצחות:</strong><br>
+        📞 03-5582208 | ניתן לשלוח פרטים גם בטופס צור קשר.</p>
     </div>
 </div>
 
@@ -80,8 +163,3 @@
 
 </body>
 </html>
-
-
-
-
-
