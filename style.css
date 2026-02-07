@@ -25,7 +25,7 @@ body {
     font-size: 0.9rem;
 }
 
-/* באנר עליון - מותאם ל-300 פיקסלים */
+/* באנר עליון */
 .main-banner {
     background-image: url('top-banner.jpg'); 
     background-size: cover;
@@ -37,7 +37,7 @@ body {
     display: block;
 }
 
-/* עיצוב התגים (התפריט) */
+/* עיצוב התפריט (nav) */
 nav {
     background-color: #1a2a6c;
     padding: 15px 0;
@@ -63,7 +63,7 @@ nav a:hover {
     color: white;
 }
 
-/* עיצוב גוף הטקסט */
+/* עיצוב ה-Container */
 .container {
     max-width: 1000px;
     margin: 40px auto;
@@ -75,22 +75,37 @@ nav a:hover {
     transition: all 0.3s ease;
 }
 
-/* --- הגדרות למצב הקרנה (Full Screen) --- */
-body.is-projecting { 
-    background: #000 !important; 
-    overflow: hidden; 
-}
+/* --- פתרון ייעודי למסך מלא וסטרימרים --- */
 
-body.is-projecting .main-header, 
-body.is-projecting nav, 
-body.is-projecting footer, 
-body.is-projecting .fullscreen-btn,
+/* הסתרה אקטיבית של אלמנטים בזמן Fullscreen */
+:fullscreen .main-banner, 
+:fullscreen nav, 
+:fullscreen footer, 
+:fullscreen .fullscreen-btn, 
+:fullscreen .floating-portal-btn,
 body.is-projecting .main-banner,
-body.is-projecting .floating-portal-btn { 
-    display: none !important; 
+body.is-projecting nav,
+body.is-projecting footer {
+    display: none !important;
 }
 
-body.is-projecting .container {
+/* תאימות לדפדפני סטרימרים (WebKit) */
+:-webkit-full-screen .main-banner,
+:-webkit-full-screen nav,
+:-webkit-full-screen footer,
+:-webkit-full-screen .fullscreen-btn,
+:-webkit-full-screen .floating-portal-btn {
+    display: none !important;
+}
+
+/* התאמת גוף הדף למצב הקרנה */
+body.is-projecting {
+    background: #000 !important;
+    overflow: hidden;
+}
+
+body.is-projecting .container,
+:fullscreen .container {
     max-width: 100% !important;
     width: 100vw !important;
     height: 100vh !important;
@@ -100,11 +115,11 @@ body.is-projecting .container {
     border: none !important;
 }
 
-/* שורת הקדשה בתחתית הלוח */
+/* --- שורת ההקדשה בתחתית הלוח --- */
 .dedication-footer {
     border-top: 1px solid rgba(212, 175, 55, 0.5);
     padding: 15px 0;
-    margin-top: 10px;
+    margin-top: auto; /* דוחף לתחתית הלוח */
     text-align: center;
     font-size: 1.4rem;
     color: #d4af37;
@@ -112,7 +127,7 @@ body.is-projecting .container {
     flex-shrink: 0;
 }
 
-/* -------------------------------------- */
+/* --- שאר הגדרות העיצוב --- */
 
 .section-title {
     color: #1a2a6c;
@@ -131,7 +146,6 @@ body.is-projecting .container {
     padding: 0 20px;
 }
 
-/* ציטוט הרב */
 .rabbi-quote {
     background-color: #fdfae6;
     border-right: 6px solid #d4af37;
@@ -144,7 +158,6 @@ body.is-projecting .container {
     text-align: center;
 }
 
-/* סיומת הדף */
 footer {
     background-color: #1a2a6c;
     color: white;
