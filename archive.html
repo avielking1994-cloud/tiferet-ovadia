@@ -45,7 +45,7 @@
             width: 100vw;
             border: none;
             border-radius: 0;
-            padding: 2vh 2vw; /* צמצום קטן של הריווח */
+            padding: 2vh 2vw;
         }
 
         /* עיצוב הלוח */
@@ -67,11 +67,11 @@
         .board-main { 
             display: grid; 
             grid-template-columns: 22% 54% 22%; 
-            gap: 15px; /* צמצום רווחים */
+            gap: 15px;
             flex-grow: 1; 
             margin-top: 15px;
             min-height: 0;
-            overflow: hidden; /* מונע גלילה מיותרת */
+            overflow: hidden;
         }
 
         .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 1.2vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -109,8 +109,27 @@
 
         #msg-body { font-weight: 800; line-height: 1.2; width: 100%; }
 
-        .patron-box { background: rgba(212, 175, 55, 0.15); border: 1px solid #d4af37; border-radius: 12px; padding: 10px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .zmanim-grid { margin-top: auto; } /* דוחף את זמני היום לתחתית */
+        /* תיקון לעמודת פרנסי היום למניעת חיתוך */
+        .left-sidebar { display: flex; flex-direction: column; gap: 10px; height: 100%; }
+        
+        .patron-box { 
+            background: rgba(212, 175, 55, 0.15); 
+            border: 1px solid #d4af37; 
+            border-radius: 12px; 
+            padding: 8px; 
+            text-align: center; 
+            flex: 1; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center;
+            min-height: 0;
+            overflow: hidden;
+        }
+
+        .patron-label { color: #d4af37; font-size: 1rem; margin-bottom: 2px; }
+        .patron-name { font-size: 1.3rem; font-weight: bold; word-wrap: break-word; }
+
+        .zmanim-grid { margin-top: auto; }
         .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding: 4px 0; font-size: 1rem; }
 
         .dedication-footer {
@@ -121,7 +140,7 @@
             font-size: 1.2rem;
             color: #d4af37;
             font-weight: bold;
-            flex-shrink: 0; /* מבטיח שהפוטר לא ייעלם */
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -157,18 +176,18 @@
                 <div id="msg-body">בסייעתא דשמיא</div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="left-sidebar">
                 <div class="patron-box">
-                    <div style="color:#d4af37">פרנס היום</div>
-                    <div id="patron-day" style="font-size: 1.3rem; font-weight: bold;">---</div>
+                    <div class="patron-label">פרנס היום</div>
+                    <div id="patron-day" class="patron-name">---</div>
                 </div>
                 <div class="patron-box">
-                    <div style="color:#d4af37">פרנס השבוע</div>
-                    <div id="patron-week" style="font-size: 1.3rem; font-weight: bold;">---</div>
+                    <div class="patron-label">פרנס השבוע</div>
+                    <div id="patron-week" class="patron-name">---</div>
                 </div>
                 <div class="patron-box">
-                    <div style="color:#d4af37">פרנס החודש</div>
-                    <div id="patron-month" style="font-size: 1.3rem; font-weight: bold;">---</div>
+                    <div class="patron-label">פרנס החודש</div>
+                    <div id="patron-month" class="patron-name">---</div>
                 </div>
             </div>
         </div>
@@ -221,7 +240,6 @@
         if (messagesConfig.length === 0) return;
         const msgCard = document.getElementById("message-card");
         
-        // שלב 1: העלמה הדרגתית
         msgCard.style.opacity = 0;
         
         setTimeout(() => {
@@ -243,10 +261,9 @@
             
             adjustFontSize(currentItem.text);
             
-            // שלב 2: הופעה הדרגתית
             msgCard.style.opacity = 1;
             currentMsgIndex = (currentMsgIndex + 1) % messagesConfig.length;
-        }, 600); // הזמן כאן תואם ל-transition ב-CSS
+        }, 600);
     }
 
     function updateTime() {
