@@ -82,6 +82,18 @@
 
         .patron-box { background: rgba(212, 175, 55, 0.15); border: 1px solid #d4af37; border-radius: 12px; padding: 12px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
         .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding: 5px 0; font-size: 1.1rem; }
+
+        /* עיצוב שורת ההקדשה */
+        .dedication-footer {
+            border-top: 1px solid rgba(212, 175, 55, 0.5);
+            padding-top: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #d4af37;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
@@ -145,6 +157,10 @@
                 </div>
             </div>
         </div>
+
+        <div class="dedication-footer">
+            הלוח נתרם לעילוי נשמת עליזה בת אריאלה ע"ה
+        </div>
     </div>
 </div>
 
@@ -181,10 +197,8 @@
                 document.getElementById("prayers-list").innerHTML = lines.map(l => l.trim() ? `<div class="prayer-item">${l}</div>` : '').join('');
             }
             
-            // טעינת הודעות עם צבעים
             messagesConfig = (data.messagesConfig || []).filter(m => m && m.text && m.text.trim() !== "");
             
-            // תאימות לאחור (אם אין messagesConfig)
             if (messagesConfig.length === 0 && data.messages) {
                 messagesConfig = data.messages.filter(m => m.trim() !== "").map(m => ({text: m, color: "#001f3f"}));
             }
@@ -200,7 +214,7 @@
             const currentItem = messagesConfig[currentMsgIndex];
             adjustFontSize(currentItem.text);
             msgElement.innerText = currentItem.text;
-            msgElement.style.color = currentItem.color || "#001f3f"; // החלת הצבע מהפורטל
+            msgElement.style.color = currentItem.color || "#001f3f";
             msgElement.style.opacity = 1;
             currentMsgIndex = (currentMsgIndex + 1) % messagesConfig.length;
         }, 500);
@@ -232,7 +246,3 @@
 </script>
 </body>
 </html>
-
-
-
-
