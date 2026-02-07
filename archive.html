@@ -45,7 +45,7 @@
             width: 100vw;
             border: none;
             border-radius: 0;
-            padding: 3vh 3vw;
+            padding: 2vh 2vw; /* צמצום קטן של הריווח */
         }
 
         /* עיצוב הלוח */
@@ -61,21 +61,24 @@
             min-height: 80vh;
         }
 
-        .board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; padding-bottom: 15px; flex-shrink: 0; }
+        .board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; padding-bottom: 10px; flex-shrink: 0; }
         #clock { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #d4af37; }
         
         .board-main { 
             display: grid; 
             grid-template-columns: 22% 54% 22%; 
-            gap: 20px; 
+            gap: 15px; /* צמצום רווחים */
             flex-grow: 1; 
-            margin-top: 20px;
+            margin-top: 15px;
             min-height: 0;
+            overflow: hidden; /* מונע גלילה מיותרת */
         }
 
-        .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 1.5vh; display: flex; flex-direction: column; overflow: hidden; }
-        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; font-size: 1.4rem; border-bottom: 1px solid #d4af37; margin-bottom: 10px; }
-        .prayer-item { background: rgba(212, 175, 55, 0.1); padding: 8px; margin-bottom: 6px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; font-size: 1.2rem; }
+        .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 1.2vh; display: flex; flex-direction: column; overflow: hidden; }
+        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; font-size: 1.3rem; border-bottom: 1px solid #d4af37; margin-bottom: 8px; flex-shrink: 0; }
+        
+        #prayers-list { overflow: hidden; }
+        .prayer-item { background: rgba(212, 175, 55, 0.1); padding: 6px; margin-bottom: 5px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; font-size: 1.1rem; }
 
         /* --- עיצוב כרטיס ההודעות המרכזי --- */
         #message-card { 
@@ -86,17 +89,17 @@
             text-align: center; 
             border: 10px solid #d4af37; 
             display: flex; 
-            flex-direction: column; /* מאפשר כותרת מעל טקסט */
+            flex-direction: column;
             align-items: center; 
             justify-content: center; 
             box-shadow: inset 0 0 40px rgba(0,0,0,0.2); 
             overflow: hidden; 
+            transition: opacity 0.6s ease-in-out; /* אנימציה חלקה */
         }
 
-        /* עיצוב לכותרת ההודעה (למשל: לעילוי נשמת) */
         .msg-header-title {
             color: #d4af37;
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             border-bottom: 2px solid #d4af37;
             margin-bottom: 15px;
@@ -104,39 +107,25 @@
             padding: 0 20px;
         }
 
-        #msg-body { font-weight: 800; line-height: 1.2; width: 100%; transition: opacity 0.5s; }
+        #msg-body { font-weight: 800; line-height: 1.2; width: 100%; }
 
-        .patron-box { background: rgba(212, 175, 55, 0.15); border: 1px solid #d4af37; border-radius: 12px; padding: 12px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding: 5px 0; font-size: 1.1rem; }
+        .patron-box { background: rgba(212, 175, 55, 0.15); border: 1px solid #d4af37; border-radius: 12px; padding: 10px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .zmanim-grid { margin-top: auto; } /* דוחף את זמני היום לתחתית */
+        .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.2); padding: 4px 0; font-size: 1rem; }
 
         .dedication-footer {
             border-top: 1px solid rgba(212, 175, 55, 0.5);
-            padding-top: 10px;
-            margin-top: 15px;
+            padding: 10px 0;
+            margin-top: 10px;
             text-align: center;
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: #d4af37;
             font-weight: bold;
-            flex-shrink: 0;
+            flex-shrink: 0; /* מבטיח שהפוטר לא ייעלם */
         }
     </style>
 </head>
 <body>
-
-<a href="login.html" class="floating-portal-btn">כניסה לפורטל</a>
-
-<div class="main-banner"></div>
-
-<nav>
-    <a href="index.html">דף הבית</a>
-    <a href="about.html">אודות המוסדות</a>
-    <a href="staff.html">רבני המוסדות</a>
-    <a href="gallery.html">גלריית תמונות</a>
-    <a href="donations.html">תרומות</a>
-    <a href="registration.html">רישום לישיבה</a>
-    <a href="contact.html">צור קשר</a>
-    <a href="archive.html">לוח מודעות</a>
-</nav>
 
 <div class="container" style="text-align: center;">
     <button class="fullscreen-btn" onclick="startProjection()">🎬 הפעל מצב הקרנה (מסך מלא)</button>
@@ -155,8 +144,9 @@
             <div class="section-box">
                 <div class="sidebar-title">זמני תפילות</div>
                 <div id="prayers-list"></div>
-                <div class="sidebar-title" style="margin-top:auto;">זמני היום</div>
+                
                 <div class="zmanim-grid">
+                    <div class="sidebar-title">זמני היום</div>
                     <div class="zman-item"><span>הנץ:</span> <span style="color:#d4af37">06:38</span></div>
                     <div class="zman-item"><span>חצות:</span> <span style="color:#d4af37">11:54</span></div>
                     <div class="zman-item"><span>שקיעה:</span> <span style="color:#d4af37">17:15</span></div>
@@ -167,18 +157,18 @@
                 <div id="msg-body">בסייעתא דשמיא</div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; flex-direction: column; gap: 8px;">
                 <div class="patron-box">
                     <div style="color:#d4af37">פרנס היום</div>
-                    <div id="patron-day" style="font-size: 1.4rem; font-weight: bold;">---</div>
+                    <div id="patron-day" style="font-size: 1.3rem; font-weight: bold;">---</div>
                 </div>
                 <div class="patron-box">
                     <div style="color:#d4af37">פרנס השבוע</div>
-                    <div id="patron-week" style="font-size: 1.4rem; font-weight: bold;">---</div>
+                    <div id="patron-week" style="font-size: 1.3rem; font-weight: bold;">---</div>
                 </div>
                 <div class="patron-box">
                     <div style="color:#d4af37">פרנס החודש</div>
-                    <div id="patron-month" style="font-size: 1.4rem; font-weight: bold;">---</div>
+                    <div id="patron-month" style="font-size: 1.3rem; font-weight: bold;">---</div>
                 </div>
             </div>
         </div>
@@ -206,7 +196,7 @@
     function adjustFontSize(text) {
         const msgElement = document.getElementById("msg-body");
         if (!msgElement) return;
-        let fontSize = text.length < 20 ? "5.5rem" : text.length < 50 ? "4rem" : "2.5rem";
+        let fontSize = text.length < 20 ? "5rem" : text.length < 50 ? "3.5rem" : "2.2rem";
         msgElement.style.fontSize = fontSize;
     }
 
@@ -219,15 +209,11 @@
             document.getElementById("patron-month").innerText = data.patronMonth || "---";
 
             if(data.prayers) {
-                const lines = data.prayers.split('\n').slice(0, 7);
+                const lines = data.prayers.split('\n').slice(0, 6);
                 document.getElementById("prayers-list").innerHTML = lines.map(l => l.trim() ? `<div class="prayer-item">${l}</div>` : '').join('');
             }
             
             messagesConfig = (data.messagesConfig || []).filter(m => m && m.text && m.text.trim() !== "");
-            
-            if (messagesConfig.length === 0 && data.messages) {
-                messagesConfig = data.messages.filter(m => m.trim() !== "").map(m => ({text: m, color: "#001f3f", title: ""}));
-            }
         } catch (e) {}
     }
 
@@ -235,16 +221,13 @@
         if (messagesConfig.length === 0) return;
         const msgCard = document.getElementById("message-card");
         
-        // יצירת אפקט החלפה חלק
-        msgCard.style.opacity = 0.3;
+        // שלב 1: העלמה הדרגתית
+        msgCard.style.opacity = 0;
         
         setTimeout(() => {
             const currentItem = messagesConfig[currentMsgIndex];
-            
-            // מנקים את הכרטיס ובונים מחדש
             msgCard.innerHTML = "";
             
-            // 1. הוספת כותרת רק אם היא קיימת
             if (currentItem.title && currentItem.title.trim() !== "") {
                 const titleDiv = document.createElement("div");
                 titleDiv.className = "msg-header-title";
@@ -252,19 +235,18 @@
                 msgCard.appendChild(titleDiv);
             }
             
-            // 2. הוספת גוף ההודעה
             const bodyDiv = document.createElement("div");
             bodyDiv.id = "msg-body";
             bodyDiv.innerText = currentItem.text;
             bodyDiv.style.color = currentItem.color || "#001f3f";
             msgCard.appendChild(bodyDiv);
             
-            // התאמת גודל גופן
             adjustFontSize(currentItem.text);
             
+            // שלב 2: הופעה הדרגתית
             msgCard.style.opacity = 1;
             currentMsgIndex = (currentMsgIndex + 1) % messagesConfig.length;
-        }, 500);
+        }, 600); // הזמן כאן תואם ל-transition ב-CSS
     }
 
     function updateTime() {
