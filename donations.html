@@ -14,6 +14,19 @@
         .mitzvah-title { color: #1a2a6c; font-size: 2.2rem; margin-bottom: 10px; font-weight: bold; }
         .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #d4af37; display: inline-block; padding-bottom: 5px; }
 
+        /* הודעת סעיף 46 */
+        .tax-benefit {
+            background: #1a2a6c;
+            color: #d4af37;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: bold;
+            display: inline-block;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         /* גריד כרטיסים */
         .donation-grid { 
             display: grid; 
@@ -47,6 +60,7 @@
             font-weight: bold;
             font-size: 1.1rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 10;
         }
 
         .card-img { 
@@ -61,7 +75,8 @@
         .card-body { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
         .card-body h3 { color: #1a2a6c; margin: 0 0 10px 0; font-size: 1.6rem; }
         
-        /* רשימת הטבות */
+        .recurring-note { color: #d32f2f; font-weight: bold; font-size: 0.9rem; margin-bottom: 10px; }
+
         .benefits-list { 
             text-align: right; 
             margin: 15px 0; 
@@ -73,15 +88,14 @@
             font-size: 0.95rem; 
             color: #444; 
             margin-bottom: 8px; 
-            padding-right: 20px; 
+            padding-right: 25px; 
             position: relative;
         }
         .benefits-list li::before { 
-            content: "✓"; 
+            content: "📜"; 
             position: absolute; 
             right: 0; 
-            color: #d4af37; 
-            font-weight: bold; 
+            font-size: 0.8rem;
         }
 
         .donation-btn { 
@@ -127,6 +141,7 @@
     <div class="hero-donation">
         <h2 class="mitzvah-title">היו שותפים בזכות התורה</h2>
         <p class="quote">"עץ חיים היא למחזיקים בה ותומכיה מאושר"</p>
+        <div class="tax-benefit">⭐ התרומות מוכרות לצרכי מס לפי סעיף 46 ⭐</div>
         <p>זכות החזקת עמלי התורה במוסדותינו תעמוד לכם ולזרעכם להתברך בכל מילי דמיטב.</p>
     </div>
 
@@ -137,15 +152,16 @@
             <div class="card-img" style="background-image: url('avrech.jpg');"></div>
             <div class="card-body">
                 <h3>החזקת אברך</h3>
+                <div class="recurring-note">תרומה חודשית קבועה</div>
                 <ul class="benefits-list">
-                    <li>פרנס היום, השבוע והחודש (לאותו חודש).</li>
-                    <li><strong>שטר יששכר וזבולון</strong> רשמי חתום למייל.</li>
-                    <li>מכתב תודה והוקרה רשמי מהמוסדות.</li>
+                    <li>פרנס היום, השבוע והחודש (בכל חודש).</li>
+                    <li><strong>שטר יששכר וזבולון</strong> רשמי למייל.</li>
+                    <li>מכתב הוקרה רשמי מהנהלת המוסדות.</li>
                     <li>הנצחת 3 יארצייטים (אזכרות) בלוח הדיגיטלי.</li>
-                    <li>שותפות מלאה בכל זכויות הלימוד.</li>
+                    <li>זכות שותפות מלאה בתורת האברך.</li>
                 </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                    <input type="submit" value="לתרומת החזקת אברך" class="donation-btn">
+                    <input type="submit" value="להוראת קבע - אברך" class="donation-btn">
                 </form>
             </div>
         </div>
@@ -155,14 +171,15 @@
             <div class="card-img" style="background-image: url('student.jpg');"></div>
             <div class="card-body">
                 <h3>החזקת בחור</h3>
+                <div class="recurring-note">תרומה חודשית קבועה</div>
                 <ul class="benefits-list">
                     <li>פרנס השבוע והיום באותו החודש.</li>
                     <li>מכתב הוקרה רשמי מהנהלת המוסדות.</li>
                     <li>הנצחת יארצייט אחד בלוח הדיגיטלי.</li>
-                    <li>זכות התורה של בחור העמל בתורה.</li>
+                    <li>שותפות בזכויות התורה של בחור הישיבה.</li>
                 </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                    <input type="submit" value="לתרומת החזקת בחור" class="donation-btn">
+                    <input type="submit" value="להוראת קבע - בחור" class="donation-btn">
                 </form>
             </div>
         </div>
@@ -173,9 +190,9 @@
             <div class="card-body">
                 <h3>פרנס החודש</h3>
                 <ul class="benefits-list">
-                    <li>הנצחה בולטת בלוח המודעות לאורך כל החודש.</li>
-                    <li>תפילה מיוחדת להצלחה/לעילוי נשמה מדי יום.</li>
-                    <li>שותפות בכל לימוד התורה הנעשה במוסדות.</li>
+                    <li>הנצחה בולטת בלוח לאורך כל החודש.</li>
+                    <li>תפילה מיוחדת להצלחה או לעילוי נשמה.</li>
+                    <li>שותפות בכל זכויות הלימוד של המוסדות.</li>
                 </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
                     <input type="submit" value="לתרומת פרנס החודש" class="donation-btn">
@@ -189,8 +206,8 @@
             <div class="card-body">
                 <h3>פרנס השבוע</h3>
                 <ul class="benefits-list">
-                    <li>הנצחה בלוח הדיגיטלי למשך שבעה ימים.</li>
-                    <li>זכות הלימוד והתפילות של כל השבוע.</li>
+                    <li>הנצחה בלוח הדיגיטלי למשך שבוע.</li>
+                    <li>זכות הלימוד והתפילות של כל סדרי השבוע.</li>
                 </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
                     <input type="submit" value="לתרומת פרנס השבוע" class="donation-btn">
@@ -205,7 +222,7 @@
                 <h3>פרנס היום</h3>
                 <ul class="benefits-list">
                     <li>הנצחה בלוח המודעות למשך יום שלם.</li>
-                    <li>זכות התורה של כל סדרי היום.</li>
+                    <li>זכות התורה של כל סדרי הלימוד באותו יום.</li>
                 </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
                     <input type="submit" value="לתרומת פרנס היום" class="donation-btn">
@@ -216,9 +233,8 @@
     </div>
 
     <div class="bank-info">
-        <h4>🏦 אפשרויות תשלום נוספות</h4>
-        <p><strong>העברה בנקאית למוטב:</strong> <span class="highlight-gold">תפארת נוי</span></p>
-        <p><strong>בנק:</strong> 10 (לאומי) | <strong>סניף:</strong> 856 | <strong>חשבון:</strong> <span class="highlight-gold">4967377</span></p>
+        <h4>🏦 העברה בנקאית</h4>
+        <p><strong>מוטב:</strong> <span class="highlight-gold">תפארת נוי</span> | <strong>בנק:</strong> 10 (לאומי) | <strong>סניף:</strong> 856 | <strong>חשבון:</strong> <span class="highlight-gold">4967377</span></p>
     </div>
 </div>
 
