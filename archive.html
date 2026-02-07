@@ -6,96 +6,62 @@
     <title>לוח מודעות - תפארת עובדיה</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        /* הגדרות ספציפיות ללוח המודעות כדי שלא יתנגש עם הסטרימר */
+        body { margin: 0; padding: 0; }
         
-        /* עיצוב כפתור פורטל צף */
-        .floating-portal-btn {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background: #d4af37;
-            color: #1a2a6c;
-            padding: 10px 20px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            border: 2px solid #fff;
-            transition: 0.3s;
-        }
-        .floating-portal-btn:hover { background: #fff; color: #d4af37; transform: scale(1.05); }
-
-        /* באנר עם תמונת המוסדות */
-        .main-banner { 
-            height: 180px; 
-            background-image: url('לוגו מוסדות.jpg'); 
-            background-size: cover; 
-            background-position: center; 
-            border-bottom: 4px solid #d4af37;
+        .board-wrapper {
+            background: linear-gradient(rgba(0, 15, 35, 0.92), rgba(0, 15, 35, 0.92)), url('לוגו מוסדות.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 5px solid #d4af37;
+            border-radius: 15px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh;
+            margin: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        /* תפריט ניווט */
-        nav { background: #1a2a6c; padding: 15px 0; border-bottom: 3px solid #d4af37; }
-        .nav-container { max-width: 1100px; margin: 0 auto; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-        nav a { color: white; text-decoration: none; font-weight: bold; font-size: 1.1rem; padding: 5px 10px; transition: 0.3s; }
-        nav a:hover { color: #d4af37; }
-
-        .fullscreen-btn {
-            background: #d4af37; color: #1a2a6c; border: none; padding: 12px 25px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; font-size: 1.1rem; margin: 20px auto; display: block;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        }
-
-        /* מצב הקרנה - מסתיר הכל חוץ מהלוח */
+        /* מצב הקרנה (סטרימר) - מסתיר את כל מה שלא שייך ללוח */
         body.is-projecting { background: #000; overflow: hidden; }
         body.is-projecting .main-banner, 
         body.is-projecting nav, 
         body.is-projecting .fullscreen-btn,
-        body.is-projecting .floating-portal-btn { display: none !important; }
-
-        /* לוח המודעות הדיגיטלי */
-        .board-wrapper {
-            background: linear-gradient(rgba(0, 15, 35, 0.92), rgba(0, 15, 35, 0.92)), url('לוגו מוסדות.jpg');
-            background-size: cover; 
-            background-position: center;
-            border: 5px solid #d4af37; 
-            border-radius: 15px;
-            color: white; 
-            display: flex; 
-            flex-direction: column; 
-            box-sizing: border-box;
-            min-height: 85vh; 
-            margin: 0 20px 20px 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        body.is-projecting .floating-portal-btn { 
+            display: none !important; 
         }
 
+        body.is-projecting .container { margin: 0 !important; padding: 0 !important; max-width: 100% !important; }
+        body.is-projecting .board-wrapper { 
+            margin: 0 !important; 
+            height: 100vh !important; 
+            width: 100vw !important; 
+            border: none !important; 
+            border-radius: 0 !important; 
+        }
+
+        /* עיצוב רכיבי הלוח */
         .board-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #d4af37; padding: 15px 25px; }
-        #clock { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #d4af37; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
-        
+        #clock { font-size: clamp(3rem, 6vw, 5rem); font-weight: 800; color: #d4af37; }
         .board-main { display: grid; grid-template-columns: 22% 54% 22%; gap: 15px; flex-grow: 1; padding: 20px; overflow: hidden; }
-
         .section-box { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 12px; padding: 15px; display: flex; flex-direction: column; }
-        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; border-bottom: 1px solid #d4af37; margin-bottom: 12px; font-size: 1.3rem; }
+        .sidebar-title { color: #d4af37; text-align: center; font-weight: bold; border-bottom: 1px solid #d4af37; margin-bottom: 12px; }
+        .prayer-item { background: rgba(212, 175, 55, 0.15); padding: 8px; margin-bottom: 8px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; }
         
-        .prayer-item { background: rgba(212, 175, 55, 0.15); padding: 8px; margin-bottom: 8px; border-radius: 5px; text-align: center; border-right: 4px solid #d4af37; font-size: 1.1rem; }
-
         #message-card { 
-            background: white; color: #001f3f; border-radius: 20px; padding: 2.5vw; text-align: center; 
+            background: white; color: #001f3f; border-radius: 20px; padding: 2vw; text-align: center; 
             border: 10px solid #d4af37; display: flex; flex-direction: column; align-items: center; 
-            justify-content: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.2); overflow: hidden; transition: opacity 0.6s;
+            justify-content: center; box-shadow: inset 0 0 50px rgba(0,0,0,0.2); transition: opacity 0.6s;
         }
 
-        .msg-header-title { color: #d4af37; font-size: 2.2rem; font-weight: bold; border-bottom: 3px solid #d4af37; margin-bottom: 20px; padding: 0 30px; }
-        #msg-body { font-weight: 800; line-height: 1.2; width: 100%; }
-
-        .patron-box { background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; border-radius: 12px; padding: 12px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
-        .patron-label { color: #d4af37; font-size: 1rem; margin-bottom: 5px; text-decoration: underline; }
-        .patron-name { font-size: 1.4rem; font-weight: bold; text-shadow: 1px 1px 2px black; }
-
-        .zman-item { display: flex; justify-content: space-between; border-bottom: 1px solid rgba(212,175,55,0.3); padding: 7px 0; font-size: 1.1rem; }
-
-        .dedication-footer { border-top: 1px solid rgba(212, 175, 55, 0.5); padding: 12px; text-align: center; color: #d4af37; font-weight: bold; font-size: 1.2rem; background: rgba(0,0,0,0.3); }
+        .patron-box { background: rgba(212, 175, 55, 0.2); border: 1px solid #d4af37; border-radius: 12px; padding: 10px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .dedication-footer { border-top: 1px solid rgba(212, 175, 55, 0.5); padding: 12px; text-align: center; color: #d4af37; font-weight: bold; }
+        
+        .fullscreen-btn {
+            background: #d4af37; color: #1a2a6c; border: none; padding: 10px 20px; border-radius: 5px;
+            cursor: pointer; font-weight: bold; margin: 10px auto; display: block;
+        }
     </style>
 </head>
 <body>
@@ -113,23 +79,20 @@
         <a href="donations.html">תרומות</a>
         <a href="registration.html">רישום לישיבה</a>
         <a href="contact.html">צור קשר</a>
-        <a href="archive.html" style="color: #d4af37;">לוח מודעות</a>
+        <a href="archive.html" class="active">לוח מודעות</a>
     </div>
 </nav>
 
 <div class="container">
-    <button class="fullscreen-btn" onclick="startProjection()">🎬 הפעל מצב הקרנה (מסך מלא)</button>
+    <button class="fullscreen-btn" onclick="startProjection()">🎬 הפעל מצב הקרנה</button>
     
     <div class="board-wrapper" id="board">
         <div class="board-header">
             <div>
-                <div id="date-heb" style="font-size: 2rem; font-weight: bold; color: #d4af37;">טוען תאריך...</div>
-                <div id="date-civ" style="font-size: 1.1rem; color: #bdc3c7;"></div>
+                <div id="date-heb" style="font-size: 1.8rem; font-weight: bold; color: #d4af37;">טוען...</div>
+                <div id="date-civ" style="font-size: 1rem; color: #bdc3c7;"></div>
             </div>
-            <div style="text-align: center;">
-                <div style="font-size: 2.5rem; color: #fff; font-weight: bold; text-shadow: 2px 2px 4px #000;">ישיבת תפארת עובדיה</div>
-                <div style="font-size: 1.2rem; color: #d4af37;">עמלה של תורה בטהרה</div>
-            </div>
+            <div style="font-size: 2.2rem; color: #fff; font-weight: bold;">ישיבת תפארת עובדיה</div>
             <div id="clock">00:00</div>
         </div>
 
@@ -139,9 +102,8 @@
                 <div id="prayers-list"></div>
                 <div style="margin-top: auto;">
                     <div class="sidebar-title">זמני היום</div>
-                    <div class="zman-item"><span>הנץ:</span> <span style="color:#d4af37">06:38</span></div>
-                    <div class="zman-item"><span>חצות:</span> <span style="color:#d4af37">11:54</span></div>
-                    <div class="zman-item"><span>שקיעה:</span> <span style="color:#d4af37">17:15</span></div>
+                    <div id="zmanim-content">
+                        </div>
                 </div>
             </div>
 
@@ -149,19 +111,10 @@
                 <div id="msg-body">בסייעתא דשמיא</div>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 12px;">
-                <div class="patron-box">
-                    <div class="patron-label">פרנס היום</div>
-                    <div id="patron-day" class="patron-name">---</div>
-                </div>
-                <div class="patron-box">
-                    <div class="patron-label">פרנס השבוע</div>
-                    <div id="patron-week" class="patron-name">---</div>
-                </div>
-                <div class="patron-box">
-                    <div class="patron-label">פרנס החודש</div>
-                    <div id="patron-month" class="patron-name">---</div>
-                </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="patron-box"><div style="color:#d4af37">פרנס היום</div><div id="patron-day" style="font-weight:bold">---</div></div>
+                <div class="patron-box"><div style="color:#d4af37">פרנס השבוע</div><div id="patron-week" style="font-weight:bold">---</div></div>
+                <div class="patron-box"><div style="color:#d4af37">פרנס החודש</div><div id="patron-month" style="font-weight:bold">---</div></div>
             </div>
         </div>
 
@@ -170,6 +123,7 @@
 </div>
 
 <script>
+    // סקריפט ניהול הלוח
     let messagesConfig = [];
     let currentMsgIndex = 0;
 
@@ -204,8 +158,8 @@
         msgCard.style.opacity = 0;
         setTimeout(() => {
             const item = messagesConfig[currentMsgIndex];
-            msgCard.innerHTML = (item.title ? `<div class="msg-header-title">${item.title}</div>` : '') + 
-                               `<div id="msg-body" style="color:${item.color || '#001f3f'}">${item.text}</div>`;
+            msgCard.innerHTML = (item.title ? `<div style="color:#d4af37; font-size:2rem; font-weight:bold; margin-bottom:15px;">${item.title}</div>` : '') + 
+                               `<div id="msg-body" style="color:${item.color || '#001f3f'}; font-weight:800;">${item.text}</div>`;
             const body = document.getElementById("msg-body");
             body.style.fontSize = item.text.length < 30 ? "4.5rem" : "2.5rem";
             msgCard.style.opacity = 1;
