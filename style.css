@@ -27,12 +27,11 @@ body {
 
 /* באנר עליון - מותאם ל-300 פיקסלים */
 .main-banner {
-    /* חשוב: וודא שהסיומת .jpg תואמת למה שהעלית (אולי זה .png?) */
     background-image: url('top-banner.jpg'); 
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
-    height: 300px; /* התאמה מדויקת לגובה התמונה שלך */
+    height: 300px; 
     width: 100%;
     border-bottom: 5px solid #d4af37;
     display: block;
@@ -73,7 +72,47 @@ nav a:hover {
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
     border: 1px solid #dcd7c0;
+    transition: all 0.3s ease;
 }
+
+/* --- הגדרות למצב הקרנה (Full Screen) --- */
+body.is-projecting { 
+    background: #000 !important; 
+    overflow: hidden; 
+}
+
+body.is-projecting .main-header, 
+body.is-projecting nav, 
+body.is-projecting footer, 
+body.is-projecting .fullscreen-btn,
+body.is-projecting .main-banner,
+body.is-projecting .floating-portal-btn { 
+    display: none !important; 
+}
+
+body.is-projecting .container {
+    max-width: 100% !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+}
+
+/* שורת הקדשה בתחתית הלוח */
+.dedication-footer {
+    border-top: 1px solid rgba(212, 175, 55, 0.5);
+    padding: 15px 0;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 1.4rem;
+    color: #d4af37;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+/* -------------------------------------- */
 
 .section-title {
     color: #1a2a6c;
@@ -125,6 +164,6 @@ footer {
 /* התאמה לניידים */
 @media (max-width: 768px) {
     nav a { display: inline-block; margin: 5px; font-size: 1rem; }
-    .main-banner { height: 150px; } /* בנייד נקטין את הגובה בחצי */
+    .main-banner { height: 150px; } 
     .section-title { font-size: 1.8rem; }
 }
