@@ -8,6 +8,24 @@
     <style>
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
+        /* עיצוב כפתור פורטל צף */
+        .floating-portal-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #d4af37;
+            color: #1a2a6c;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border: 2px solid #fff;
+            transition: 0.3s;
+        }
+        .floating-portal-btn:hover { background: #fff; color: #d4af37; transform: scale(1.05); }
+
         /* באנר עם תמונת המוסדות */
         .main-banner { 
             height: 180px; 
@@ -33,9 +51,10 @@
         body.is-projecting { background: #000; overflow: hidden; }
         body.is-projecting .main-banner, 
         body.is-projecting nav, 
-        body.is-projecting .fullscreen-btn { display: none !important; }
+        body.is-projecting .fullscreen-btn,
+        body.is-projecting .floating-portal-btn { display: none !important; }
 
-        /* לוח המודעות הדיגיטלי עם תמונת המוסדות ברקע */
+        /* לוח המודעות הדיגיטלי */
         .board-wrapper {
             background: linear-gradient(rgba(0, 15, 35, 0.92), rgba(0, 15, 35, 0.92)), url('לוגו מוסדות.jpg');
             background-size: cover; 
@@ -80,6 +99,8 @@
     </style>
 </head>
 <body>
+
+<a href="login.html" class="floating-portal-btn">כניסה לפורטל</a>
 
 <div class="main-banner"></div>
 
