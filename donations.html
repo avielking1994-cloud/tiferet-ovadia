@@ -8,16 +8,16 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
         
-        .donation-container { max-width: 1000px; margin: 40px auto; padding: 20px; }
+        .donation-container { max-width: 1100px; margin: 40px auto; padding: 20px; }
         
         .hero-donation { text-align: center; background: #fdfae6; border: 2px solid #d4af37; padding: 30px; border-radius: 15px; margin-bottom: 40px; }
         .mitzvah-title { color: #1a2a6c; font-size: 2.2rem; margin-bottom: 10px; font-weight: bold; }
         .quote { font-style: italic; color: #555; font-size: 1.2rem; margin-bottom: 20px; border-bottom: 1px solid #d4af37; display: inline-block; padding-bottom: 5px; }
 
-        /* עיצוב כרטיסי התרומה עם תמונות */
+        /* גריד כרטיסים */
         .donation-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
             gap: 25px; 
             margin-bottom: 40px;
         }
@@ -31,24 +31,59 @@
             transition: transform 0.3s ease;
             display: flex;
             flex-direction: column;
+            position: relative;
         }
 
         .donation-card:hover { transform: translateY(-5px); }
 
+        .price-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #d4af37;
+            color: #1a2a6c;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
         .card-img { 
             width: 100%; 
-            height: 180px; 
+            height: 160px; 
             background-color: #1a2a6c; 
             background-size: cover; 
             background-position: center;
             border-bottom: 4px solid #d4af37;
         }
 
-        .card-body { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-body h3 { color: #1a2a6c; margin: 0 0 10px 0; font-size: 1.5rem; }
-        .card-body p { color: #666; font-size: 1rem; line-height: 1.4; margin-bottom: 20px; }
+        .card-body { padding: 20px; text-align: center; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-body h3 { color: #1a2a6c; margin: 0 0 10px 0; font-size: 1.6rem; }
+        
+        /* רשימת הטבות */
+        .benefits-list { 
+            text-align: right; 
+            margin: 15px 0; 
+            padding: 0; 
+            list-style: none; 
+            flex-grow: 1;
+        }
+        .benefits-list li { 
+            font-size: 0.95rem; 
+            color: #444; 
+            margin-bottom: 8px; 
+            padding-right: 20px; 
+            position: relative;
+        }
+        .benefits-list li::before { 
+            content: "✓"; 
+            position: absolute; 
+            right: 0; 
+            color: #d4af37; 
+            font-weight: bold; 
+        }
 
-        /* עיצוב כפתורי הסליקה */
         .donation-btn { 
             display: inline-block; 
             background: #1a2a6c; 
@@ -62,40 +97,28 @@
             cursor: pointer; 
             font-size: 1.1rem; 
             width: 100%;
+            margin-top: 10px;
         }
         .donation-btn:hover { background: #d4af37; color: #1a2a6c; }
 
-        /* מידע להעברה בנקאית */
         .bank-info { 
             background: #fff; 
             border-right: 5px solid #d4af37; 
             padding: 25px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.05); 
             border-radius: 8px; 
-            margin-top: 20px;
         }
-        .bank-info h4 { color: #1a2a6c; margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid #eee; padding-bottom: 10px; }
         .highlight-gold { color: #b8860b; font-weight: bold; }
-        .institution-code { background: #eef2ff; padding: 3px 8px; border-radius: 4px; border: 1px solid #1a2a6c; font-weight: bold; }
 
-        .dedication-note { background: #f0f4f8; padding: 20px; border-radius: 8px; margin-top: 30px; text-align: center; border: 1px dashed #1a2a6c; font-size: 1.1rem; }
-        
         footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-<a href="login.html" class="floating-portal-btn">כניסה לפורטל</a>
-
-<div class="main-banner"></div>
-
 <nav>
     <a href="index.html">דף הבית</a>
     <a href="about.html">אודות המוסדות</a>
-    <a href="staff.html">רבני המוסדות</a>
-    <a href="gallery.html">גלריית תמונות</a>
     <a href="donations.html">תרומות</a>
-    <a href="registration.html">רישום לישיבה</a>
     <a href="contact.html">צור קשר</a>
     <a href="archive.html">לוח מודעות</a>
 </nav>
@@ -109,35 +132,83 @@
 
     <div class="donation-grid">
         
+        <div class="donation-card" style="border: 2px solid #d4af37;">
+            <div class="price-tag">2,000 ש"ח</div>
+            <div class="card-img" style="background-image: url('avrech.jpg');"></div>
+            <div class="card-body">
+                <h3>החזקת אברך</h3>
+                <ul class="benefits-list">
+                    <li>פרנס היום, השבוע והחודש (לאותו חודש).</li>
+                    <li><strong>שטר יששכר וזבולון</strong> רשמי חתום למייל.</li>
+                    <li>מכתב תודה והוקרה רשמי מהמוסדות.</li>
+                    <li>הנצחת 3 יארצייטים (אזכרות) בלוח הדיגיטלי.</li>
+                    <li>שותפות מלאה בכל זכויות הלימוד.</li>
+                </ul>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומת החזקת אברך" class="donation-btn">
+                </form>
+            </div>
+        </div>
+
         <div class="donation-card">
-            <div class="card-img" style="background-image: url('parnas_day.jpg');"></div>
+            <div class="price-tag">1,000 ש"ח</div>
+            <div class="card-img" style="background-image: url('student.jpg');"></div>
+            <div class="card-body">
+                <h3>החזקת בחור</h3>
+                <ul class="benefits-list">
+                    <li>פרנס השבוע והיום באותו החודש.</li>
+                    <li>מכתב הוקרה רשמי מהנהלת המוסדות.</li>
+                    <li>הנצחת יארצייט אחד בלוח הדיגיטלי.</li>
+                    <li>זכות התורה של בחור העמל בתורה.</li>
+                </ul>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומת החזקת בחור" class="donation-btn">
+                </form>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <div class="price-tag">3,000 ש"ח</div>
+            <div class="card-img" style="background-image: url('month.jpg');"></div>
+            <div class="card-body">
+                <h3>פרנס החודש</h3>
+                <ul class="benefits-list">
+                    <li>הנצחה בולטת בלוח המודעות לאורך כל החודש.</li>
+                    <li>תפילה מיוחדת להצלחה/לעילוי נשמה מדי יום.</li>
+                    <li>שותפות בכל לימוד התורה הנעשה במוסדות.</li>
+                </ul>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומת פרנס החודש" class="donation-btn">
+                </form>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <div class="price-tag">1,000 ש"ח</div>
+            <div class="card-img" style="background-image: url('week.jpg');"></div>
+            <div class="card-body">
+                <h3>פרנס השבוע</h3>
+                <ul class="benefits-list">
+                    <li>הנצחה בלוח הדיגיטלי למשך שבעה ימים.</li>
+                    <li>זכות הלימוד והתפילות של כל השבוע.</li>
+                </ul>
+                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
+                    <input type="submit" value="לתרומת פרנס השבוע" class="donation-btn">
+                </form>
+            </div>
+        </div>
+
+        <div class="donation-card">
+            <div class="price-tag">500 ש"ח</div>
+            <div class="card-img" style="background-image: url('day.jpg');"></div>
             <div class="card-body">
                 <h3>פרנס היום</h3>
-                <p>הקדשת יום לימוד שלם לעילוי נשמה, רפואה או הצלחה. השם יופיע בלוח המודעות הדיגיטלי.</p>
+                <ul class="benefits-list">
+                    <li>הנצחה בלוח המודעות למשך יום שלם.</li>
+                    <li>זכות התורה של כל סדרי היום.</li>
+                </ul>
                 <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
-                </form>
-            </div>
-        </div>
-
-        <div class="donation-card">
-            <div class="card-img" style="background-image: url('building.jpg');"></div>
-            <div class="card-body">
-                <h3>שותפות בבניין הישיבה</h3>
-                <p>קחו חלק בהקמת משכן הקבע של מוסדותינו. זכות נצח בבניין עדי עד.</p>
-                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
-                </form>
-            </div>
-        </div>
-
-        <div class="donation-card">
-            <div class="card-img" style="background-image: url('students.jpg');"></div>
-            <div class="card-body">
-                <h3>החזקת תלמיד</h3>
-                <p>סיוע במלגות קיום לאברכים ובני עלייה העמלים בתורה יומם וליל.</p>
-                <form action="https://ultra.kesherhk.info/external/paymentPage/192253" target="_top">
-                    <input type="submit" value="לתרומה מאובטחת" class="donation-btn">
+                    <input type="submit" value="לתרומת פרנס היום" class="donation-btn">
                 </form>
             </div>
         </div>
@@ -148,12 +219,6 @@
         <h4>🏦 אפשרויות תשלום נוספות</h4>
         <p><strong>העברה בנקאית למוטב:</strong> <span class="highlight-gold">תפארת נוי</span></p>
         <p><strong>בנק:</strong> 10 (לאומי) | <strong>סניף:</strong> 856 | <strong>חשבון:</strong> <span class="highlight-gold">4967377</span></p>
-        <p><strong>קוד מוסד להוראת קבע:</strong> <span class="institution-code">21652</span></p>
-    </div>
-
-    <div class="dedication-note">
-        <p><strong>לעדכון המזכירות על הקדשות והנצחות:</strong><br>
-        📞 03-5582208 | ניתן לשלוח פרטים גם בטופס צור קשר.</p>
     </div>
 </div>
 
