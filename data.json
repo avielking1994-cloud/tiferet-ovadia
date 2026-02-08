@@ -1,34 +1,39 @@
 {
   "patronDay": "אביאל חכמון ",
-  "patronWeek": "רן חכמון ",
+  "patronWeek": "איתי אמסלם",
   "patronMonth": "אליהו חכמון ",
   "prayers": "שחרית 7:00\nמנחה 13:15\nערבית 19:00\n",
   "messagesConfig": [
     {
       "title": "לעילוי נשמת ",
+      "titleColor": "#d4af37",
       "text": "עליזה בת אריאלה \nפורטונה בת ברוריה \nאריאלה בת אסתר ",
       "color": "#11d428"
     },
     {
       "title": "להצלחת ",
+      "titleColor": "#d4af37",
       "text": "אביאל חכמון ",
       "color": "#0180fe"
     },
     {
       "title": "הודעה חשובה ",
+      "titleColor": "#d4af37",
       "text": "השבוע בס\"ד טיול לצפון ",
       "color": "#fb092d"
     },
     {
       "title": "",
+      "titleColor": "#d4af37",
       "text": "בדיקה 4\n",
       "color": "#fbd204"
     },
     {
       "title": "",
+      "titleColor": "#d4af37",
       "text": "בדיקה ",
       "color": "#ed840c"
     }
   ],
-  "lastUpdate": "7.2.2026, 20:21:58"
+  "lastUpdate": "8.2.2026, 10:50:28"
 }
